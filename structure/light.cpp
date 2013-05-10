@@ -825,8 +825,13 @@ Vec4 PontualLight::randLight()
 {
 
     Vec4 position(position_light->x1,position_light->x2,position_light->x3);
+<<<<<<< HEAD
     Vec4 a = Vec4(-5.0,0.0,0.0);
     Vec4 b = Vec4(0.0,5.0,-5.0);
+=======
+    Vec4 a = Vec4(5.0,0.0,0.0);
+    Vec4 b = Vec4(0.0,0.0,-5.0);
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     return (position+ a*myrand+ b*myrand);
 }
 

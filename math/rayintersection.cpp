@@ -1,5 +1,9 @@
 #include "rayintersection.h"
+<<<<<<< HEAD
 #include "block/object.h"
+=======
+
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 #include "math/ray.h"
 #define APROXIMATE 0.001
 bool teste = true;
@@ -29,16 +33,27 @@ RayIntersection::RayIntersection()
     this->tmin=0;
     this->normal = Vec4(0,0,0);
     this->material = new Material();
+<<<<<<< HEAD
     //this->obj = NULL;
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 
 }
 
+<<<<<<< HEAD
 void RayIntersection::rayBoxIntersection(Mesh *mesh, Ray ray, Matrix4x4 transform,Vec4 max, Vec4 min,Object *obj)
 {
     Vec4 bounds[2];
     bounds[0] = min;//Vec4(-0.5,-0.5,-0.5);
     bounds[1] = max;//Vec4(0.5,0.5,0.5);
+=======
+void RayIntersection::rayBoxIntersection(Mesh *mesh, Ray ray, Matrix4x4 transform,Vec4 max, Vec4 min)
+{
+    Vec4 bounds[2];
+    bounds[0] = min;
+    bounds[1] = max;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     Ray copy;
     copy.setOrigin(transform.transform_origin_ray(transform,ray.origin));
     copy.setDirection(transform.transform_direction_ray(transform,ray.direction));
@@ -74,7 +89,10 @@ void RayIntersection::rayBoxIntersection(Mesh *mesh, Ray ray, Matrix4x4 transfor
                     this->t = t_;
                     this->normal = n.unitary();
                     this->material->setMaterial(material,mesh->getMaterial());
+<<<<<<< HEAD
                     this->obj = obj;
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
                 }
             }
         }
@@ -83,7 +101,11 @@ void RayIntersection::rayBoxIntersection(Mesh *mesh, Ray ray, Matrix4x4 transfor
     }
 }
 
+<<<<<<< HEAD
 void RayIntersection::rayPlanIntersection(Mesh *mesh, Ray ray, Object *obj)
+=======
+void RayIntersection::rayPlanIntersection(Mesh *mesh, Ray ray)
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 {
     Vec4 p1,n;
     p1.setVec4(mesh->faces.at(0).vertexs[0]->x1,mesh->faces.at(0).vertexs[0]->x2,mesh->faces.at(0).vertexs[0]->x3);
@@ -95,13 +117,20 @@ void RayIntersection::rayPlanIntersection(Mesh *mesh, Ray ray, Object *obj)
                 this->t = t_;
                 this->normal = n.unitary();
                 this->material->setMaterial(material,mesh->getMaterial());
+<<<<<<< HEAD
                 this->obj = obj;
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
             }
         }
     }
 }
 
+<<<<<<< HEAD
 void RayIntersection::rayCylinderIntersection(Mesh *mesh,Matrix4x4 transform, Ray ray, Object *obj)
+=======
+void RayIntersection::rayCylinderIntersection(Mesh *mesh,Matrix4x4 transform, Ray ray)
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 {
 
     Ray ray_copy;
@@ -176,13 +205,20 @@ void RayIntersection::rayCylinderIntersection(Mesh *mesh,Matrix4x4 transform, Ra
             t = t0;
             this->normal = n.unitary();
             this->material->setMaterial(material,mesh->getMaterial());
+<<<<<<< HEAD
             this->obj = obj;
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
         }
 
 
 }
 
+<<<<<<< HEAD
 void RayIntersection::raySphereIntersection(Mesh *mesh, Matrix4x4 transform, Ray ray,Object *obj)
+=======
+void RayIntersection::raySphereIntersection(Mesh *mesh, Matrix4x4 transform, Ray ray)
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 {
 
     Ray copy;
@@ -228,14 +264,21 @@ void RayIntersection::raySphereIntersection(Mesh *mesh, Matrix4x4 transform, Ray
         this->t = t_;
         this->normal = n.unitary();
         this->material->setMaterial(material,mesh->getMaterial());
+<<<<<<< HEAD
         this->obj = obj;
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     }
 
 
 
 }
 
+<<<<<<< HEAD
 void RayIntersection::rayHemiSphereIntersection(Mesh *mesh, Matrix4x4 transform, Ray ray, Object *obj)
+=======
+void RayIntersection::rayHemiSphereIntersection(Mesh *mesh, Matrix4x4 transform, Ray ray)
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 {
     Ray copy;
     copy.setOrigin(transform.transform_origin_ray(transform,ray.origin));
@@ -279,7 +322,10 @@ void RayIntersection::rayHemiSphereIntersection(Mesh *mesh, Matrix4x4 transform,
         this->t = t_;
         this->normal = n.unitary();
         this->material->setMaterial(material,mesh->getMaterial());
+<<<<<<< HEAD
         this->obj = obj;
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     }
 
 
@@ -288,8 +334,13 @@ void RayIntersection::rayHemiSphereIntersection(Mesh *mesh, Matrix4x4 transform,
 
 RayIntersection::~RayIntersection()
 {
+<<<<<<< HEAD
     delete material;
     //delete obj;
+=======
+
+    delete material;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 

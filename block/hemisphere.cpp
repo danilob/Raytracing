@@ -3,7 +3,10 @@
 HemiSphere::HemiSphere()
 {
 
+<<<<<<< HEAD
     for(int i=0;i<(STACKS*SLICES+1);i++) vertexs[i] = initvertexs[i] = Vec4();
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     double radius = 1.0;
     double alpha = 2*M_PI / STACKS;
     double beta = M_PI_2 / SLICES;
@@ -92,7 +95,10 @@ void HemiSphere::draw()
     refreshNormals();
 
     mesh->draw();
+<<<<<<< HEAD
     //this->//boundingBox().wireframe();
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     }
     if (selected){
 
@@ -185,7 +191,11 @@ void HemiSphere::tryIntersection(RayIntersection *intersect, Ray ray)
 {
 
 
+<<<<<<< HEAD
         intersect->rayHemiSphereIntersection(mesh,transform,ray,this);
+=======
+        intersect->rayHemiSphereIntersection(mesh,transform,ray);
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 void HemiSphere::setSelected(bool b)
@@ -260,6 +270,7 @@ QString HemiSphere::saveObject()
 Vec4 HemiSphere::getMin()
 {
 
+<<<<<<< HEAD
     refreshVertexs();
     float pmin[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
     for (int i=1;i<(SLICES*STACKS+1);i++){
@@ -270,11 +281,26 @@ Vec4 HemiSphere::getMin()
 
     }
     return Vec4(pmin[0],pmin[1],pmin[2]);
+=======
+    float pmin[3] = {INFINITY};
+    Vec4 min;
+    for (int i=0;i<SLICES*STACKS+1;i++){
+        if(pmin[0]>=vertexs[i].x1 && pmin[1]>=vertexs[i].x2 && pmin[2]>=vertexs[i].x3){
+            pmin[0] = vertexs[i].x1;
+            pmin[1] = vertexs[i].x2;
+            pmin[2] = vertexs[i].x3;
+            min = vertexs[i];
+        }
+
+    }
+    return min;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
 Vec4 HemiSphere::getMax()
 {
+<<<<<<< HEAD
     refreshVertexs();
     float pmax[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
 
@@ -286,16 +312,36 @@ Vec4 HemiSphere::getMax()
 
     }
     return Vec4(pmax[0],pmax[1],pmax[2]);
+=======
+    float pmax[3] = {-INFINITY};
+
+    Vec4 max;
+    for (int i=0;i<SLICES*STACKS+1;i++){
+
+        if(pmax[0]<=vertexs[i].x1 && pmax[1]<=vertexs[i].x2 && pmax[2]<=vertexs[i].x3){
+            pmax[0] = vertexs[i].x1;
+            pmax[1] = vertexs[i].x2;
+            pmax[2] = vertexs[i].x3;
+            max = vertexs[i];
+        }
+    }
+    return max;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
 Cube HemiSphere::boundingBox()
 {
+<<<<<<< HEAD
     return Cube(this->getMin(),this->getMax(),this->getCenter());
+=======
+    return Cube(this->getMin(),this->getMax());
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 Vec4 HemiSphere::getCenter()
 {
+<<<<<<< HEAD
     Vec4 center = Vec4();
     refreshVertexs();
     int count = 1;
@@ -319,5 +365,8 @@ Vec4 HemiSphere::refreshVertexs()
     }
 
     vertexs[STACKS*SLICES] = transform.transpose().vector(initvertexs[STACKS*SLICES]);
+=======
+    return (this->getMax()-this->getMin())/2.0;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 

@@ -208,7 +208,11 @@ void Material::setMaterial(Material *mat, int type)
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.7;
+<<<<<<< HEAD
         mat->refl   = 0.5;
+=======
+        mat->refl   = 1.0;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
         mat->transp = 0.0;
         break;
 
@@ -374,7 +378,11 @@ void Material::setMaterial(Material *mat, int type)
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.6;
+<<<<<<< HEAD
         mat->transp = 1.0;
+=======
+        mat->transp = 1;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
         mat->refl = 0;
         break;
 

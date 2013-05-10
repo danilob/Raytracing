@@ -1,7 +1,11 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
+<<<<<<< HEAD
 ** Created: Thu May 9 14:05:53 2013
+=======
+** Created: Wed May 1 14:58:33 2013
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -34,7 +38,11 @@
 #include <QtGui/QVBoxLayout>
 #include <QtGui/QWidget>
 #include <interface/castingwidget.h>
+<<<<<<< HEAD
 #include <interface/glwidget.h>
+=======
+#include "interface/glwidget.h"
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 QT_BEGIN_NAMESPACE
 
@@ -333,7 +341,10 @@ public:
     QLabel *label_65;
     QLabel *label_66;
     QLabel *label_73;
+<<<<<<< HEAD
     QPushButton *createHBB;
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     QWidget *tab_2;
     QGridLayout *gridLayout_2;
     CastingWidget *widgetRay;
@@ -2349,9 +2360,12 @@ public:
 
         gridLayout_30->addLayout(verticalLayout_22, 0, 0, 1, 1);
 
+<<<<<<< HEAD
         createHBB = new QPushButton(tab_6);
         createHBB->setObjectName(QString::fromUtf8("createHBB"));
         createHBB->setGeometry(QRect(30, 320, 331, 27));
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
         tabWidget_2->addTab(tab_6, QString());
 
         gridLayout_5->addWidget(tabWidget_2, 0, 0, 1, 1);
@@ -2368,6 +2382,10 @@ public:
         gridLayout_2->setObjectName(QString::fromUtf8("gridLayout_2"));
         widgetRay = new CastingWidget(tab_2);
         widgetRay->setObjectName(QString::fromUtf8("widgetRay"));
+<<<<<<< HEAD
+=======
+        widgetRay->setMaximumSize(QSize(692, 601));
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
         gridLayout_2->addWidget(widgetRay, 0, 0, 1, 1);
 
@@ -2699,7 +2717,11 @@ public:
         QObject::connect(ambientBlue, SIGNAL(valueChanged(int)), sliderAmbientBlue, SLOT(setValue(int)));
 
         tabWidget->setCurrentIndex(0);
+<<<<<<< HEAD
         tabWidget_2->setCurrentIndex(0);
+=======
+        tabWidget_2->setCurrentIndex(1);
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 
         QMetaObject::connectSlotsByName(MainWindow);
@@ -2707,7 +2729,11 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
+<<<<<<< HEAD
         MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Ray Tracing by Danilo Borges", 0, QApplication::UnicodeUTF8));
+=======
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Ray Casting by Danilo Borges", 0, QApplication::UnicodeUTF8));
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
         actionOpen->setText(QApplication::translate("MainWindow", "Open", 0, QApplication::UnicodeUTF8));
         actionClose->setText(QApplication::translate("MainWindow", "Close", 0, QApplication::UnicodeUTF8));
         groupBox->setTitle(QApplication::translate("MainWindow", "Camera Position", 0, QApplication::UnicodeUTF8));
@@ -2916,7 +2942,10 @@ public:
         label_65->setText(QApplication::translate("MainWindow", "Press Tecla R to rotate selected object", 0, QApplication::UnicodeUTF8));
         label_66->setText(QApplication::translate("MainWindow", "Press Tecla T to translate selected object", 0, QApplication::UnicodeUTF8));
         label_73->setText(QApplication::translate("MainWindow", "Press Tecla S to rotate selected object", 0, QApplication::UnicodeUTF8));
+<<<<<<< HEAD
         createHBB->setText(QApplication::translate("MainWindow", "Create Bounding Boxes", 0, QApplication::UnicodeUTF8));
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
         tabWidget_2->setTabText(tabWidget_2->indexOf(tab_6), QApplication::translate("MainWindow", "Info", 0, QApplication::UnicodeUTF8));
         tabWidget->setTabText(tabWidget->indexOf(tab), QApplication::translate("MainWindow", "OpenGL Modeling", 0, QApplication::UnicodeUTF8));
         groupBox_7->setTitle(QApplication::translate("MainWindow", "Status", 0, QApplication::UnicodeUTF8));

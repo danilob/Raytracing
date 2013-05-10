@@ -88,6 +88,7 @@ Cube::Cube()
 
 }
 
+<<<<<<< HEAD
 Cube::Cube(Vec4 min, Vec4 max,Vec4 center)
 {
     //Cube c = Cube();
@@ -189,10 +190,25 @@ Cube::Cube(Vec4 min, Vec4 max,Vec4 center)
     transform = t;
     //this->refreshVertexs();
     //this->draw();
+=======
+Cube::Cube(Vec4 min, Vec4 max)
+{
+    //Cube c = Cube();
+    Cube();
+    Matrix4x4 t;
+    t.setIdentity();
+
+    Vec4 med = (max-min)/2;
+    //float s = (min-max).module()*sqrt(3.0)/3.0; //escala
+    t.translate(med);
+    t.scale((min-Vec4(max.x(),min.y(),min.z())).module()/2.0,(max-Vec4(max.x(),min.y(),max.z())).module()/2.0,(Vec4(max.x(),min.y(),max.z())-Vec4(max.x(),min.y(),min.z())).module()/2.0);
+    this->setTransform(t);
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 Cube Cube::setCube(Vec4 min, Vec4 max)
 {
+<<<<<<< HEAD
     Cube cube = Cube();
     cube.transform.setIdentity();
     Matrix4x4 t;
@@ -210,6 +226,18 @@ Cube Cube::setCube(Vec4 min, Vec4 max)
     t.translate(center);
     cube.setTransform(t);
     return cube;
+=======
+    Cube c = Cube();
+    Matrix4x4 t;
+    t.setIdentity();
+
+    Vec4 med = (max-min)/2;
+    //float s = (min-max).module()*sqrt(3.0)/3.0; //escala
+    t.translate(med);
+    t.scale((min-Vec4(max.x(),min.y(),min.z())).module()/2.0,(max-Vec4(max.x(),min.y(),max.z())).module()/2.0,(Vec4(max.x(),min.y(),max.z())-Vec4(max.x(),min.y(),min.z())).module()/2.0);
+    c.setTransform(t);
+    return c;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
@@ -235,14 +263,20 @@ Cube Cube::combineCube(Cube a, Cube b)
    if(aux1.z()>aux2.z()) max.x3 = aux1.z();
    else max.x3 = aux2.z();
 
+<<<<<<< HEAD
    Cube c = Cube(min,max);
 //   c = c.setCube(min,max);
+=======
+   Cube c = Cube();
+   c = c.setCube(min,max);
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
    return c;
 
 }
 
 Vec4 Cube::getMin()
 {
+<<<<<<< HEAD
     refreshVertexs();
     float pmin[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
  //   Vec4 min;
@@ -257,11 +291,27 @@ Vec4 Cube::getMin()
 
 
     return Vec4(pmin[0],pmin[1],pmin[2]);
+=======
+
+    float pmin[3] = {INFINITY};
+    Vec4 min;
+    for (int i=0;i<8;i++){
+        if(pmin[0]>=vertexs[i].x1 && pmin[1]>=vertexs[i].x2 && pmin[2]>=vertexs[i].x3){
+            pmin[0] = vertexs[i].x1;
+            pmin[1] = vertexs[i].x2;
+            pmin[2] = vertexs[i].x3;
+            min = vertexs[i];
+        }
+
+    }
+    return min;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
 Vec4 Cube::getMax()
 {
+<<<<<<< HEAD
     refreshVertexs();
     float pmax[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
 
@@ -273,6 +323,21 @@ Vec4 Cube::getMax()
         if (pmax[2]<=vertexs[i].x3) pmax[2] = vertexs[i].x3;
     }
     return Vec4(pmax[0],pmax[1],pmax[2]);
+=======
+    float pmax[3] = {-INFINITY};
+
+    Vec4 max;
+    for (int i=0;i<8;i++){
+
+        if(pmax[0]<=vertexs[i].x1 && pmax[1]<=vertexs[i].x2 && pmax[2]<=vertexs[i].x3){
+            pmax[0] = vertexs[i].x1;
+            pmax[1] = vertexs[i].x2;
+            pmax[2] = vertexs[i].x3;
+            max = vertexs[i];
+        }
+    }
+    return max;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
@@ -309,6 +374,7 @@ void Cube::draw()
         //transform.transpose();
         vertexs[i] = transform.transpose().vector(initvertexs[i]);
     }
+<<<<<<< HEAD
 
     //Draw::drawPoint(getMax(),4);
     //Draw::drawPoint(getMin(),4);
@@ -322,6 +388,16 @@ void Cube::draw()
         glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
         mesh->draw();
         //this->//boundingBox().wireframe();
+=======
+    refreshNormals();
+    mesh->draw();
+    }
+    if (selected){
+
+        glColor3f(1,1,1);
+        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+        mesh->draw();
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
     }
 
@@ -329,6 +405,7 @@ void Cube::draw()
 
 void Cube::wireframe()
 {
+<<<<<<< HEAD
     glDisable(GL_LIGHTING);
     glLineWidth(2.0);
     glColor3f(1,1,1);
@@ -341,12 +418,21 @@ void Cube::wireframe()
     }
     glPointSize(1);
     glLineWidth(2.0);
+=======
+    for (int i=0;i<8;i++){
+        //transform.transpose();
+        vertexs[i] = transform.transpose().vector(initvertexs[i]);
+    }
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     refreshNormals();
     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     mesh->draw();
 
+<<<<<<< HEAD
     glEnable(GL_LIGHTING);
 
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 
@@ -410,7 +496,11 @@ int Cube::getIdMaterial()
 void Cube::tryIntersection(RayIntersection *intersect,Ray ray)
 {
 
+<<<<<<< HEAD
     intersect->rayBoxIntersection(mesh,ray,transform,this->getMaxInit(),this->getMinInit(),this);
+=======
+    intersect->rayBoxIntersection(mesh,ray,transform,this->getMax(),this->getMin());
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
@@ -488,12 +578,19 @@ QString Cube::saveObject()
 
 Cube Cube::boundingBox()
 {
+<<<<<<< HEAD
 
     return Cube(getMin(),getMax(),getCenter());
+=======
+    Cube c = Cube();
+    c.setTransform(this->transform);
+    return c;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 Vec4 Cube::getCenter()
 {
+<<<<<<< HEAD
     Vec4 center;
     for (int i=0;i<8;i++){
         //transform.transpose();
@@ -545,5 +642,8 @@ Vec4 Cube::getMaxInit()
     }
     return Vec4(pmax[0],pmax[1],pmax[2]);
 
+=======
+    return (this->getMax()-this->getMin())/2.0;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 

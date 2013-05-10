@@ -4,7 +4,11 @@
 #include "block/object.h"
 #include "structure/light.h"
 #include "rayintersection.h"
+<<<<<<< HEAD
 #include "block/hbb.h"
+=======
+
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 #define ERROR 0.001
 #include "interface/castingwidget.h"
 static int intersect =0;
@@ -70,7 +74,11 @@ void RayTracing::rayTracing(GLubyte *pixels)
     notintersect = 0;
     intersect = 0;
     int count = 0;
+<<<<<<< HEAD
     int soft = 20;
+=======
+    int soft = 50;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     for(int j=0;j<scene->viewport[1];j++)
         for (int i=0;i<scene->viewport[0];i++){
             Vec4 rays_color;
@@ -115,6 +123,7 @@ Vec4 RayTracing::rayIntersection(Ray ray)
 
         RayIntersection *ray_intersection = new RayIntersection();
         Object *obj = NULL;
+<<<<<<< HEAD
         //float aux = scene->projection.x4;
         ray_intersection->t = scene->projection.x4;
         ray_intersection->tmin = scene->projection.x3;
@@ -135,6 +144,23 @@ Vec4 RayTracing::rayIntersection(Ray ray)
 //        }
         //printf("\nt=%.8f",ray_intersection->t);
         if (!(hit)){
+=======
+        float aux = scene->projection.x4;
+        ray_intersection->t = scene->projection.x4;
+        ray_intersection->tmin = scene->projection.x3;
+        for(int i=0;i<scene->objects.size();i++){
+
+            if(scene->objects.at(i)->isEnabled()){
+                scene->objects.at(i)->tryIntersection(ray_intersection,ray);
+            }
+            if (ray_intersection->t<aux){
+                obj = scene->objects.at(i);
+                aux = ray_intersection->t;
+            }
+
+        }
+        if (!(ray_intersection->t!=scene->projection.x4)){
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
             notintersect++;
             //raycast->setValueNotIntersectRay(notintersect);
             //delete obj;
@@ -144,7 +170,10 @@ Vec4 RayTracing::rayIntersection(Ray ray)
             intersect++;
             //raycast->setValueIntersectRay(intersect);
             Vec4 pixel = calculatePixelColor(obj,ray_intersection->normal,ray_intersection->material,ray.positionRay(ray_intersection->t),ray);
+<<<<<<< HEAD
             //printf("\nNome: %s",obj->getName().toLocal8Bit().data());
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
             delete ray_intersection;
             //delete obj;
             return pixel;
@@ -152,6 +181,7 @@ Vec4 RayTracing::rayIntersection(Ray ray)
 
 }
 
+<<<<<<< HEAD
 Vec4 RayTracing::rayIntersectionSecond(Ray ray)
 {
     RayIntersection *ray_intersection = new RayIntersection();
@@ -186,6 +216,8 @@ Vec4 RayTracing::rayIntersectionSecond(Ray ray)
     }
 }
 
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material, Vec4 intercept,Ray r)
 {
@@ -197,6 +229,7 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
         for (int i=1;i<scene->lights.size();i++){
             obj->setEnabled(false);
             for (int k=0; k<raios;k++){
+<<<<<<< HEAD
                 Vec4 l = scene->lights.at(i)->randLight();
                 Vec4 v = (r.direction);
                 Vec4 ri = v - normal*(2*(v*normal));
@@ -238,6 +271,49 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                     }
                     aux = aux + (rayIntersection(refrt))*material->transp;
                 }
+=======
+            Vec4 l = scene->lights.at(i)->randLight();
+            Vec4 v = (r.direction);
+            Vec4 ri = normal*(2*(v*normal)) - v;
+            ri = ri.unitary();
+            Ray raio = Ray(intercept,(l - intercept).unitary());
+            //Vec4 refl = inter(normal*((l*normal)*2) - l);
+            Ray reflt = Ray(intercept,((ri)));
+            if (scene->lights.at(i)->isEnabled())
+                /* testar se a direção do ponto observado a luz está obstruido */
+                if (!(testObstruction(raio))){
+                    aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*(1-material->transp);
+
+                }
+            obj->setEnabled(true);
+            if(material->refl!=0){
+                //depth++;
+                aux = aux + (rayIntersection(reflt))*material->refl;
+            }
+            if(material->transp<=1 && material->transp>0){
+                //depth++;
+
+                float ratio;
+                if(in){
+                    ratio = material->transp;
+                    normal = normal*(-1);
+                }else{
+                    ratio = 1.0/material->transp;
+                }
+                float cosi = (v*normal)*(-1);
+                float fat = 1 - (pow(ratio,2)*(1 - cosi*cosi));
+                if (fat < 0) return Vec4();
+                Vec4 refra = v*(ratio) +normal*((ratio*cosi)-sqrt(fat));
+                refra = refra.unitary();
+                Ray refrt(intercept,refra);
+                if (in){
+                    in = false;
+                }else{
+                    in = true;
+                }
+                aux = aux + (rayIntersection(refrt))*material->transp;
+            }
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
             }
 
@@ -260,7 +336,11 @@ bool RayTracing::testObstruction(Ray ray)
 {
     RayIntersection *ray_intersection = new RayIntersection();
     ray_intersection->t = INFINITY;
+<<<<<<< HEAD
     ray_intersection->tmin = 0;
+=======
+    ray_intersection->tmin = -1;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     for(int i=0;i<scene->objects.size();i++){
 
         if(scene->objects.at(i)->isEnabled()) scene->objects.at(i)->tryIntersection(ray_intersection,ray);

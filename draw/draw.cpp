@@ -106,6 +106,7 @@ void Draw::drawSpot(Vec4 *position_, Vec4 *direction,double angle)
             }
         glEnd();
 
+<<<<<<< HEAD
         glPopMatrix();
 }
 
@@ -119,4 +120,7 @@ void Draw::drawPoint(Vec4 v,int size, Vec4 color)
     glEnd();
     glPointSize(1);
     glEnable(GL_LIGHTING);
+=======
+    glPopMatrix();
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }

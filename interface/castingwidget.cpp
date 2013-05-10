@@ -2,7 +2,10 @@
 #include <stdio.h>
 #include <extra/functions.h>
 #include <QFile>
+<<<<<<< HEAD
 #include "block/hbb.h"
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 //#define width  500
 //#define height 400
 
@@ -93,6 +96,7 @@ void CastingWidget::paintGL()
 
     if(draw){
         glClear(GL_COLOR_BUFFER_BIT);
+<<<<<<< HEAD
         //scene->viewport[0] = 300;
         //scene->viewport[1] = 300;
         GLubyte *pixel = new GLubyte[width*height*3];
@@ -100,6 +104,11 @@ void CastingWidget::paintGL()
         //casting.setScene(scene);
         HBB *hbb = new HBB(scene->objects,0);
         casting->hierachicalbb = hbb;
+=======
+        GLubyte *pixel = new GLubyte[width*height*3];
+        RayTracing *casting = new RayTracing(scene,this,back_color,otimized);
+        //casting.setScene(scene);
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
         casting->rayTracing(pixel);
         glDrawPixels(width, height, GL_RGB, GL_UNSIGNED_BYTE, pixel);
         //delete []casting;

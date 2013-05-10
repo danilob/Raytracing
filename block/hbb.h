@@ -4,7 +4,11 @@
 #include "cube.h"
 #include "math/rayintersection.h"
 #include <vector>
+<<<<<<< HEAD
 class HBB: public Object
+=======
+class HBB: public Cube
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 {
 public:
     Object *left;
@@ -12,7 +16,10 @@ public:
     HBB *left_node;
     HBB *right_node;
     Cube box;
+<<<<<<< HEAD
     Object *select;
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 
 public:
@@ -20,6 +27,7 @@ public:
     HBB(std::vector<Object*> objects,int axis);
     ~HBB();
     bool hit(RayIntersection *intersect);
+<<<<<<< HEAD
     std::vector<Object*> sortObjects(std::vector<Object*> objects,int axis);
     void drawStructure();
      void        setSelected(bool b) {};           //seta o objeto como selecionado para possiveis alterações
@@ -47,6 +55,10 @@ public:
      Vec4        getCenter() {};                   //retorna o ponto médio do objeto, não necessariamente este ponto esta no objeto
      bool        hitBox(Ray r,Matrix4x4 transform);
 
+=======
+    void sortObjects(std::vector<Object*> objects,int axis);
+    //void drawStructure();
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 };
 
 #endif // HBB_H

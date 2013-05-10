@@ -20,7 +20,11 @@ public:
 
 public:
     Cube();
+<<<<<<< HEAD
     Cube(Vec4 min,Vec4 max, Vec4 center=Vec4());
+=======
+    Cube(Vec4 min,Vec4 max);
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     Cube setCube(Vec4 min,Vec4 max);
     Cube combineCube(Cube a,Cube b);
     Vec4 getMin();
@@ -48,10 +52,13 @@ public:
     QString saveObject();
     Cube boundingBox();
     Vec4 getCenter();
+<<<<<<< HEAD
     void refreshVertexs();
     Vec4 getMinInit();
     Vec4 getMaxInit();
 
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 
 

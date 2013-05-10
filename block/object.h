@@ -7,7 +7,10 @@
 #include "structure/mesh.h"
 #include "math/ray.h"
 #include "math/rayintersection.h"
+<<<<<<< HEAD
 #include "draw/draw.h"
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 class Cube;
 
 class Object
@@ -31,11 +34,19 @@ public:
     virtual void        wireframe() = 0;                   //desenha o objeto como wireframe
     virtual void        draw() = 0;                        //desenha o objeto
     virtual void        refreshNormals() = 0;              //atualiza os vetores normais do objeto
+<<<<<<< HEAD
     virtual QString     saveObject() = 0;                  //adiconar parametros do abjeto ao arquivo
     virtual Cube        boundingBox() = 0;                 //retorna a boudingbox do objeto
     virtual Vec4        getMax() = 0;                      //retorna o extremo máximo do objeto, não necessariamente este ponto esta no objeto
     virtual Vec4        getMin() = 0;                      //retorna o extremo mínimo do objeto, não necessariamente este ponto esta no objeto
     virtual Vec4        getCenter() = 0;                   //retorna o ponto médio do objeto, não necessariamente este ponto esta no objeto
+=======
+    virtual QString     saveObject() = 0;                      //adiconar parametros do abjeto ao arquivo
+    virtual Cube        boundingBox() = 0;
+    virtual Vec4        getMax() = 0;
+    virtual Vec4        getMin() = 0;
+    virtual Vec4        getCenter() = 0;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 
 

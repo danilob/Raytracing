@@ -26,7 +26,11 @@
    </size>
   </property>
   <property name="windowTitle">
+<<<<<<< HEAD
    <string>Ray Tracing by Danilo Borges</string>
+=======
+   <string>Ray Casting by Danilo Borges</string>
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_16">
@@ -89,7 +93,11 @@
            <item row="0" column="0">
             <widget class="QTabWidget" name="tabWidget_2">
              <property name="currentIndex">
+<<<<<<< HEAD
               <number>0</number>
+=======
+              <number>3</number>
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
              </property>
              <widget class="QWidget" name="tab_3">
               <attribute name="title">
@@ -3346,7 +3354,18 @@ QGroupBox{
        </attribute>
        <layout class="QGridLayout" name="gridLayout_2">
         <item row="0" column="0">
+<<<<<<< HEAD
          <widget class="CastingWidget" name="widgetRay" native="true"/>
+=======
+         <widget class="CastingWidget" name="widgetRay" native="true">
+          <property name="maximumSize">
+           <size>
+            <width>692</width>
+            <height>601</height>
+           </size>
+          </property>
+         </widget>
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
         </item>
         <item row="0" column="1">
          <widget class="QFrame" name="frame_3">

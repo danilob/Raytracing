@@ -75,7 +75,10 @@ void Cylinder::draw()
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
     refreshNormals();
     mesh->draw();
+<<<<<<< HEAD
     //this->//boundingBox().wireframe();
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     }
     if (selected){
 
@@ -170,7 +173,11 @@ int Cylinder::getIdMaterial()
 void Cylinder::tryIntersection(RayIntersection *intersect, Ray ray)
 {
 
+<<<<<<< HEAD
     intersect->rayCylinderIntersection(mesh,this->transform,ray,this);
+=======
+    intersect->rayCylinderIntersection(mesh,this->transform,ray);
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 void Cylinder::setSelected(bool b)
@@ -246,6 +253,7 @@ QString Cylinder::saveObject()
 Vec4 Cylinder::getMin()
 {
 
+<<<<<<< HEAD
 
     refreshVertexs();
     float pmin[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
@@ -259,11 +267,26 @@ Vec4 Cylinder::getMin()
 
     }
     return Vec4(pmin[0],pmin[1],pmin[2]);
+=======
+    float pmin[3] = {INFINITY};
+    Vec4 min;
+    for (int i=0;i<2*SEGMENTS;i++){
+        if(pmin[0]>=vertexs[i].x1 && pmin[1]>=vertexs[i].x2 && pmin[2]>=vertexs[i].x3){
+            pmin[0] = vertexs[i].x1;
+            pmin[1] = vertexs[i].x2;
+            pmin[2] = vertexs[i].x3;
+            min = vertexs[i];
+        }
+
+    }
+    return min;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
 Vec4 Cylinder::getMax()
 {
+<<<<<<< HEAD
     refreshVertexs();
     float pmax[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
     //Vec4 max;
@@ -275,16 +298,36 @@ Vec4 Cylinder::getMax()
 
     }
     return Vec4(pmax[0],pmax[1],pmax[2]);
+=======
+    float pmax[3] = {-INFINITY};
+
+    Vec4 max;
+    for (int i=0;i<2*SEGMENTS;i++){
+
+        if(pmax[0]<=vertexs[i].x1 && pmax[1]<=vertexs[i].x2 && pmax[2]<=vertexs[i].x3){
+            pmax[0] = vertexs[i].x1;
+            pmax[1] = vertexs[i].x2;
+            pmax[2] = vertexs[i].x3;
+            max = vertexs[i];
+        }
+    }
+    return max;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
 Cube Cylinder::boundingBox()
 {
+<<<<<<< HEAD
     return Cube(this->getMin(),this->getMax(),this->getCenter());
+=======
+    return Cube(this->getMin(),this->getMax());
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 Vec4 Cylinder::getCenter()
 {
+<<<<<<< HEAD
     Vec4 center;
     for (int i = 0;i<SEGMENTS;i++){
         center = center+ transform.transpose().vector(initvertexs[i]);
@@ -309,4 +352,7 @@ void Cylinder::refreshVertexs()
         vertexs[i+SEGMENTS] = transform.transpose().vector(initvertexs[i+SEGMENTS]);
 
     }
+=======
+    return (this->getMax()-this->getMin())/2.0;
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }

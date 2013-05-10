@@ -47,7 +47,10 @@ public:
     Vec4 getMin();
     Vec4 getMax();
     Vec4 getCenter();
+<<<<<<< HEAD
     void refreshVertexs();
+=======
+>>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 
 };
