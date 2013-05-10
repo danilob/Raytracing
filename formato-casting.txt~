@@ -1,0 +1,7 @@
+#formato do arquivo
+#tipo: c - cubo; y - cilindro; p - prisma; h - hemisferio
+#luz : a - ambiente; s - spot; d - direcional; o - pontual
+
+tipo tx ty tz sx sy sz rx ry rz (material) enabled selected (nome)
+luz  ar ag ab sr sg sb dr dg db posx posy posz dirx diry dirz attx atty attz angle expo enabled visible selected (nome)
+
