@@ -40,11 +40,7 @@ void Mesh::draw()
         for(unsigned int i=0;i<faces.size();i++){
             //glColor3f(0.5,0.5,0.5);
             //glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
-<<<<<<< HEAD
             //drawNormalFace(faces[i]);
-=======
-            drawNormalFace(faces[i]);
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
             if(faces[i].normals.size()==1){
                 glNormal3fv(&faces[i].normals[0]->x1);
             }

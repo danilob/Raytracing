@@ -172,14 +172,14 @@ void Material::setMaterial(Material *mat, int type)
 
     }
     case MATERIAL_SILVER:{
-        mat->ambient[0] = 0.19;
-        mat->ambient[1] = 0.19;
-        mat->ambient[2] = 0.19;
+        mat->ambient[0] = 0.0;
+        mat->ambient[1] = 0.0;
+        mat->ambient[2] = 0.0;
         mat->ambient[3] = 1.0;
 
-        mat->specular[0] = 0.51;
-        mat->specular[1] = 0.51;
-        mat->specular[2] = 0.51;
+        mat->specular[0] = 0.0;
+        mat->specular[1] = 0.0;
+        mat->specular[2] = 0.0;
         mat->specular[3] = 1.0;
 
         mat->diffuse[0] = 0.51;
@@ -192,27 +192,23 @@ void Material::setMaterial(Material *mat, int type)
 
     }
     case MATERIAL_SILVER_POLIERT:{
-        mat->ambient[0] = 0.23;
-        mat->ambient[1] = 0.23;
-        mat->ambient[2] = 0.23;
+        mat->ambient[0] = 0;
+        mat->ambient[1] = 0;
+        mat->ambient[2] = 0;
         mat->ambient[3] = 1.0;
 
-        mat->specular[0] = 0.77;
-        mat->specular[1] = 0.77;
-        mat->specular[2] = 0.77;
+        mat->specular[0] = 0;
+        mat->specular[1] = 0;
+        mat->specular[2] = 0;
         mat->specular[3] = 1.0;
 
-        mat->diffuse[0] = 0.28;
-        mat->diffuse[1] = 0.28;
-        mat->diffuse[2] = 0.28;
+        mat->diffuse[0] = 0;
+        mat->diffuse[1] = 0;
+        mat->diffuse[2] = 0;
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.7;
-<<<<<<< HEAD
-        mat->refl   = 0.5;
-=======
         mat->refl   = 1.0;
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
         mat->transp = 0.0;
         break;
 
@@ -338,6 +334,8 @@ void Material::setMaterial(Material *mat, int type)
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.3;
+        mat->transp = 0.0;
+        mat->refl = 0.0;
         break;
 
     }
@@ -378,12 +376,8 @@ void Material::setMaterial(Material *mat, int type)
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.6;
-<<<<<<< HEAD
-        mat->transp = 1.0;
-=======
-        mat->transp = 1;
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
-        mat->refl = 0;
+        mat->transp = 0.0;
+        mat->refl = 0.0;
         break;
 
     }
@@ -414,37 +408,42 @@ void Material::setMaterial(Material *mat, int type)
         mat->ambient[2] = 0;
         mat->ambient[3] = 1.0;
 
-        mat->specular[0] = 0.5;
-        mat->specular[1] = 0.5;
-        mat->specular[2] = 0.5;
+        mat->specular[0] = 0;
+        mat->specular[1] = 0;
+        mat->specular[2] = 0;
         mat->specular[3] = 1.0;
 
-        mat->diffuse[0] = 0.01;
-        mat->diffuse[1] = 0.01;
-        mat->diffuse[2] = 0.01;
+        mat->diffuse[0] = 0.0;
+        mat->diffuse[1] = 0.0;
+        mat->diffuse[2] = 0.0;
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.25;
+        mat->refl = 1.0;
+        mat->transp = 0.0;
         break;
 
     }
     case MATERIAL_BLACK_RUBBER:{
-        mat->ambient[0] = 0.02;
-        mat->ambient[1] = 0.02;
-        mat->ambient[2] = 0.02;
+        mat->ambient[0] = 0.0;
+        mat->ambient[1] = 0.0;
+        mat->ambient[2] = 0.0;
         mat->ambient[3] = 1.0;
 
-        mat->specular[0] = 0.4;
-        mat->specular[1] = 0.4;
-        mat->specular[2] = 0.4;
+        mat->specular[0] = 0.0;
+        mat->specular[1] = 0.0;
+        mat->specular[2] = 0.0;
         mat->specular[3] = 1.0;
 
-        mat->diffuse[0] = 0.01;
-        mat->diffuse[1] = 0.01;
-        mat->diffuse[2] = 0.01;
+        mat->diffuse[0] = 0.00;
+        mat->diffuse[1] = 0.00;
+        mat->diffuse[2] = 0.00;
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.078125;
+        mat->transp = 1.0;
+        mat->refl = 0.0;
+
         break;
 
     }

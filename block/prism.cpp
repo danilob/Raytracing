@@ -98,7 +98,6 @@ void Prism::draw()
     if(isEnabled()){
 
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-<<<<<<< HEAD
     glColor3f(0,0,1);
     for(int i=0;i<6;i++){
         vertexs[i] = transform.transpose().vector(initvertexs[i]);
@@ -109,15 +108,6 @@ void Prism::draw()
 
     mesh->draw();
     //this->//boundingBox().wireframe();
-=======
-
-    for(int i=0;i<6;i++){
-        vertexs[i] = transform.transpose().vector(initvertexs[i]);
-    }
-    refreshNormals();
-
-    mesh->draw();
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     }
     if (selected){
 
@@ -188,29 +178,8 @@ int Prism::getIdMaterial()
 
 void Prism::tryIntersection(RayIntersection *intersect, Ray ray)
 {
-<<<<<<< HEAD
 
     intersect->rayBoxIntersection(mesh,ray,transform,getMaxInit(),getMinInit(),this);
-=======
-    float pmax[3] = {-INFINITY};
-    float pmin[3] = {INFINITY};
-    Vec4 bounds[2];
-    for (int i=0;i<6;i++){
-        if(pmin[0]>=vertexs[i].x1 && pmin[1]>=vertexs[i].x2 && pmin[2]>=vertexs[i].x3){
-            pmin[0] = vertexs[i].x1;
-            pmin[1] = vertexs[i].x2;
-            pmin[2] = vertexs[i].x3;
-            bounds[0] = vertexs[i];
-        }
-        if(pmax[0]<=vertexs[i].x1 && pmax[1]<=vertexs[i].x2 && pmax[2]<=vertexs[i].x3){
-            pmax[0] = vertexs[i].x1;
-            pmax[1] = vertexs[i].x2;
-            pmax[2] = vertexs[i].x3;
-            bounds[1] = vertexs[i];
-        }
-    }
-    intersect->rayBoxIntersection(mesh,ray,transform,bounds[1],bounds[0]);
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 void Prism::setSelected(bool b)
@@ -286,7 +255,6 @@ QString Prism::saveObject()
 
 Vec4 Prism::getMin()
 {
-<<<<<<< HEAD
     refreshVertexs();
     float pmin[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
     for (int i=0;i<6;i++){
@@ -295,27 +263,11 @@ Vec4 Prism::getMin()
         if(pmin[2]>=vertexs[i].x3) pmin[2] = vertexs[i].x3;
     }
     return Vec4(pmin[0],pmin[1],pmin[2]);
-=======
-
-    float pmin[3] = {INFINITY};
-    Vec4 min;
-    for (int i=0;i<6;i++){
-        if(pmin[0]>=vertexs[i].x1 && pmin[1]>=vertexs[i].x2 && pmin[2]>=vertexs[i].x3){
-            pmin[0] = vertexs[i].x1;
-            pmin[1] = vertexs[i].x2;
-            pmin[2] = vertexs[i].x3;
-            min = vertexs[i];
-        }
-
-    }
-    return min;
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
 Vec4 Prism::getMax()
 {
-<<<<<<< HEAD
     refreshVertexs();
     float pmax[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
     for (int i=1;i<6;i++){
@@ -326,36 +278,16 @@ Vec4 Prism::getMax()
 
     }
     return Vec4(pmax[0],pmax[1],pmax[2]);
-=======
-    float pmax[3] = {-INFINITY};
-
-    Vec4 max;
-    for (int i=0;i<6;i++){
-
-        if(pmax[0]<=vertexs[i].x1 && pmax[1]<=vertexs[i].x2 && pmax[2]<=vertexs[i].x3){
-            pmax[0] = vertexs[i].x1;
-            pmax[1] = vertexs[i].x2;
-            pmax[2] = vertexs[i].x3;
-            max = vertexs[i];
-        }
-    }
-    return max;
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
 Cube Prism::boundingBox()
 {
-<<<<<<< HEAD
     return Cube(this->getMin(),this->getMax(),this->getCenter());
-=======
-    return Cube(this->getMin(),this->getMax());
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 Vec4 Prism::getCenter()
 {
-<<<<<<< HEAD
     Vec4 center;
     for (int i=0;i<6;i++){
         center = center + transform.transpose().vector(initvertexs[i]);
@@ -406,7 +338,4 @@ Vec4 Prism::getMaxInit()
     }
     return Vec4(pmax[0],pmax[1],pmax[2]);
 
-=======
-    return (this->getMax()-this->getMin())/2.0;
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }

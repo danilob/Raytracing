@@ -82,10 +82,7 @@ public:
     bool               showgrid;
     bool               solidgrid;
     bool               showviewports;
-<<<<<<< HEAD
     bool               create;
-=======
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     HBB*               boundingboxes;
 
 

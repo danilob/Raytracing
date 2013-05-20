@@ -34,7 +34,8 @@ SOURCES += main.cpp\
     block/plane.cpp \
     block/sphere.cpp \
     math/raytracing.cpp \
-    block/hbb.cpp
+    block/hbb.cpp \
+    extra/effects.cpp
 
 
 HEADERS  += mainwindow.h \
@@ -60,7 +61,8 @@ HEADERS  += mainwindow.h \
     block/plane.h \
     block/sphere.h \
     math/raytracing.h \
-    block/hbb.h
+    block/hbb.h \
+    extra/effects.h
 
 
 FORMS    += mainwindow.ui

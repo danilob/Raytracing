@@ -25,10 +25,6 @@ public:
     void aplyTransform(Matrix4x4 t);
     void refreshNormals();
     void setIdentityTransform();
-<<<<<<< HEAD
-=======
-
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     void setMaterial(int material);
     void wireframe();
     void changeCoords(Matrix4x4 matrix);
@@ -50,12 +46,9 @@ public:
     Vec4 getMin();
     Vec4 getMax();
     Vec4 getCenter();
-<<<<<<< HEAD
     void refreshVertexs();
     Vec4 getMinInit();
     Vec4 getMaxInit();
-=======
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 
 

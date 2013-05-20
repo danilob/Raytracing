@@ -93,7 +93,6 @@ void Sphere::draw()
     if(isEnabled()){
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
     refreshNormals();
-<<<<<<< HEAD
 //    glPointSize(1.0);
   //  for (int i=0;i<SLICES*STACKS;i++){
 //        glBegin(GL_POINTS);
@@ -104,17 +103,6 @@ void Sphere::draw()
 
     mesh->draw();
     //boundingBox().wireframe();
-=======
-    glPointSize(1.0);
-    for (int i=0;i<SLICES*STACKS;i++){
-        glBegin(GL_POINTS);
-        glVertex3f(vertexs[i].x(),vertexs[i].y(),vertexs[i].z());
-        glPointSize(i*1.5);
-        glEnd();
-    }
-
-    mesh->draw();
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     }
     if (selected){
 
@@ -205,11 +193,7 @@ void Sphere::tryIntersection(RayIntersection *intersect, Ray ray)
 {
 
 
-<<<<<<< HEAD
         intersect->raySphereIntersection(mesh,transform,ray,this);
-=======
-        intersect->raySphereIntersection(mesh,transform,ray);
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 void Sphere::setSelected(bool b)
@@ -295,7 +279,6 @@ Cube Sphere::boundingBox()
 Vec4 Sphere::getMin()
 {
 
-<<<<<<< HEAD
     refreshVertexs();
     float pmin[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
     for (int i=1;i<SLICES*STACKS+2;i++){
@@ -306,26 +289,11 @@ Vec4 Sphere::getMin()
 
     }
     return Vec4(pmin[0],pmin[1],pmin[2]);
-=======
-    float pmin[3] = {INFINITY};
-    Vec4 min;
-    for (int i=0;i<SLICES*STACKS+2;i++){
-        if(pmin[0]>=vertexs[i].x1 && pmin[1]>=vertexs[i].x2 && pmin[2]>=vertexs[i].x3){
-            pmin[0] = vertexs[i].x1;
-            pmin[1] = vertexs[i].x2;
-            pmin[2] = vertexs[i].x3;
-            min = vertexs[i];
-        }
-
-    }
-    return min;
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
 Vec4 Sphere::getMax()
 {
-<<<<<<< HEAD
     refreshVertexs();
     float pmax[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
     for (int i=1;i<SLICES*STACKS+2;i++){
@@ -336,21 +304,6 @@ Vec4 Sphere::getMax()
 
     }
     return Vec4(pmax[0],pmax[1],pmax[2]);
-=======
-    float pmax[3] = {-INFINITY};
-
-    Vec4 max;
-    for (int i=0;i<SLICES*STACKS+2;i++){
-
-        if(pmax[0]<=vertexs[i].x1 && pmax[1]<=vertexs[i].x2 && pmax[2]<=vertexs[i].x3){
-            pmax[0] = vertexs[i].x1;
-            pmax[1] = vertexs[i].x2;
-            pmax[2] = vertexs[i].x3;
-            max = vertexs[i];
-        }
-    }
-    return max;
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
@@ -358,7 +311,6 @@ Vec4 Sphere::getCenter()
 {
     return (this->getMax()-this->getMin())/2.0;
 }
-<<<<<<< HEAD
 
 void Sphere::refreshVertexs()
 {
@@ -368,5 +320,3 @@ void Sphere::refreshVertexs()
         }
     }
 }
-=======
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a

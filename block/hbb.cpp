@@ -2,42 +2,31 @@
 
 HBB::HBB()
 {
-<<<<<<< HEAD
     left = NULL;
     right = NULL;
     left_node = NULL;
     right_node = NULL;
     box = Cube();
     select = NULL;
-=======
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 HBB::HBB(std::vector<Object*> objects, int axis)
 {
-<<<<<<< HEAD
     select = NULL;
-=======
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     std::vector<Object*> copy;
     for(int i=0; i<objects.size();i++) copy.push_back(objects.at(i));
     int n = copy.size();
     if (n==1){
         left = copy.at(0);
         right = NULL;
-<<<<<<< HEAD
         box = Cube(left->getMin(),left->getMax());
         left_node = NULL;
         right_node = NULL;
-=======
-        box = left->boundingBox();
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     }
     else if(n==2){
         left = copy.at(0);
         right = copy.at(1);
         box = box.combineCube(left->boundingBox(),right->boundingBox());
-<<<<<<< HEAD
         left_node = NULL;
         right_node = NULL;
     }else{
@@ -58,21 +47,6 @@ HBB::HBB(std::vector<Object*> objects, int axis)
         right_node = new HBB(r,(axis+1)%3);
         left = NULL;
         right = NULL;
-=======
-        box.wireframe();
-    }else{
-        sortObjects(copy,axis);
-        std::vector<Object*> l;
-        std::vector<Object*> r;
-        for (int i=0;i<n/2-1;i++){
-            l.push_back(copy.at(i));
-        }
-        for (int i=n/2;i<n-1;i++){
-            r.push_back(copy.at(i));
-        }
-        left = new HBB(l,(axis+1)%3);
-        right = new HBB(r,(axis+1)%3);
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
         box = box.combineCube(left_node->box,right_node->box);
     }
 
@@ -82,7 +56,6 @@ HBB::~HBB()
 {
     delete left;
     delete right;
-<<<<<<< HEAD
     delete left_node;
     delete right_node;
     delete select;
@@ -90,14 +63,6 @@ HBB::~HBB()
 
 std::vector<Object*> HBB::sortObjects(std::vector<Object*> objects, int axis)
 {
-=======
-}
-
-void HBB::sortObjects(std::vector<Object*> objects, int axis)
-{
-    std::vector<Object*> copy;
-    for(int i=0; i<objects.size();i++) copy.push_back(objects.at(i));
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
     int pos;
     switch (axis){
         case 0 :{ //então organizaremos seguinto o eixo x
@@ -105,12 +70,7 @@ void HBB::sortObjects(std::vector<Object*> objects, int axis)
                         pos = i;
                         for(int j=i+1;j<objects.size();j++){
                                 if (objects.at(pos)->getCenter().x()>objects.at(j)->getCenter().x()){
-<<<<<<< HEAD
 
-=======
-                                    pos = j;
-                                    //comp++;
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
                                 }
                             }
                             if (i!=pos){
@@ -120,23 +80,14 @@ void HBB::sortObjects(std::vector<Object*> objects, int axis)
                                 objects.at(i) = temp;
                             }
                         }
-<<<<<<< HEAD
                     break;
                 }
         case 1:{//então organizaremos seguindo o eixo y
-=======
-                }
-        case 1:{//Falso -> então organizaremos seguindo o eixo y
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
                     for(int i=0; i<objects.size();i++){
                         pos = i;
                         for(int j=i+1;j<objects.size();j++){
                                 if (objects.at(pos)->getCenter().y()>objects.at(j)->getCenter().y()){
                                     pos = j;
-<<<<<<< HEAD
-=======
-                                    //comp++;
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
                                 }
                             }
                             if (i!=pos){
@@ -147,10 +98,7 @@ void HBB::sortObjects(std::vector<Object*> objects, int axis)
 
                             }
                     }
-<<<<<<< HEAD
                     break;
-=======
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
                 }
         case 2:{
                     for(int i=0; i<objects.size();i++){
@@ -158,10 +106,6 @@ void HBB::sortObjects(std::vector<Object*> objects, int axis)
                         for(int j=i+1;j<objects.size();j++){
                                 if (objects.at(pos)->getCenter().z()>objects.at(j)->getCenter().z()){
                                     pos = j;
-<<<<<<< HEAD
-=======
-                                    //comp++;
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
                                 }
                             }
                             if (i!=pos){
@@ -172,7 +116,6 @@ void HBB::sortObjects(std::vector<Object*> objects, int axis)
 
                             }
                     }
-<<<<<<< HEAD
                     break;
                 }
     }
@@ -196,11 +139,11 @@ bool HBB::HBBIntersection(RayIntersection *intersect, Ray ray, Object *obj)
         if(right_node!=NULL) right_hit = right_node->HBBIntersection(intersect,ray,obj);
         if((left_hit || right_hit)){
             float t1,t2;
-            if(left!=NULL){
+            if(left!=NULL && left->isEnabled()){
                 left->tryIntersection(intersect,ray);
                 t1 = intersect->t;
             }
-            if(right!=NULL){
+            if(right!=NULL && right->isEnabled()){
                 right->tryIntersection(intersect,ray);
                 t2 = intersect->t;
             }
@@ -246,15 +189,8 @@ bool HBB::hitBox(Ray ray, Matrix4x4 transform)
         tmin = tzmin;
     if (tzmax < tmax)
         tmax = tzmax;
-    if (!( (tmin < tmax))) return false;
+    //if (!( (tmin < tmax))) return false;
     return true;
-=======
-                }
-    }
-
-    //return copy;
-
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }
 
 

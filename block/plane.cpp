@@ -153,11 +153,7 @@ int Plane::getIdMaterial()
 void Plane::tryIntersection(RayIntersection *intersect,Ray ray)
 {
 
-<<<<<<< HEAD
     intersect->rayPlanIntersection(mesh,ray,this);
-=======
-    intersect->rayPlanIntersection(mesh,ray);
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
@@ -271,9 +267,5 @@ Cube Plane::boundingBox()
 
 Vec4 Plane::getCenter()
 {
-<<<<<<< HEAD
     return (this->getMax()+this->getMin())/2.0;
-=======
-    return (this->getMax()-this->getMin())/2.0;
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 }

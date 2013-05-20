@@ -68,6 +68,16 @@ float Vec4::operator * (Vec4 v){
     return this->x1*v.x1+this->x2*v.x2+this->x3*v.x3;
 }
 
+Vec4 Vec4::mult(Vec4 v)
+{
+    return Vec4(this->x1*v.x1,this->x2*v.x2,this->x3*v.x3);
+}
+
+float Vec4::dot(Vec4 v)
+{
+    return this->x1*v.x1+this->x2*v.x2+this->x3*v.x3;
+}
+
 
 void Vec4::setVec4(float x1,float x2, float x3, float x4){
     this->x1 = x1;

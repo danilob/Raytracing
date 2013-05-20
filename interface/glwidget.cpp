@@ -9,10 +9,7 @@
 #include "math/quaternion.h"
 #include "extra/functions.h"
 
-<<<<<<< HEAD
 
-=======
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 //variáveis estáticas
 
 int last_pox_x,last_pox_y;
@@ -148,9 +145,10 @@ void stopMotion(int x, int y)
 
 
 GLWidget::GLWidget(QWidget *parent) :
-    QGLWidget(parent)
+    QGLWidget(QGLFormat(QGL::SampleBuffers),parent)
 {
     setFocusPolicy(Qt::StrongFocus);
+    glEnable(GL_MULTISAMPLE);
     scene = new Scene();
     id_material = 0;
 
@@ -167,11 +165,8 @@ GLWidget::GLWidget(QWidget *parent) :
     q.setQuaternion(1,0,0,0);
     projection.setVec4(angle,45,0.01,120000.0);
     showviewports = false;
-<<<<<<< HEAD
     create = false;
     //boundingboxes = new HBB();
-=======
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 
 }
@@ -200,7 +195,7 @@ void GLWidget::initializeGL()
     //glEnable(GL_COLOR_MATERIAL);
     glEnable(GL_NORMALIZE);
     glEnable(GL_RESCALE_NORMAL);
-    glLineWidth(1.2);
+    glLineWidth(1.0);
     glDepthFunc(1.0);
 }
 
@@ -273,11 +268,8 @@ void GLWidget::paintGL()
         if (showgrid) Draw::drawPlane(sizegrid,solidgrid);
         scene->renderLightsOpenGL();
         scene->drawObjectsOpenGL();
-<<<<<<< HEAD
         if (create) boundingboxes->drawStructure();
             //boundingboxes->box.wireframe();
-=======
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
     }
 
@@ -1153,13 +1145,9 @@ void GLWidget::showViewports(bool b)
 
 void GLWidget::getHBB()
 {
-<<<<<<< HEAD
     create = true;
     boundingboxes = new HBB(scene->objects,0);
     updateGL();
-=======
-    boundingboxes = new HBB(scene->objects,0);
->>>>>>> 490f827284db0ec9110c12375bcf57acbf56b06a
 
 }
 
