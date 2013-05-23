@@ -89,7 +89,7 @@
            <item row="0" column="0">
             <widget class="QTabWidget" name="tabWidget_2">
              <property name="currentIndex">
-              <number>0</number>
+              <number>1</number>
              </property>
              <widget class="QWidget" name="tab_3">
               <attribute name="title">
@@ -3821,8 +3821,8 @@ QGroupBox{
    <slot>updadePositionCamera()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>844</x>
-     <y>130</y>
+     <x>839</x>
+     <y>138</y>
     </hint>
     <hint type="destinationlabel">
      <x>5</x>
@@ -3837,8 +3837,8 @@ QGroupBox{
    <slot>updadePositionCamera()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>964</x>
-     <y>130</y>
+     <x>962</x>
+     <y>138</y>
     </hint>
     <hint type="destinationlabel">
      <x>6</x>
@@ -3869,8 +3869,8 @@ QGroupBox{
    <slot>updadePositionCamera()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>851</x>
-     <y>171</y>
+     <x>849</x>
+     <y>179</y>
     </hint>
     <hint type="destinationlabel">
      <x>5</x>
@@ -3917,8 +3917,8 @@ QGroupBox{
    <slot>updadePositionCamera()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>849</x>
-     <y>213</y>
+     <x>846</x>
+     <y>221</y>
     </hint>
     <hint type="destinationlabel">
      <x>4</x>
@@ -3933,8 +3933,8 @@ QGroupBox{
    <slot>updadePositionCamera()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>968</x>
-     <y>213</y>
+     <x>967</x>
+     <y>221</y>
     </hint>
     <hint type="destinationlabel">
      <x>5</x>
@@ -4013,8 +4013,8 @@ QGroupBox{
    <slot>testeRayCasting()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>145</x>
-     <y>318</y>
+     <x>1076</x>
+     <y>366</y>
     </hint>
     <hint type="destinationlabel">
      <x>29</x>
@@ -4049,8 +4049,8 @@ QGroupBox{
      <y>60</y>
     </hint>
     <hint type="destinationlabel">
-     <x>145</x>
-     <y>318</y>
+     <x>850</x>
+     <y>365</y>
     </hint>
    </hints>
   </connection>
@@ -4061,8 +4061,8 @@ QGroupBox{
    <slot>setMaxProgress()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>145</x>
-     <y>318</y>
+     <x>1076</x>
+     <y>366</y>
     </hint>
     <hint type="destinationlabel">
      <x>952</x>
@@ -4077,8 +4077,8 @@ QGroupBox{
    <slot>setObject(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>1077</x>
-     <y>592</y>
+     <x>986</x>
+     <y>595</y>
     </hint>
     <hint type="destinationlabel">
      <x>636</x>
@@ -4141,12 +4141,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>145</x>
-     <y>208</y>
+     <x>868</x>
+     <y>211</y>
     </hint>
     <hint type="destinationlabel">
-     <x>145</x>
-     <y>208</y>
+     <x>1039</x>
+     <y>211</y>
     </hint>
    </hints>
   </connection>
@@ -4157,12 +4157,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>145</x>
-     <y>208</y>
+     <x>867</x>
+     <y>238</y>
     </hint>
     <hint type="destinationlabel">
-     <x>145</x>
-     <y>208</y>
+     <x>1039</x>
+     <y>238</y>
     </hint>
    </hints>
   </connection>
@@ -4173,12 +4173,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>145</x>
-     <y>208</y>
+     <x>868</x>
+     <y>265</y>
     </hint>
     <hint type="destinationlabel">
-     <x>145</x>
-     <y>208</y>
+     <x>1039</x>
+     <y>265</y>
     </hint>
    </hints>
   </connection>
@@ -4189,12 +4189,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>145</x>
-     <y>208</y>
+     <x>1039</x>
+     <y>211</y>
     </hint>
     <hint type="destinationlabel">
-     <x>145</x>
-     <y>208</y>
+     <x>868</x>
+     <y>211</y>
     </hint>
    </hints>
   </connection>
@@ -4205,12 +4205,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>145</x>
-     <y>208</y>
+     <x>1039</x>
+     <y>238</y>
     </hint>
     <hint type="destinationlabel">
-     <x>145</x>
-     <y>208</y>
+     <x>867</x>
+     <y>238</y>
     </hint>
    </hints>
   </connection>
@@ -4221,12 +4221,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>145</x>
-     <y>208</y>
+     <x>1039</x>
+     <y>265</y>
     </hint>
     <hint type="destinationlabel">
-     <x>145</x>
-     <y>208</y>
+     <x>868</x>
+     <y>265</y>
     </hint>
    </hints>
   </connection>
@@ -4253,12 +4253,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>771</x>
+     <y>534</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>790</x>
+     <y>558</y>
     </hint>
    </hints>
   </connection>
@@ -4269,12 +4269,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>790</x>
+     <y>558</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>771</x>
+     <y>534</y>
     </hint>
    </hints>
   </connection>
@@ -4285,12 +4285,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>846</x>
+     <y>558</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>826</x>
+     <y>534</y>
     </hint>
    </hints>
   </connection>
@@ -4301,12 +4301,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>826</x>
+     <y>534</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>846</x>
+     <y>558</y>
     </hint>
    </hints>
   </connection>
@@ -4317,12 +4317,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>882</x>
+     <y>534</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>901</x>
+     <y>558</y>
     </hint>
    </hints>
   </connection>
@@ -4333,12 +4333,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>901</x>
+     <y>558</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>882</x>
+     <y>534</y>
     </hint>
    </hints>
   </connection>
@@ -4349,12 +4349,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>972</x>
+     <y>558</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>953</x>
+     <y>534</y>
     </hint>
    </hints>
   </connection>
@@ -4365,12 +4365,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>953</x>
+     <y>534</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>972</x>
+     <y>558</y>
     </hint>
    </hints>
   </connection>
@@ -4381,12 +4381,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1008</x>
+     <y>534</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1027</x>
+     <y>558</y>
     </hint>
    </hints>
   </connection>
@@ -4397,12 +4397,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1027</x>
+     <y>558</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1008</x>
+     <y>534</y>
     </hint>
    </hints>
   </connection>
@@ -4413,12 +4413,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1063</x>
+     <y>534</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1082</x>
+     <y>558</y>
     </hint>
    </hints>
   </connection>
@@ -4429,12 +4429,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1082</x>
+     <y>558</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1063</x>
+     <y>534</y>
     </hint>
    </hints>
   </connection>
@@ -4449,8 +4449,8 @@ QGroupBox{
      <y>361</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1047</x>
+     <y>370</y>
     </hint>
    </hints>
   </connection>
@@ -4461,8 +4461,8 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1047</x>
+     <y>370</y>
     </hint>
     <hint type="destinationlabel">
      <x>829</x>
@@ -4477,12 +4477,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1047</x>
+     <y>398</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>990</x>
+     <y>399</y>
     </hint>
    </hints>
   </connection>
@@ -4493,12 +4493,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>990</x>
+     <y>399</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1047</x>
+     <y>398</y>
     </hint>
    </hints>
   </connection>
@@ -4509,12 +4509,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>990</x>
+     <y>427</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1047</x>
+     <y>426</y>
     </hint>
    </hints>
   </connection>
@@ -4525,12 +4525,12 @@ QGroupBox{
    <slot>setValue(int)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>829</x>
-     <y>361</y>
+     <x>1047</x>
+     <y>426</y>
     </hint>
     <hint type="destinationlabel">
-     <x>829</x>
-     <y>361</y>
+     <x>990</x>
+     <y>427</y>
     </hint>
    </hints>
   </connection>

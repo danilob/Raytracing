@@ -182,6 +182,10 @@ void RayIntersection::rayCylinderIntersection(Mesh *mesh,Matrix4x4 transform, Ra
 
 }
 
+void RayIntersection::rayConeIntersection(Mesh *mesh, Matrix4x4 transform, Ray ray, Object *obj)
+{
+}
+
 void RayIntersection::raySphereIntersection(Mesh *mesh, Matrix4x4 transform, Ray ray,Object *obj)
 {
 

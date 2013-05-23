@@ -364,6 +364,7 @@ Vec4 PontualLight::calculateColor(Vec4 pit, Vec4 n,Vec4 viewer, Material *m,Vec4
         //calculo da contribuição difusa
         //Vec4 position(position_light->x1,position_light->x2,position_light->x3);
         //Vec4 position = this->randLight();
+        if ((position-pit).unitary()*n<=0) return Vec4();
         Vec4 l = (position-pit)/(position-pit).module();
         float fator = fmax((n*l)/(n.module()*l.module()),0);
         Vec4 Diffuse;

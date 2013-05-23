@@ -75,7 +75,7 @@ void RayTracing::rayTracing(GLubyte *pixels)
     notintersect = 0;
     intersect = 0;
     int count = 0;
-    int soft = 100;
+    int soft = 20;
     double ti,tf,tempo; // ti = tempo inicial // tf = tempo final
       ti = tf = tempo = 0;
       timeval tempo_inicio,tempo_fim;

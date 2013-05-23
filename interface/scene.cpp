@@ -75,6 +75,15 @@ void Scene::pushObjects(int define,int material)
         objects.push_back(cylinder);
         break;
     }
+    case BLOCK_CONE:{
+        Cone *cone = new Cone();
+        t.scale(3,3,3);
+        cone->setName("Cone");
+        cone->setTransform(t);
+        cone->setMaterial(material);
+        objects.push_back(cone);
+        break;
+    }
     case PLANALTO:{
 
 
@@ -816,14 +825,14 @@ void Scene::addObject(int type)
     case BLOCK_CUBE:{
         Cube *cube = new Cube();
         cube->setName("Cubo");
-        cube->setMaterial(0);
+        cube->setMaterial(MATERIAL_SILVER);
         objects.push_back(cube);
         break;
     }
     case BLOCK_PRISM:{
         Prism *prism = new Prism();
         prism->setName("Prisma");
-        prism->setMaterial(0);
+        prism->setMaterial(MATERIAL_SILVER);
         objects.push_back(prism);
         break;
     }
@@ -831,21 +840,28 @@ void Scene::addObject(int type)
     case BLOCK_HEMISPHERE:{
         HemiSphere *hemisphere = new HemiSphere();
         hemisphere->setName("Semi-Esfera");
-        hemisphere->setMaterial(0);
+        hemisphere->setMaterial(MATERIAL_SILVER);
         objects.push_back(hemisphere);
         break;
     }
     case BLOCK_SPHERE:{
         Sphere *sphere = new Sphere();
         sphere->setName("Esfera");
-        sphere->setMaterial(0);
+        sphere->setMaterial(MATERIAL_SILVER);
         objects.push_back(sphere);
+        break;
+    }
+    case BLOCK_CONE:{
+        Cone *cone = new Cone();
+        cone->setName("Cone");
+        cone->setMaterial(MATERIAL_SILVER);
+        objects.push_back(cone);
         break;
     }
     case BLOCK_PLANE:{
             Plane *plane = new Plane();
             plane->setName("Plano");
-            plane->setMaterial(5);
+            plane->setMaterial(MATERIAL_SILVER);
             objects.push_back(plane);
             break;
         }
@@ -853,7 +869,7 @@ void Scene::addObject(int type)
     case BLOCK_CYLINDER:{
         Cylinder *cylinder = new Cylinder();
         cylinder->setName("Cilindro");
-        cylinder->setMaterial(0);
+        cylinder->setMaterial(MATERIAL_SILVER);
         objects.push_back(cylinder);
         break;
     }

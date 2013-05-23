@@ -7,6 +7,7 @@
 #include "block/hemisphere.h"
 #include "block/cylinder.h"
 #include "block/plane.h"
+#include "block/cone.h"
 #include "block/sphere.h"
 #include "structure/light.h"
 
@@ -17,6 +18,7 @@
 #define PLANALTO          4
 #define BLOCK_PLANE       5
 #define BLOCK_SPHERE      6
+#define BLOCK_CONE        7
 
 
 
