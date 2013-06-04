@@ -3,83 +3,96 @@
 HemiSphere::HemiSphere()
 {
 
-    for(int i=0;i<(STACKS*SLICES+1);i++) vertexs[i] = initvertexs[i] = Vec4();
-    double radius = 1.0;
-    double alpha = 2*M_PI / STACKS;
-    double beta = M_PI_2 / SLICES;
-    for (int i = SLICES;i>0;i--){
-        double  ratio_radius = sqrt((pow(radius,2)-pow(sin(beta*(i-1))*radius,2)));
-        for(int j=0;j<STACKS;j++){
-            vertexs[j+(STACKS*(SLICES-i))].setVec4(cos(alpha*j)*ratio_radius,sin(beta*(i-1))*radius,sin(alpha*j)*ratio_radius);
-            initvertexs[j+(STACKS*(SLICES-i))] = vertexs[j+(STACKS*(SLICES-i))];
-            normals[j+(STACKS*(SLICES-i))] = Vec4(vertexs[j+(STACKS*(SLICES-i))]).unitary();
-            initnormals[j+(STACKS*(SLICES-i))] = normals[j+(STACKS*(SLICES-i))];
+    float radius = 1.0;
+    double alpha = M_PI / STACKS;
+    double beta = 2*M_PI / SLICES;
+
+    //vertexs[0] = Vec4(0.0,radius,0.0);
+    for (int i = 0;i<=STACKS/2;i++){
+        double  ratio_radius = sin(alpha*(i+1));
+        for(int j=0;j<SLICES;j++){
+            vertexs[i*SLICES+(j+1)].setVec4(cos(beta*j)*ratio_radius,cos(alpha*(i+1)),sin(beta*j)*ratio_radius);
+            initvertexs[i*SLICES+(j+1)] = vertexs[i*SLICES+(j+1)];
+            normals[i*SLICES+(j+1)] = Vec4(vertexs[i*SLICES+(j+1)]).unitary();
+            initnormals[i*SLICES+(j+1)] = normals[i*SLICES+(j+1)];
         }
     }
-    vertexs[STACKS*SLICES] = Vec4(0.0,radius,0.0);
-    initvertexs[STACKS*SLICES] = vertexs[STACKS*SLICES];
-    normals[STACKS*SLICES] = Vec4(0.0,radius,0.0).unitary();
-    initnormals[STACKS*SLICES] = normals[STACKS*SLICES];
-    normals[(STACKS*SLICES)+1] = Vec4(0.0,-1.0,0.0).unitary();
-    initnormals[STACKS*SLICES+1] = Vec4(0.0,-1.0,0.0).unitary();
+    vertexs[0] = Vec4(0.0,radius,0.0);
+    initvertexs[0] = Vec4(0.0,radius,0.0);
+    normals[SLICES*STACKS+1] = Vec4(0,-radius,0).unitary();
+    initnormals[SLICES*STACKS+1] = Vec4(0,-radius,0).unitary();
+
+    normals[SLICES*STACKS+2] = Vec4(0,-1,0);
+    normals[SLICES*STACKS+2] = Vec4(0,-1,0);
+//    vertexs[SLICES*(STACKS)+1] = Vec4(0.0,radius,0.0);
+//    initvertexs[SLICES*(STACKS)+1] = Vec4(0.0,radius,0.0);
+    //normals[SLICES*(STACKS/2)+1] = Vec4(0,-1,0);
+    //initnormals[SLICES*(STACKS/2)+1] = Vec4(0,-1,0);
     transform.setIdentity();
     mesh = new Mesh();
-
-    Face face[(STACKS*SLICES)+(STACKS+1)];
+    //vertexs[SLICES*STACKS]
+    Face face[((STACKS/2)*SLICES)+1];
     //desenho da lateral do hemisferio
-    for(int i=SLICES-1;i>0;i--){
-        for(int j=0;j<STACKS;j++){
-        if(j<STACKS-1){
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i))]);
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i-1))]);
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i-1))+1]);
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i))+1]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i))]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i-1))]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i))+1]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i-1)+1)]);
-        }else{
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i))]);
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i-1))]);
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[STACKS+((j+1)*(SLICES-i-2))]);
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[STACKS+((j+1)*(SLICES-i-1))]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i))]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i-1))]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[STACKS+((j+1)*(SLICES-i-2))]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[STACKS+((j+1)*(SLICES-i-1))]);
+    for(int i=0;i<=STACKS/2;i++){
+        for(int j=0;j<SLICES;j++){
+            if(i==0){
+                if ((j+1)!=SLICES){
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[0]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(j+1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(j+2)]);
+
+                    face[i*SLICES+j].normals.push_back(&normals[SLICES*STACKS+1]);
+                    face[i*SLICES+j].normals.push_back(&normals[(j+1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[(j+2)]);
+
+                }else{
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[0]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(j+1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(SLICES-j)]);
+
+                    face[i*SLICES+j].normals.push_back(&normals[SLICES*STACKS+1]);
+                    face[i*SLICES+j].normals.push_back(&normals[(j+1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[(SLICES-j)]);
+
+                }
+
+            }else if((i+1)==1+STACKS/2){
+                for(int k=0;k<SLICES;k++) face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*SLICES+(k+1)]);
+                face[i*SLICES+j].normals.push_back(&normals[SLICES*STACKS+2]);
+                mesh->faces.push_back(face[i*SLICES+j]);
+                break;
+
+            }else{
+                if ((j+1)!=SLICES){
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*SLICES+(j+1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[i*SLICES+(j+1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[i*SLICES+(j+2)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*SLICES+(j+2)]);
+
+                    face[i*SLICES+j].normals.push_back(&normals[(i-1)*SLICES+(j+1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[i*SLICES+(j+1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[i*SLICES+(j+2)]);
+                    face[i*SLICES+j].normals.push_back(&normals[(i-1)*SLICES+(j+2)]);
+                }else{
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*SLICES+(j+1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[i*SLICES+(j+1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[i*SLICES+(1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*SLICES+(1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[(i-1)*SLICES+(j+1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[i*SLICES+(j+1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[i*SLICES+(1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[(i-1)*SLICES+(1)]);
+                }
+
+            }
+
+            mesh->faces.push_back(face[i*SLICES+j]);
+
         }
-        mesh->faces.push_back(face[j+(STACKS*(SLICES-i))]);
-        }
+
+
+
     }
-    //desenho do fundo da esfera
-
-    for(int j=0;j<STACKS;j++){
-        if(j<STACKS-1){
-            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[STACKS*SLICES]);
-            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[j+1]);
-            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[j]);
-            face[j+(STACKS*(SLICES))].normals.push_back(&normals[STACKS*SLICES]);
-            face[j+(STACKS*(SLICES))].normals.push_back(&normals[j+1]);
-            face[j+(STACKS*(SLICES))].normals.push_back(&normals[j]);
-
-        }else{
-            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[j]);
-            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[STACKS*SLICES]);
-            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[0]);
-            face[j+(STACKS*(SLICES))].normals.push_back(&normals[j]);
-            face[j+(STACKS*(SLICES))].normals.push_back(&normals[STACKS*SLICES]);
-            face[j+(STACKS*(SLICES))].normals.push_back(&normals[0]);
-
-        }
-        mesh->faces.push_back(face[j+(STACKS*(SLICES))]);
-    }
-
-    for(int i=0;i<STACKS;i++){
-        face[(STACKS*SLICES)+STACKS].vertexs.push_back(&vertexs[i+STACKS*(SLICES-1)]);
-        if (i==0)
-            face[(STACKS*SLICES)+STACKS].normals.push_back(&normals[(STACKS*SLICES)+1]);
-    }
-    mesh->faces.push_back(face[(STACKS*SLICES)+STACKS]);
 
     enabled = true;
     selected = false;
@@ -92,13 +105,11 @@ void HemiSphere::draw()
     refreshNormals();
 
     mesh->draw();
-    //this->//boundingBox().wireframe();
+
     }
     if (selected){
+        Draw::drawSelection(getMax(),getMin());
 
-        glColor3f(1,1,1);
-        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-        mesh->draw();
 
     }
 
@@ -136,18 +147,16 @@ void HemiSphere::setIdentityTransform()
 
 void HemiSphere::refreshNormals()
 {
-    for (int i = SLICES;i>0;i--){
-
-        for(int j=0;j<STACKS;j++){
-
-            vertexs[j+(STACKS*(SLICES-i))] = transform.transpose().vector(initvertexs[j+(STACKS*(SLICES-i))]);
-            normals[j+(STACKS*(SLICES-i))] = transform.transform_normal_ray(transform,initnormals[j+(STACKS*(SLICES-i))]).unitary();
+    for (int i = 0;i<=(STACKS/2);i++){
+        for(int j=0;j<SLICES;j++){
+            vertexs[i*SLICES+(j+1)] = transform.transpose().vector(initvertexs[i*SLICES+(j+1)]);
+            normals[i*SLICES+(j+1)] = transform.transform_normal_ray(transform,initnormals[i*SLICES+(j+1)]).unitary()*(-1);
         }
     }
-
-    vertexs[STACKS*SLICES] = transform.transpose().vector(initvertexs[STACKS*SLICES]);
-    normals[STACKS*SLICES] = transform.transform_normal_ray(transform,initnormals[STACKS*SLICES]).unitary();
-    normals[STACKS*SLICES+1] = transform.transform_normal_ray(transform,initnormals[STACKS*SLICES+1]).unitary();
+    vertexs[0] = transform.transpose().vector(initvertexs[0]);
+    //vertexs[(STACKS/2)*SLICES+1] = transform.transpose().vector(initvertexs[(STACKS/2)*SLICES+1]);
+    normals[SLICES*STACKS+1] = transform.transform_normal_ray(transform,initnormals[SLICES*STACKS+1]).unitary();
+    normals[(STACKS*SLICES)+2] = transform.transform_normal_ray(transform,initnormals[(STACKS*SLICES)+2]).unitary();
 }
 
 void HemiSphere::setMaterial(int material)
@@ -244,6 +253,15 @@ QString HemiSphere::saveObject()
     parameters = transform.getRotationSeted();
     obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
     obj += aux.sprintf("%d ",this->getIdMaterial());
+    parameters = this->getMesh()->getMaterialM()->getAmbiente();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    parameters = this->getMesh()->getMaterialM()->getDiffuse();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    parameters = this->getMesh()->getMaterialM()->getSpecular();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getShininess());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getReflection());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getRefraction());
     if (this->enabled)
         obj += "t ";
     else
@@ -262,7 +280,7 @@ Vec4 HemiSphere::getMin()
 
     refreshVertexs();
     float pmin[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
-    for (int i=1;i<(SLICES*STACKS+1);i++){
+    for (int i=1;i<(SLICES*STACKS/2+1);i++){
         if(pmin[0]>=vertexs[i].x1) pmin[0] = vertexs[i].x1;
         if(pmin[1]>=vertexs[i].x2) pmin[1] = vertexs[i].x2;
         if(pmin[2]>=vertexs[i].x3) pmin[2] = vertexs[i].x3;
@@ -278,7 +296,7 @@ Vec4 HemiSphere::getMax()
     refreshVertexs();
     float pmax[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
 
-    for (int i=1;i<(SLICES*STACKS+1);i++){
+    for (int i=1;i<(SLICES*STACKS/2+1);i++){
 
         if(pmax[0]<=vertexs[i].x1) pmax[0] = vertexs[i].x1;
         if(pmax[1]<=vertexs[i].x2) pmax[1] = vertexs[i].x2;
@@ -296,28 +314,21 @@ Cube HemiSphere::boundingBox()
 
 Vec4 HemiSphere::getCenter()
 {
-    Vec4 center = Vec4();
-    refreshVertexs();
-    int count = 1;
-    for (int i = SLICES;i>0;i--){
-        for(int j=0;j<STACKS;j++){
-            center = center+transform.transpose().vector(initvertexs[j+(STACKS*(SLICES-i))]);
-            count++;
-        }
-    }
+    return (getMax()+getMin())/2;
 
-    center = center + transform.transpose().vector(initvertexs[STACKS*SLICES]);
-    return center/count;
+
+
 }
 
 Vec4 HemiSphere::refreshVertexs()
 {
-    for (int i = SLICES;i>0;i--){
-        for(int j=0;j<STACKS;j++){
-            vertexs[j+(STACKS*(SLICES-i))] = transform.transpose().vector(initvertexs[j+(STACKS*(SLICES-i))]);
-        }
-    }
+    refreshNormals();
+//    for (int i = SLICES;i>0;i--){
+//        for(int j=0;j<STACKS;j++){
+//            vertexs[j+(STACKS*(SLICES-i))] = transform.transpose().vector(initvertexs[j+(STACKS*(SLICES-i))]);
+//        }
+//    }
 
-    vertexs[STACKS*SLICES] = transform.transpose().vector(initvertexs[STACKS*SLICES]);
+//    vertexs[STACKS*SLICES] = transform.transpose().vector(initvertexs[STACKS*SLICES]);
 }
 

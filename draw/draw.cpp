@@ -10,12 +10,13 @@ void Draw::drawPlane(int size, bool solid, bool texture)
 {
 
     if(!solid){
+        glLineWidth(0.7);
         glDisable(GL_LIGHTING);
         glPushMatrix();
         glColor3f(0.5,0.5,0.5);
         glBegin(GL_LINES);
-        for(int i=-size;i<=size;i++){
-            for(int j=size;j>=-size;j--){
+        for(int i=-size;i<=size;i+=2){
+            for(int j=size;j>=-size;j-=2){
                 glVertex3f(i,0,j);
                 glVertex3f(i,0,-j);
                 glVertex3f(i,0,j);
@@ -119,4 +120,101 @@ void Draw::drawPoint(Vec4 v,int size, Vec4 color)
     glEnd();
     glPointSize(1);
     glEnable(GL_LIGHTING);
+}
+
+void Draw::drawSelection(Vec4 max, Vec4 min)
+{
+    Vec4 center = (max+min)/2.0;
+    //float diag = (max - center).module();
+    float h    = (max - Vec4(max.x(),center.y(),max.z())).module(); //eixo y
+    float c    = (Vec4(max.x(),center.y(),center.z())-Vec4(max.x(),center.y(),max.z())).module(); //eixo z
+    float l    = (center - Vec4(max.x(),center.y(),center.z())).module(); //eixo x
+
+    float less  = fmin(fmin(h,c),l)*0.5;
+    glColor3f(1,1,1);
+    glDisable(GL_LIGHTING);
+    glBegin(GL_LINES);
+        //canto maximo
+        glVertex3f(max.x(),max.y(),max.z());
+        glVertex3f(max.x(),max.y(),max.z()-less);
+
+        glVertex3f(max.x(),max.y(),max.z());
+        glVertex3f(max.x()-less,max.y(),max.z());
+
+        glVertex3f(max.x(),max.y(),max.z());
+        glVertex3f(max.x(),max.y()-less,max.z());
+        //canto minimo
+        glVertex3f(min.x(),min.y(),min.z());
+        glVertex3f(min.x(),min.y(),min.z()+less);
+
+        glVertex3f(min.x(),min.y(),min.z());
+        glVertex3f(min.x(),min.y()+less,min.z());
+
+        glVertex3f(min.x(),min.y(),min.z());
+        glVertex3f(min.x()+less,min.y(),min.z());
+
+        //canto baixo
+        glVertex3f(max.x(),min.y(),min.z());
+        glVertex3f(max.x(),min.y()+less,min.z());
+
+        glVertex3f(max.x(),min.y(),min.z());
+        glVertex3f(max.x(),min.y(),min.z()+less);
+
+        glVertex3f(max.x(),min.y(),min.z());
+        glVertex3f(max.x()-less,min.y(),min.z());
+
+        //canto baixo
+        glVertex3f(max.x(),min.y(),max.z());
+        glVertex3f(max.x(),min.y()+less,max.z());
+
+        glVertex3f(max.x(),min.y(),max.z());
+        glVertex3f(max.x(),min.y(),max.z()-less);
+
+        glVertex3f(max.x(),min.y(),max.z());
+        glVertex3f(max.x()-less,min.y(),max.z());
+
+        //canto baixo
+        glVertex3f(min.x(),min.y(),max.z());
+        glVertex3f(min.x(),min.y(),max.z()-less);
+
+        glVertex3f(min.x(),min.y(),max.z());
+        glVertex3f(min.x(),min.y()+less,max.z());
+
+        glVertex3f(min.x(),min.y(),max.z());
+        glVertex3f(min.x()+less,min.y(),max.z());
+
+        //canto cima
+        glVertex3f(max.x(),max.y(),min.z());
+        glVertex3f(max.x(),max.y()-less,min.z());
+
+        glVertex3f(max.x(),max.y(),min.z());
+        glVertex3f(max.x()-less,max.y(),min.z());
+
+        glVertex3f(max.x(),max.y(),min.z());
+        glVertex3f(max.x(),max.y(),min.z()+less);
+
+        //canto cima
+        glVertex3f(min.x(),max.y(),max.z());
+        glVertex3f(min.x(),max.y(),max.z()-less);
+
+        glVertex3f(min.x(),max.y(),max.z());
+        glVertex3f(min.x(),max.y()-less,max.z());
+
+        glVertex3f(min.x(),max.y(),max.z());
+        glVertex3f(min.x()+less,max.y(),max.z());
+
+        //canto cima
+        glVertex3f(min.x(),max.y(),min.z());
+        glVertex3f(min.x()+less,max.y(),min.z());
+
+        glVertex3f(min.x(),max.y(),min.z());
+        glVertex3f(min.x(),max.y(),min.z()+less);
+
+        glVertex3f(min.x(),max.y(),min.z());
+        glVertex3f(min.x(),max.y()-less,min.z());
+
+    glEnd();
+    glEnable(GL_LIGHTING);
+    return;
+
 }

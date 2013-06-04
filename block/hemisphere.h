@@ -4,7 +4,7 @@
 #include "structure/mesh.h"
 #include "math/matrix4x4.h"
 #include "cube.h"
-#define SLICES 20 //linhas horizontais
+#define SLICES 40 //linhas horizontais
 #define STACKS 40 //linhas verticais
 
 class HemiSphere: public Object
@@ -14,7 +14,7 @@ public:
     Vec4 vertexs[(SLICES*STACKS)+1];
     Vec4 initvertexs[(SLICES*STACKS)+1];
     Vec4 normals[(SLICES*STACKS)+2];
-    Vec4 initnormals[(SLICES*STACKS)+1];
+    Vec4 initnormals[(SLICES*STACKS)+2];
     Matrix4x4 transform;
     QString name;
     bool enabled;

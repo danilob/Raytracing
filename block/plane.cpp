@@ -203,6 +203,15 @@ QString Plane::saveObject()
     parameters = transform.getRotationSeted();
     obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
     obj += aux.sprintf("%d ",this->getIdMaterial());
+    parameters = this->getMesh()->getMaterialM()->getAmbiente();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    parameters = this->getMesh()->getMaterialM()->getDiffuse();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    parameters = this->getMesh()->getMaterialM()->getSpecular();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getShininess());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getReflection());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getRefraction());
     if (this->enabled)
         obj += "t ";
     else

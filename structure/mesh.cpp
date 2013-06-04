@@ -10,7 +10,13 @@ Mesh::Mesh()
 //    displayListIdNormalVertex = -1;
     //typematerial = new Material;
     id_material = 0;
+    material = new Material(Vec4(),Vec4(),Vec4(),0.5);
 
+}
+
+Mesh::~Mesh()
+{
+    delete material;
 }
 
 void Mesh::draw()
@@ -32,32 +38,30 @@ void Mesh::draw()
 
 
      // setMaterial(0);
-      setMaterials();
+      //setMaterials();
+      material->setMaterialOpenGL();
       //glColor3f(0.2,0.2,0.2);
       //GLfloat yellow[] = {0.5f, 0.5f, 0.5f, 1.0f};
       //glMaterialfv(GL_FRONT, GL_AMBIENT_AND_DIFFUSE, yellow);
       //glMultMatrixd(transform.getMatrix());
-        for(unsigned int i=0;i<faces.size();i++){
-            //glColor3f(0.5,0.5,0.5);
-            //glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
-            //drawNormalFace(faces[i]);
-            if(faces[i].normals.size()==1){
-                glNormal3fv(&faces[i].normals[0]->x1);
-            }
-            glBegin(GL_POLYGON);
-            if(faces[i].normals.size()<=1){
+      for(unsigned int i=0;i<faces.size();i++){
+          //glColor3f(0.5,0.5,0.5);
+          //glColorMaterial ( GL_FRONT_AND_BACK, GL_AMBIENT_AND_DIFFUSE ) ;
+          //drawNormalFace(faces[i]);
 
-                Vec4 n = getNormalFace(faces[i]);
-                glNormal3f(n.x1,n.x2,n.x3);
-            }
-            for(unsigned int j=0;j<faces[i].vertexs.size();j++){
-                if(j<faces[i].normals.size() && faces[i].normals.size()>1){
-                    glNormal3fv(&faces[i].normals[j]->x1);
+          glBegin(GL_POLYGON);
+          if(faces[i].normals.size()==1){
 
-                }
-                glVertex3fv(&faces[i].vertexs[j]->x1);
-            }
-            glEnd();
+              Vec4 n = getNormalFace(faces[i]);
+              glNormal3f(n.x1,n.x2,n.x3);
+          }
+          for(unsigned int j=0;j<faces[i].vertexs.size();j++){
+              if(faces[i].normals.size()>1){
+                  glNormal3fv(&faces[i].normals[j]->x1);
+              }
+              glVertex3fv(&faces[i].vertexs[j]->x1);
+          }
+          glEnd();
 //            glColor3f(1,0,0);
 //            glBegin(GL_LINES);
 //            for(unsigned int j=0;j<faces[i].vertexs.size();j++){
@@ -84,13 +88,20 @@ void Mesh::draw()
 
 void Mesh::setMaterial(int type)
 {
+    if (type!=0) Material::setMaterial(material,type);
+    this->id_material = type;
 
-    id_material = type;
+}
+
+void Mesh::setMaterial(Vec4 amb, Vec4 diff, Vec4 spe, float shini,int val)
+{
+    material->setMaterial(amb,diff,spe,shini);
+    this->id_material = val;
 }
 
 void Mesh::setMaterials()
 {
-   Material::setMaterialOpenGL(id_material);
+   material->setMaterialOpenGL();
 
 }
 
@@ -115,6 +126,11 @@ Vec4 Mesh::getNormalFace(Face face)
 int Mesh::getMaterial()
 {
     return id_material;
+}
+
+Material *Mesh::getMaterialM()
+{
+    return this->material;
 }
 
 void Mesh::drawNormalVertex()
@@ -167,3 +183,32 @@ void Mesh::drawNormalFace(Face face)
     glEnable(GL_LIGHTING);
 }
 
+void Mesh::setRefraction(float value)
+{
+    material->setRefraction(value);
+}
+
+float Mesh::getRefraction()
+{
+    return material->getRefraction();
+}
+
+void Mesh::setReflection(float value)
+{
+    material->setReflection(value);
+}
+
+float Mesh::getReflection()
+{
+    return material->getReflection();
+}
+
+void Mesh::setShininess(float shine)
+{
+    material->setShininess(shine);
+}
+
+float Mesh::getShininess()
+{
+    return material->getShininess();
+}

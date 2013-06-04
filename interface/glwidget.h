@@ -8,6 +8,8 @@
 #include <QKeyEvent>
 #include "scene.h"
 #include "block/hbb.h"
+#include <QGraphicsView>
+#include <QImage>
 class GLWidget : public QGLWidget
 {
     Q_OBJECT
@@ -22,13 +24,14 @@ signals:
     void showObjectSelected(Object *obj);
     void showLightSelected(Light *light);
     void stateSelected(int state);
+    void setProgressRay(int value);
 
 public slots:
     void showGrid(bool b);
     void sizeGrid(int i);
     void solidGrid(bool b);
     void showViewports(bool b);
-    void getHBB();
+    void showHBB(bool s);
 
     void updateCamera(Vec4 eye,Vec4 at,Vec4 up);
     void updateProjectionOut(Vec4 projection);
@@ -51,8 +54,11 @@ public slots:
     void setLightSelectedPosition(Vec4 pos);
     void setLightSelectedAttenuation(Vec4 att);
     void setLightSelectedAngle(int angle);
+    void setLightSelectedAngleInner(int angle);
     void setLightSelectedExponent(int angle);
     void setLightSelectedName(QString s);
+    void setLightSelectedVecA(Vec4 a);
+    void setLightSelectedVecB(Vec4 b);
 
     void setEnabledLightSelected(bool b);
     void setVisibleLightSelected(bool b);
@@ -61,10 +67,16 @@ public slots:
     void setNameObjectSelected(QString s);
     void removeLightSelected();
     void addLight(int val);
+    void setSelectedObject(Object* obj);
+    int  getItemSelected();
 
     Scene* getScene();
     std::vector<Object*> getObjectsScene();
     std::vector<Light*> getLightsScene();
+    //render functions
+    void renderScene(QGraphicsView *qw, int percent,int samples);
+    int numberRays();
+    void setValueProgressRay(int value);
 
 
 
@@ -82,7 +94,7 @@ public:
     bool               showgrid;
     bool               solidgrid;
     bool               showviewports;
-    bool               create;
+    bool               showhbb;
     HBB*               boundingboxes;
 
 

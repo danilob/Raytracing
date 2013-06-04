@@ -30,8 +30,6 @@ bool Functions::saveImage(int width, int height, const std::string &fileName)
     glReadPixels(0, 0, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixels);
 
 
-
-
     //converte para o formato RGB
 
     unsigned char temp;
@@ -63,11 +61,11 @@ bool Functions::saveScene(Scene* scene, QString fileName)
     QFile sFile(fileName);
     QString saida,aux;
     saida = aux.sprintf("%d \n",scene->objects.size());
-    for (int i=0;i<scene->objects.size();i++){
+    for (unsigned int i=0;i<scene->objects.size();i++){
         saida += scene->objects.at(i)->saveObject();
     }
-    saida += aux.sprintf("\n%d\n",scene->lights.size());
-    for (int i=0;i<scene->lights.size();i++){
+    saida += aux.sprintf("\n%d \n",scene->lights.size());
+    for (unsigned int i=0;i<scene->lights.size();i++){
         saida += scene->lights.at(i)->saveLight();
     }
     if(!fileName.isEmpty()){
@@ -100,6 +98,60 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
     file >> obj_count;
     for(int i=0;i<obj_count;i++){
         file >> type;
+        if (type == "e"){
+            float x,y,z;
+            Vec4 aux;
+            file >> x >> y >> z;
+            aux.setVec4(x,y,z);
+            Matrix4x4 transform;
+            //transform.setTranslate(aux);
+            file >> x >> y >> z;
+            //aux.setVec4(x,y,z);
+            transform.scale(x,y,z);
+            file >> x >> y >> z;
+            //aux.setVec4(x,y,z);
+            transform.setRotationZ(z);
+            transform.setRotationY(y);
+            transform.setRotationX(x);
+            transform.setTranslate(aux);
+            int material;
+            file >> material;
+            Cone *cone = new Cone();
+            cone->setTransform(transform);
+            cone->setMaterial(material);
+            file >> x >> y >> z;
+            Vec4 amb = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 diff = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 spe = Vec4(x,y,z);
+            float value;
+            file >> value;
+            float shine = value;
+            cone->getMesh()->setMaterial(amb,diff,spe,shine,material);
+            file >> value;
+            float reflection = value;
+            cone->getMesh()->setReflection(reflection);
+            file >> value;
+            float refraction = value;
+            cone->getMesh()->setRefraction(refraction);
+            char val;
+            file >> val;
+            if (val == 'f')
+                cone->setEnabled(false);
+            else
+                cone->setEnabled(true);
+            file >> val;
+            if (val == 'f')
+                cone->setSelected(false);
+            else
+                cone->setSelected(true);
+            char names[120];
+            file.getline(names,120);
+            //fgets(name,file);
+            cone->setName(QString(names));
+            scene->objects.push_back(cone);
+        }
         if (type == "c"){
             float x,y,z;
             Vec4 aux;
@@ -121,7 +173,22 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             Cube *cube = new Cube();
             cube->setTransform(transform);
             cube->setMaterial(material);
-
+            file >> x >> y >> z;
+            Vec4 amb = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 diff = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 spe = Vec4(x,y,z);
+            float value;
+            file >> value;
+            float shine = value;
+            cube->getMesh()->setMaterial(amb,diff,spe,shine,material);
+            file >> value;
+            float reflection = value;
+            cube->getMesh()->setReflection(reflection);
+            file >> value;
+            float refraction = value;
+            cube->getMesh()->setRefraction(refraction);
             char val;
             file >> val;
             if (val == 'f')
@@ -157,26 +224,41 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             transform.setTranslate(aux);
             int material;
             file >> material;
-            Plane *cylinder = new Plane();
-            cylinder->setTransform(transform);
-            cylinder->setMaterial(material);
-
+            Plane *plane = new Plane();
+            plane->setTransform(transform);
+            plane->setMaterial(material);
+            file >> x >> y >> z;
+            Vec4 amb = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 diff = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 spe = Vec4(x,y,z);
+            float value;
+            file >> value;
+            float shine = value;
+            plane->getMesh()->setMaterial(amb,diff,spe,shine,material);
+            file >> value;
+            float reflection = value;
+            plane->getMesh()->setReflection(reflection);
+            file >> value;
+            float refraction = value;
+            plane->getMesh()->setRefraction(refraction);
             char val;
             file >> val;
             if (val == 'f')
-                cylinder->setEnabled(false);
+                plane->setEnabled(false);
             else
-                cylinder->setEnabled(true);
+                plane->setEnabled(true);
             file >> val;
             if (val == 'f')
-                cylinder->setSelected(false);
+                plane->setSelected(false);
             else
-                cylinder->setSelected(true);
+                plane->setSelected(true);
             char names[120];
             file.getline(names,120);
             //fgets(name,file);
-            cylinder->setName(QString(names));
-            scene->objects.push_back(cylinder);
+            plane->setName(QString(names));
+            scene->objects.push_back(plane);
         }
         else if(type == "s"){
             float x,y,z;
@@ -196,26 +278,41 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             transform.setTranslate(aux);
             int material;
             file >> material;
-            Sphere *cylinder = new Sphere();
-            cylinder->setTransform(transform);
-            cylinder->setMaterial(material);
-
+            Sphere *sphere = new Sphere();
+            sphere->setTransform(transform);
+            sphere->setMaterial(material);
+            file >> x >> y >> z;
+            Vec4 amb = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 diff = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 spe = Vec4(x,y,z);
+            float value;
+            file >> value;
+            float shine = value;
+            sphere->getMesh()->setMaterial(amb,diff,spe,shine,material);
+            file >> value;
+            float reflection = value;
+            sphere->getMesh()->setReflection(reflection);
+            file >> value;
+            float refraction = value;
+            sphere->getMesh()->setRefraction(refraction);
             char val;
             file >> val;
             if (val == 'f')
-                cylinder->setEnabled(false);
+                sphere->setEnabled(false);
             else
-                cylinder->setEnabled(true);
+                sphere->setEnabled(true);
             file >> val;
             if (val == 'f')
-                cylinder->setSelected(false);
+                sphere->setSelected(false);
             else
-                cylinder->setSelected(true);
+                sphere->setSelected(true);
             char names[120];
             file.getline(names,120);
             //fgets(name,file);
-            cylinder->setName(QString(names));
-            scene->objects.push_back(cylinder);
+            sphere->setName(QString(names));
+            scene->objects.push_back(sphere);
         }
         else if(type == "y"){
             float x,y,z;
@@ -238,7 +335,22 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             Cylinder *cylinder = new Cylinder();
             cylinder->setTransform(transform);
             cylinder->setMaterial(material);
-
+            file >> x >> y >> z;
+            Vec4 amb = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 diff = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 spe = Vec4(x,y,z);
+            float value;
+            file >> value;
+            float shine = value;
+            cylinder->getMesh()->setMaterial(amb,diff,spe,shine,material);
+            file >> value;
+            float reflection = value;
+            cylinder->getMesh()->setReflection(reflection);
+            file >> value;
+            float refraction = value;
+            cylinder->getMesh()->setRefraction(refraction);
             char val;
             file >> val;
             if (val == 'f')
@@ -276,7 +388,22 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             Prism *prism = new Prism();
             prism->setTransform(transform);
             prism->setMaterial(material);
-
+            file >> x >> y >> z;
+            Vec4 amb = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 diff = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 spe = Vec4(x,y,z);
+            float value;
+            file >> value;
+            float shine = value;
+            prism->getMesh()->setMaterial(amb,diff,spe,shine,material);
+            file >> value;
+            float reflection = value;
+            prism->getMesh()->setReflection(reflection);
+            file >> value;
+            float refraction = value;
+            prism->getMesh()->setRefraction(refraction);
             char val;
             file >> val;
             if (val == 'f')
@@ -314,7 +441,22 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             HemiSphere *hemi = new HemiSphere();
             hemi->setTransform(transform);
             hemi->setMaterial(material);
-
+            file >> x >> y >> z;
+            Vec4 amb = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 diff = Vec4(x,y,z);
+            file >> x >> y >> z;
+            Vec4 spe = Vec4(x,y,z);
+            float value;
+            file >> value;
+            float shine = value;
+            hemi->getMesh()->setMaterial(amb,diff,spe,shine,material);
+            file >> value;
+            float reflection = value;
+            hemi->getMesh()->setReflection(reflection);
+            file >> value;
+            float refraction = value;
+            hemi->getMesh()->setRefraction(refraction);
             char val;
             file >> val;
             if (val == 'f')
@@ -339,7 +481,6 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
         file >> type;
         char val;
         if (type == "a"){
-
             AmbientLight *ambientelight = new AmbientLight();
             float x,y,z;
             file >> x >> y >> z;
@@ -392,8 +533,49 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             file.getline(names,120);
             pontuallight->setName(names);
             scene->lights.push_back(pontuallight);
+        }else if (type == "r"){
+            AreaLight *arealight = new AreaLight();
+            float x,y,z;
+            file >> x >> y >> z;
+            QColor color;
+            color.setRgb(x*255,y*255,z*255);
+            arealight->setAmbientColor(color);
+            file >> x >> y >> z;
+            color.setRgb(x*255,y*255,z*255);
+            arealight->setSpecularColor(color);
+            file >> x >> y >> z;
+            color.setRgb(x*255,y*255,z*255);
+            arealight->setDiffuseColor(color);
+            file >> x >> y >> z;
+            arealight->setPosition(Vec4(x,y,z));
+            file >> x >> y >> z;
+            arealight->setAttenuation(Vec4(x,y,z));
+            file >> x >> y >> z;
+            arealight->setVecA(Vec4(x,y,z));
+            file >> x >> y >> z;
+            arealight->setVecB(Vec4(x,y,z));
+            file >> val;
+            if(val == 'f')
+                arealight->setEnabled(false);
+            else
+                arealight->setEnabled(true);
+            file >> val;
+            if(val == 'f')
+                arealight->setVisible(false);
+            else
+                arealight->setVisible(true);
+            file >> val;
+            if(val == 'f')
+                arealight->setSelected(false);
+            else
+                arealight->setSelected(true);
+            char names[120];
+            file.getline(names,120);
+            arealight->setName(names);
+            scene->lights.push_back(arealight);
 
-        }else if (type == "d"){
+        }
+        else if (type == "d"){
             DirectionalLight *directionlight = new DirectionalLight();
             float x,y,z;
             file >> x >> y >> z;
@@ -451,9 +633,10 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             file >> var;
             spotlight->setAngle(var);
             file >> var;
+            spotlight->setAngleInner(var);
+            file >> var;
             spotlight->setExponent(var);
             file >> val;
-
             if(val == 'f')
                 spotlight->setEnabled(false);
             else

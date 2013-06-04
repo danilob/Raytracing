@@ -28,7 +28,7 @@ RayIntersection::RayIntersection()
     this->t=INFINITY;
     this->tmin=0;
     this->normal = Vec4(0,0,0);
-    this->material = new Material();
+    //this->material = NULL;
     //this->obj = NULL;
 
 
@@ -73,7 +73,7 @@ void RayIntersection::rayBoxIntersection(Mesh *mesh, Ray ray, Matrix4x4 transfor
                 if (tryInterceptionPointFace(mesh->faces.at(i),ray.positionRay(t_))){
                     this->t = t_;
                     this->normal = n.unitary();
-                    this->material->setMaterial(material,mesh->getMaterial());
+                    this->material = mesh->material;
                     this->obj = obj;
                 }
             }
@@ -94,7 +94,7 @@ void RayIntersection::rayPlanIntersection(Mesh *mesh, Ray ray, Object *obj)
             if (tryInterceptionPointFace(mesh->faces.at(0),ray.positionRay(t_))){
                 this->t = t_;
                 this->normal = n.unitary();
-                this->material->setMaterial(material,mesh->getMaterial());
+                this->material = mesh->material;
                 this->obj = obj;
             }
         }
@@ -175,7 +175,7 @@ void RayIntersection::rayCylinderIntersection(Mesh *mesh,Matrix4x4 transform, Ra
         if (t0<t && t0>tmin){
             t = t0;
             this->normal = n.unitary();
-            this->material->setMaterial(material,mesh->getMaterial());
+            this->material = mesh->material;
             this->obj = obj;
         }
 
@@ -231,7 +231,7 @@ void RayIntersection::raySphereIntersection(Mesh *mesh, Matrix4x4 transform, Ray
     if (t_<t && t_>tmin) {
         this->t = t_;
         this->normal = n.unitary();
-        this->material->setMaterial(material,mesh->getMaterial());
+        this->material = mesh->material;
         this->obj = obj;
     }
 
@@ -282,7 +282,7 @@ void RayIntersection::rayHemiSphereIntersection(Mesh *mesh, Matrix4x4 transform,
     if (t_<t && t_>tmin) {
         this->t = t_;
         this->normal = n.unitary();
-        this->material->setMaterial(material,mesh->getMaterial());
+        this->material = mesh->material;
         this->obj = obj;
     }
 
@@ -292,7 +292,7 @@ void RayIntersection::rayHemiSphereIntersection(Mesh *mesh, Matrix4x4 transform,
 
 RayIntersection::~RayIntersection()
 {
-    delete material;
+    //delete material;
     //delete obj;
 }
 

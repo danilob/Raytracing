@@ -2,6 +2,7 @@
 #define SCENE_H
 #include <vector>
 #include "block/object.h"
+#include "structure/light.h"
 #include "block/cube.h"
 #include "block/prism.h"
 #include "block/hemisphere.h"
@@ -9,7 +10,11 @@
 #include "block/plane.h"
 #include "block/cone.h"
 #include "block/sphere.h"
-#include "structure/light.h"
+#include "structure/ambientlight.h"
+#include "structure/pontuallight.h"
+#include "structure/directionallight.h"
+#include "structure/spotlight.h"
+#include "structure/arealight.h"
 
 #define BLOCK_CUBE        0
 #define BLOCK_CYLINDER    1
@@ -30,6 +35,7 @@ public:
     void pushObjects(Object *obj); //adiciona um objeto na cena
     void pushObjects(int define,int material=0); //carrega objetos para cena de acordo com os defines
     void addObject(int type);
+    void addLight(int type);
     void pushViewer(Vec4 eye,Vec4 at, Vec4 up);
     void pushLights(Light *light);
     //void calculatePixels(GLubyte* pixels,int width,int height);

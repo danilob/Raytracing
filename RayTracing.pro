@@ -1,72 +1,83 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2012-10-13T16:17:40
+# Project created by QtCreator 2013-05-20T18:03:02
 #
 #-------------------------------------------------
 
 QT       += core gui opengl
 
-TARGET = RayTracing
+TARGET = RayTracingFramework
 TEMPLATE = app
 
 
 SOURCES += main.cpp\
         mainwindow.cpp \
-    interface/glwidget.cpp \
-    math/vec4.cpp \
-    block/object.cpp \
-    math/matrix4x4.cpp \
-    block/cube.cpp \
-    block/prism.cpp \
-    block/cylinder.cpp \
-    block/hemisphere.cpp \
-    structure/mesh.cpp \
-    extra/functions.cpp \
-    draw/draw.cpp \
-    math/quaternion.cpp \
-    interface/scene.cpp \
-    structure/light.cpp \
-    extra/material.cpp \
-    interface/castingwidget.cpp \
-    math/ray.cpp \
-    math/raycasting.cpp \
-    math/rayintersection.cpp \
-    block/plane.cpp \
     block/sphere.cpp \
-    math/raytracing.cpp \
+    block/prism.cpp \
+    block/plane.cpp \
+    block/object.cpp \
+    block/hemisphere.cpp \
     block/hbb.cpp \
+    block/cylinder.cpp \
+    block/cube.cpp \
+    draw/draw.cpp \
+    extra/material.cpp \
+    extra/functions.cpp \
     extra/effects.cpp \
-    block/cone.cpp
-
+    interface/scene.cpp \
+    interface/glwidget.cpp \
+    interface/castingwidget.cpp \
+    math/vec4.cpp \
+    math/raytracing.cpp \
+    math/rayintersection.cpp \
+    math/raycasting.cpp \
+    math/ray.cpp \
+    math/quaternion.cpp \
+    math/matrix4x4.cpp \
+    structure/mesh.cpp \
+    structure/light.cpp \
+    block/cone.cpp \
+    structure/ambientlight.cpp \
+    structure/pontuallight.cpp \
+    structure/directionallight.cpp \
+    structure/spotlight.cpp \
+    structure/arealight.cpp
 
 HEADERS  += mainwindow.h \
-    interface/glwidget.h \
-    math/vec4.h \
-    block/object.h \
-    math/matrix4x4.h \
-    block/cube.h \
-    block/prism.h \
-    block/cylinder.h \
-    block/hemisphere.h \
-    structure/mesh.h \
-    extra/functions.h \
-    draw/draw.h \
-    math/quaternion.h \
-    interface/scene.h \
-    structure/light.h \
-    extra/material.h \
-    interface/castingwidget.h \
-    math/ray.h \
-    math/raycasting.h \
-    math/rayintersection.h \
-    block/plane.h \
     block/sphere.h \
-    math/raytracing.h \
+    block/prism.h \
+    block/plane.h \
+    block/object.h \
+    block/hemisphere.h \
     block/hbb.h \
+    block/cylinder.h \
+    block/cube.h \
+    draw/draw.h \
+    extra/material.h \
+    extra/functions.h \
     extra/effects.h \
-    block/cone.h
-
+    interface/scene.h \
+    interface/glwidget.h \
+    interface/castingwidget.h \
+    math/vec4.h \
+    math/raytracing.h \
+    math/rayintersection.h \
+    math/raycasting.h \
+    math/ray.h \
+    math/quaternion.h \
+    math/matrix4x4.h \
+    structure/mesh.h \
+    structure/light.h \
+    block/cone.h \
+    structure/ambientlight.h \
+    structure/pontuallight.h \
+    structure/directionallight.h \
+    structure/spotlight.h \
+    structure/arealight.h
 
 FORMS    += mainwindow.ui
 
-LIBS     += -lGLU -lglut
+LIBS     += -lGLU -lglut -fopenmp
+
+QMAKE_CXXFLAGS += -fopenmp
+QMAKE_LFLAGS += -fopenmp

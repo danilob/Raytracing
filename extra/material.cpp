@@ -2,12 +2,35 @@
 #include <math/vec4.h>
 Material::Material()
 {
-    refl   = 0.0;
-    transp = 0.0;
+    refraction = 0;
+    reflection = 0;
+}
+
+Material::Material(Vec4 amb, Vec4 diff, Vec4 spe, float shininess)
+{
+    this->ambient[0] = amb.x();
+    this->ambient[1] = amb.y();
+    this->ambient[2] = amb.z();
+    this->ambient[3] = 1.0;
+
+    this->diffuse[0] = diff.x();
+    this->diffuse[1] = diff.y();
+    this->diffuse[2] = diff.z();
+    this->diffuse[3] = 1.0;
+
+    this->specular[0] = spe.x();
+    this->specular[1] = spe.y();
+    this->specular[2] = spe.z();
+    this->specular[3] = 1.0;
+
+    this->shininess   = shininess;
+    refraction = 0;
+    reflection = 0;
 }
 
 void Material::setMaterial(Material *mat, int type)
 {
+    if (type==0) return;
     switch (type){
     case MATERIAL_GOLD:{
         mat->ambient[0] = 0.25;
@@ -106,8 +129,6 @@ void Material::setMaterial(Material *mat, int type)
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.6;
-        mat->refl = 0;
-        mat->transp = 0;
         break;
 
     }
@@ -208,8 +229,6 @@ void Material::setMaterial(Material *mat, int type)
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.7;
-        mat->refl   = 1.0;
-        mat->transp = 0.0;
         break;
 
     }
@@ -311,8 +330,6 @@ void Material::setMaterial(Material *mat, int type)
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.1;
-        mat->refl = 0;
-        mat->transp = 0;
 
         break;
 
@@ -334,8 +351,6 @@ void Material::setMaterial(Material *mat, int type)
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.3;
-        mat->transp = 0.0;
-        mat->refl = 0.0;
         break;
 
     }
@@ -376,8 +391,6 @@ void Material::setMaterial(Material *mat, int type)
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.6;
-        mat->transp = 0.0;
-        mat->refl = 0.0;
         break;
 
     }
@@ -419,8 +432,6 @@ void Material::setMaterial(Material *mat, int type)
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.25;
-        mat->refl = 1.0;
-        mat->transp = 0.0;
         break;
 
     }
@@ -441,8 +452,6 @@ void Material::setMaterial(Material *mat, int type)
         mat->diffuse[3] = 1.0;
 
         mat->shininess = 0.078125;
-        mat->transp = 1.0;
-        mat->refl = 0.0;
 
         break;
 
@@ -649,6 +658,8 @@ void Material::setMaterial(Material *mat, int type)
     }
 
     }
+    mat->refraction = 0;
+    mat->reflection = 0;
 }
 
 void Material::setMaterialOpenGL(int type)
@@ -666,6 +677,151 @@ Material* Material::getMaterial(int type)
     Material *mat = new Material();
     setMaterial(mat,type);
     return mat;
+}
+
+void Material::setMaterial(Material *mat, Vec4 amb, Vec4 diff, Vec4 spe, float shini)
+{
+    mat->ambient[0] = amb.x();
+    mat->ambient[1] = amb.y();
+    mat->ambient[2] = amb.z();
+    mat->ambient[3] = 1.0;
+
+    mat->diffuse[0] = diff.x();
+    mat->diffuse[1] = diff.y();
+    mat->diffuse[2] = diff.z();
+    mat->diffuse[3] = 1.0;
+
+    mat->specular[0] = spe.x();
+    mat->specular[1] = spe.y();
+    mat->specular[2] = spe.z();
+    mat->specular[3] = 1.0;
+
+    mat->shininess = shini;
+}
+
+void Material::setMaterial(Vec4 amb, Vec4 diff, Vec4 spe, float shini)
+{
+    this->ambient[0] = amb.x();
+    this->ambient[1] = amb.y();
+    this->ambient[2] = amb.z();
+    this->ambient[3] = 1.0;
+
+    this->diffuse[0] = diff.x();
+    this->diffuse[1] = diff.y();
+    this->diffuse[2] = diff.z();
+    this->diffuse[3] = 1.0;
+
+    this->specular[0] = spe.x();
+    this->specular[1] = spe.y();
+    this->specular[2] = spe.z();
+    this->specular[3] = 1.0;
+    this->shininess = shini;
+}
+
+void Material::setAmbienteMaterial(Vec4 amb)
+{
+    this->ambient[0] = amb.x();
+    this->ambient[1] = amb.y();
+    this->ambient[2] = amb.z();
+    this->ambient[3] = 1.0;
+
+
+}
+
+void Material::setDiffuseMaterial(Vec4 diff)
+{
+
+    this->diffuse[0] = diff.x();
+    this->diffuse[1] = diff.y();
+    this->diffuse[2] = diff.z();
+    this->diffuse[3] = 1.0;
+
+}
+
+void Material::setSpecularMaterial(Vec4 spe)
+{
+
+    this->specular[0] = spe.x();
+    this->specular[1] = spe.y();
+    this->specular[2] = spe.z();
+    this->specular[3] = 1.0;
+}
+
+void Material::setShininess(float shini)
+{
+    this->shininess = shini;
+}
+
+Vec4 Material::getAmbiente()
+{
+    return Vec4(ambient[0],ambient[1],ambient[2],1.0);
+}
+
+Vec4 Material::getDiffuse()
+{
+    return Vec4(diffuse[0],diffuse[1],diffuse[2],1.0);
+}
+
+Vec4 Material::getSpecular()
+{
+    return Vec4(specular[0],specular[1],specular[2],1.0);
+}
+
+float Material::getShininess()
+{
+    return this->shininess;
+}
+
+void Material::setRefraction(float value)
+{
+    refraction = value;
+}
+
+float Material::getRefraction()
+{
+    return refraction;
+}
+
+void Material::setReflection(float value)
+{
+    reflection = value;
+}
+
+float Material::getReflection()
+{
+    return reflection;
+}
+
+QColor Material::getColorAmbienteMaterial()
+{
+    Vec4 colorvec((this->ambient[0]),(this->ambient[1]),(this->ambient[2]));
+    QColor color;
+    color.setRgb(((int)(colorvec.x()*255)%256),((int)(colorvec.y()*255)%256),((int)(colorvec.z()*255)%256));
+    return color;
+}
+
+QColor Material::getColorDiffuseMaterial()
+{
+    Vec4 colorvec((this->diffuse[0]),(this->diffuse[1]),(this->diffuse[2]));
+    QColor color;
+    color.setRgb(((int)(colorvec.x()*255)%256),((int)(colorvec.y()*255)%256),((int)(colorvec.z()*255)%256));
+    return color;
+}
+
+QColor Material::getColorSpecularMaterial()
+{
+    Vec4 colorvec((this->specular[0]),(this->specular[1]),(this->specular[2]));
+    QColor color;
+    color.setRgb(((int)(colorvec.x()*255)%256),((int)(colorvec.y()*255)%256),((int)(colorvec.z()*255)%256));
+    return color;
+}
+
+void Material::setMaterialOpenGL()
+{
+    glMaterialfv(GL_FRONT_AND_BACK, GL_AMBIENT,this->ambient);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_DIFFUSE, this->diffuse);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, this->specular);
+    glMaterialf(GL_FRONT_AND_BACK, GL_SHININESS, this->shininess*128);
 }
 
 QColor Material::getColorMaterial(int type)

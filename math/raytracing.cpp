@@ -6,7 +6,8 @@
 #include "rayintersection.h"
 #include "block/hbb.h"
 #define ERROR 0.001
-#include "interface/castingwidget.h"
+#include "interface/glwidget.h"
+#include <omp.h>
 static int max_depth = 4;
 static float distLight = 0;
 static int intersect =0;
@@ -16,7 +17,7 @@ static int notintersect =0;
 #include <stdlib.h> // RAND_MAX é definido em stdlib.h
 static int depth = 0;
 static bool in = false;
-static bool withhbb = true;
+
 
 #define myrand ((float)(random())/(float)(RAND_MAX) )
 
@@ -26,12 +27,13 @@ RayTracing::RayTracing()
     this->raycast = NULL;
 }
 
-RayTracing::RayTracing(Scene *sc,CastingWidget *rcast,Vec4 color,bool otimized)
+RayTracing::RayTracing(Scene *sc,GLWidget *rcast,Vec4 color,bool otimized)
 {
     this->scene = sc;//
     this->raycast = rcast;
     this->backgroundcolor = color;//
     this->otimized = otimized;
+    withhbb = false;
 }
 
 void RayTracing::setScene(Scene *scene)
@@ -83,52 +85,7 @@ void RayTracing::rayTracing(GLubyte *pixels)
     for(int j=0;j<scene->viewport[1];j++)
         for (int i=0;i<scene->viewport[0];i++){
             Vec4 rays_color;
-            //teste de motion blur
-            Vec4 position0 = scene->objects.at(0)->getMatrixTransformation().getTranslateSeted();
-            Vec4 rotate0 = scene->objects.at(0)->getMatrixTransformation().getRotationSeted();
-            Vec4 scale0 = scene->objects.at(0)->getMatrixTransformation().getScaleSeted();
-
-            Vec4 position1 = scene->objects.at(1)->getMatrixTransformation().getTranslateSeted();
-            Vec4 rotate1 = scene->objects.at(1)->getMatrixTransformation().getRotationSeted();
-            Vec4 scale1 = scene->objects.at(1)->getMatrixTransformation().getScaleSeted();
-
-            Vec4 position2 = scene->objects.at(2)->getMatrixTransformation().getTranslateSeted();
-            Vec4 rotate2 = scene->objects.at(2)->getMatrixTransformation().getRotationSeted();
-            Vec4 scale2 = scene->objects.at(2)->getMatrixTransformation().getScaleSeted();
-
-
             for(int k=0;k<soft;k++){
-                Matrix4x4 new_mat;
-                new_mat.setIdentity();
-                Vec4 nextposition2 = position2+Vec4(0,-2,0);
-                Vec4 newposition2 = position2 + (nextposition2 - position2)*myrand;
-                new_mat.scale(scale2.x(),scale2.y(),scale2.z());
-                new_mat.setRotationX(rotate2.x());
-                new_mat.setRotationY(rotate2.y());
-                new_mat.setRotationZ(rotate2.z());
-                new_mat.setTranslate(newposition2);
-                scene->objects.at(2)->setTransform(new_mat);
-                new_mat.setIdentity();
-                Vec4 nextposition0 = position0+Vec4(0,-2,0);
-                Vec4 newposition0 = position0 + (nextposition0 - position0)*myrand;
-                new_mat.scale(scale0.x(),scale0.y(),scale0.z());
-                new_mat.setRotationX(rotate0.x());
-                new_mat.setRotationY(rotate0.y());
-                new_mat.setRotationZ(rotate0.z());
-                new_mat.setTranslate(newposition0);
-                scene->objects.at(0)->setTransform(new_mat);
-                new_mat.setIdentity();
-                Vec4 nextposition1 = position1+Vec4(0,-1.5,0);
-                Vec4 newposition1 = position1 + (nextposition1- position1)*myrand;
-                new_mat.scale(scale1.x(),scale1.y(),scale1.z());
-                new_mat.setRotationX(rotate1.x());
-                new_mat.setRotationY(rotate1.y());
-                new_mat.setRotationZ(rotate1.z());
-                new_mat.setTranslate(newposition1);
-                scene->objects.at(1)->setTransform(new_mat);
-
-
-
                 float alfa,beta;
                 if(k==0){
                     alfa  = -w/2.0 + deltax/2.0  + i*deltax;
@@ -143,35 +100,13 @@ void RayTracing::rayTracing(GLubyte *pixels)
                 //Ray ray(changetoviewer.transpose().vector(dof.origin),changetoviewer.transpose().vector(dof.direction));
                 Ray ray(changetoviewer.transpose().vector(Vec4(0,0,0)),changetoviewer.transpose().vector(dir));
                 ray.setDirection((ray.direction - ray.origin).unitary());
-
                 rays_color = rays_color + rayIntersection(ray);
                 depth = 0;
                 in = false;
-                new_mat.setIdentity();
-                new_mat.scale(scale0.x(),scale0.y(),scale0.z());
-                new_mat.setRotationX(rotate0.x());
-                new_mat.setRotationY(rotate0.y());
-                new_mat.setRotationZ(rotate0.z());
-                new_mat.setTranslate(position0);
-                scene->objects.at(0)->setTransform(new_mat);
-                new_mat.setIdentity();
-                new_mat.scale(scale1.x(),scale1.y(),scale1.z());
-                new_mat.setRotationX(rotate1.x());
-                new_mat.setRotationY(rotate1.y());
-                new_mat.setRotationZ(rotate1.z());
-                new_mat.setTranslate(position1);
-                scene->objects.at(1)->setTransform(new_mat);
-                new_mat.setIdentity();
-                new_mat.scale(scale2.x(),scale2.y(),scale2.z());
-                new_mat.setRotationX(rotate2.x());
-                new_mat.setRotationY(rotate2.y());
-                new_mat.setRotationZ(rotate2.z());
-                new_mat.setTranslate(position2);
-                scene->objects.at(2)->setTransform(new_mat);
             }
 
             count++;
-            raycast->setValueProgress(count);
+            //raycast->setValueProgress(count);
             rays_color = rays_color / soft;
             color[(scene->viewport[0]*j)+(i)] = rays_color;
 
@@ -192,6 +127,111 @@ void RayTracing::rayTracing(GLubyte *pixels)
     //printf("hits: %d",hit);
 
 }
+void RayTracing::rayTracing(QImage *pixels, int proportion,int samples)
+{
+    srandom(time(NULL));
+    Matrix4x4 changetoviewer;
+    changetoviewer.setIdentity();
+    Vec4 kv,iv,jv,kvl,ivl,jvl;
+    kv = (scene->viewer[0] - scene->viewer[1])/((scene->viewer[0] - scene->viewer[1]).module());
+    iv = (scene->viewer[2] ^ kv)/(scene->viewer[2] ^ kv).module();
+    jv = (kv ^ iv)/(kv ^ iv).module();
+    ivl.setVec4(iv.x1,jv.x1,kv.x1);
+    jvl.setVec4(iv.x2,jv.x2,kv.x2);
+    kvl.setVec4(iv.x3,jv.x3,kv.x3);
+    Vec4 translate(-(iv*scene->viewer[0]),-(jv*scene->viewer[0]),-(kv*scene->viewer[0]));
+
+    changetoviewer.setAxisX(iv);
+    changetoviewer.setAxisY(jv);
+    changetoviewer.setAxisZ(kv);
+    changetoviewer.setTranslate(translate);
+
+    //changetoviewer.showMatrix4x4();
+    //changetoviewer.transpose().vector(Vec4(0,0,0)).showVec4();
+    changetoviewer = changetoviewer.transpose();
+    changetoviewer.setTranslate(scene->viewer[0]);
+
+
+    //Vec4 color[scene->viewport[0]*scene->viewport[1]];
+    int height = (int)(scene->viewport[1]*(proportion/100.0));
+    int width = (int)(scene->viewport[0]*(proportion/100.0));
+
+    float h = 2.0*scene->projection.x3*(tan(M_PI*scene->projection.x1/360.0));
+    float w = h*scene->projection.x2;
+    float deltax = w/width;
+    float deltay = h/height;
+    notintersect = 0;
+    intersect = 0;
+    int count = 0;
+        double ti,tf,tempo; // ti = tempo inicial // tf = tempo final
+          ti = tf = tempo = 0;
+          timeval tempo_inicio,tempo_fim;
+          gettimeofday(&tempo_inicio,NULL);
+    float alfa,beta;
+    omp_set_num_threads(8);
+    int c = (height/omp_get_num_threads()*width);
+    Vec4 dir;
+    Ray ray;
+    QRgb value;
+    Vec4 rays_color = Vec4();
+
+    #pragma omp parallel for schedule(dynamic,c) collapse(3)
+    for(int j=0;j<height;j++){
+        for (int i=0;i<width;i++){
+
+            for(int k=0;k<samples;k++){
+                if(samples==0){
+                    alfa  = -w/2.0 + deltax/2.0  + i*deltax;
+                    beta  = -h/2.0 + deltay/2.0 + j*deltay;
+                }else{
+                    alfa  = -w/2.0 + deltax*myrand  + i*deltax;
+                    beta  = -h/2.0 + deltay*myrand + j*deltay;
+                }
+
+                dir.setVec4(alfa,beta,-scene->projection.x3);
+                //Ray dof = depthOfField(dir,2.0,50);
+                //Ray ray(changetoviewer.transpose().vector(dof.origin),changetoviewer.transpose().vector(dof.direction));
+                ray.setOrigin(changetoviewer.transpose().vector(Vec4(0,0,0)));
+                ray.setDirection(changetoviewer.transpose().vector(dir));
+                ray.setDirection((ray.direction - ray.origin).unitary());
+                #pragma omp reduction(+:rays_color)
+                {
+                rays_color = rays_color + rayIntersection(ray);
+                }
+                depth = 0;
+                in = false;
+                if(samples-1==k){
+//                    #pragma omp atomic
+//                    count++;
+//                    raycast->setValueProgressRay(count);
+               #pragma omp critical
+                    {
+                    rays_color = rays_color / samples;
+                }
+                    //color[(scene->viewport[0]*j)+(i)] = rays_color;
+                    value = qRgb(rays_color.x()*255, rays_color.y()*255,rays_color.z()*255);
+                    pixels->setPixel(i,height-(j+1),value);
+                #pragma omp critical
+                {
+                    rays_color = Vec4();
+                }
+                }
+
+
+            }
+            //#pragma omp barrier
+
+
+        }
+    }
+    gettimeofday(&tempo_fim,NULL);
+      tf = (double)tempo_fim.tv_usec + ((double)tempo_fim.tv_sec * (1000000.0));
+      ti = (double)tempo_inicio.tv_usec + ((double)tempo_inicio.tv_sec * (1000000.0));
+      tempo = (tf - ti)/1000000;
+      printf("Tempo gasto em segundos %.3f\n",tempo);
+
+}
+
 
 
 
@@ -313,15 +353,11 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
 
         Vec4 color = Vec4(0,0,0);
         Vec4 aux = Vec4(0,0,0);
-        int raios = 1;
-        //double fator =1.0;
-        for (int i=1;i<scene->lights.size();i++){
-
-            for (int k=0; k<raios;k++){
+        for (int i=1;i<scene->lights.size();i++){   
                 obj->setEnabled(false);
                 Vec4 l = scene->lights.at(i)->randLight();
                 Vec4 v = (r.direction);
-               if((v*(normal*(-1)))<0.0) normal = normal*(-1);
+                if((v*(normal*(-1)))<0.0) normal = normal*(-1);
 
 
                 distLight = (l - intercept).module();
@@ -337,24 +373,24 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                     }
 
 
-                if(material->refl!=0 && depth<max_depth){
-                    depth++;
-                    aux = aux + (rayIntersection(Ray::rayReflect(intercept,r.direction,normal)))*material->refl;
-                }
-                if(material->transp!=0 && depth<max_depth){
-                    depth++;
-                    float n1 = 1.0;
-                    float n2 = 1.5;
-                    float reflectance = Ray::reflectance(v,normal,n1,n2);
-                    aux = aux  + (rayIntersection(Ray::rayReflect(intercept,r.direction,normal)))*(reflectance);
-                    aux = aux  + (rayIntersection(Ray::rayRefract(intercept,r.direction,normal,n1,n2)))*material->transp*(1-reflectance);//*fabs(1-kr);
-                }
+//                if(material->refl!=0 && depth<max_depth){
+//                    depth++;
+//                    aux = aux + (rayIntersection(Ray::rayReflect(intercept,r.direction,normal)))*material->refl;
+//                }
+//                if(material->transp!=0 && depth<max_depth){
+//                    depth++;
+//                    float n1 = 1.0;
+//                    float n2 = 1.5;
+//                    float reflectance = Ray::reflectance(v,normal,n1,n2);
+//                    aux = aux  + (rayIntersection(Ray::rayReflect(intercept,r.direction,normal)))*(reflectance);
+//                    aux = aux  + (rayIntersection(Ray::rayRefract(intercept,r.direction,normal,n1,n2)))*material->transp*(1-reflectance);//*fabs(1-kr);
+//                }
 
 
                 }
                 obj->setEnabled(true);
 
-            }
+
 
 
             color = color + aux;
@@ -418,6 +454,67 @@ Ray RayTracing::depthOfField(Vec4 pixel,float radius, float distancefocus)
 
 }
 
+Object *RayTracing::objectClicked(Scene *scn, int width, int height)
+{
+    Matrix4x4 changetoviewer;
+    changetoviewer.setIdentity();
+    Vec4 kv,iv,jv,kvl,ivl,jvl;
+    kv = (scn->viewer[0] - scn->viewer[1])/((scn->viewer[0] - scn->viewer[1]).module());
+    iv = (scn->viewer[2] ^ kv)/(scn->viewer[2] ^ kv).module();
+    jv = (kv ^ iv)/(kv ^ iv).module();
+    ivl.setVec4(iv.x1,jv.x1,kv.x1);
+    jvl.setVec4(iv.x2,jv.x2,kv.x2);
+    kvl.setVec4(iv.x3,jv.x3,kv.x3);
+    Vec4 translate(-(iv*scn->viewer[0]),-(jv*scn->viewer[0]),-(kv*scn->viewer[0]));
+
+    changetoviewer.setAxisX(iv);
+    changetoviewer.setAxisY(jv);
+    changetoviewer.setAxisZ(kv);
+    changetoviewer.setTranslate(translate);
+
+    changetoviewer = changetoviewer.transpose();
+    changetoviewer.setTranslate(scn->viewer[0]);
+
+
+
+
+
+    float h = 2.0*scn->projection.x3*(tan(M_PI*scn->projection.x1/360.0));
+    float w = h*scn->projection.x2;
+    float deltax = w/scn->viewport[0];
+    float deltay = h/scn->viewport[1];
+
+    int j = height;
+    int i = width;
+
+
+    float alfa,beta;
+
+    alfa  = -w/2.0 + deltax/2.0  + i*deltax;
+    beta  = -h/2.0 + deltay/2.0 + j*deltay;
+
+
+    Vec4 dir(alfa,beta,-scn->projection.x3);
+    Ray ray(changetoviewer.transpose().vector(Vec4(0,0,0)),changetoviewer.transpose().vector(dir));
+    ray.setDirection((ray.direction - ray.origin).unitary());
+
+    return getObject(ray,scn);
+}
+
+Object* RayTracing::getObject(Ray ray,Scene* scene)
+{
+    RayIntersection *ray_intersection = new RayIntersection();
+    Object *obj = NULL;
+    HBB *hierachicalbb = new HBB(scene->objects,1);
+    //float aux = scene->projection.x4;
+    ray_intersection->t = scene->projection.x4;
+    ray_intersection->tmin = 0;
+    bool hit = hierachicalbb->HBBIntersection(ray_intersection,ray,obj);
+    if (hit) return ray_intersection->obj;
+    //delete hierachicalbb;
+    return NULL;
+
+}
 
 RayTracing::~RayTracing()
 {

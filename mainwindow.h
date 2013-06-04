@@ -22,6 +22,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
+    void resize(int w, int h);
+    void defaultCamera();
     QColor color() const{
         return m_color;
     }
@@ -63,6 +65,7 @@ public slots:
     void setMaxProgress();
     void onColorBackgroudCastingChange();
 
+
     //slots de objeto
     void objectsList(std::vector<Object*> objects);
     void selectObject();
@@ -99,19 +102,64 @@ signals:
 
 
 private slots:
-    void on_btnSaveImgRay_clicked();
+//    void on_btnSaveImgRay_clicked();
 
-    void on_btnSaveSceneOpenGL_clicked();
+//    void on_btnSaveSceneOpenGL_clicked();
 
-    void on_SaveScene_clicked();
+//    void on_SaveScene_clicked();
 
-    void on_pushButton_2_clicked();
+//    void on_pushButton_2_clicked();
 
-    void on_pushButton_3_clicked();
+//    void on_pushButton_3_clicked();
 
-    void on_pushButton_4_clicked();
+//    void on_pushButton_4_clicked();
 
-    void on_createHBB_clicked();
+//    void on_createHBB_clicked();
+    void on_actionScreenShot_triggered();
+    void on_actionQuit_triggered();
+    void on_actionOpen_triggered();
+    void on_actionSave_triggered();
+    void showPropertiesScene(bool b);
+
+
+    //void on_spe_clicked();
+
+    void on_ambMaterial_clicked();
+
+    void on_diffMaterial_clicked();
+
+    void on_speMaterial_clicked();
+
+    void on_shiniMaterial_valueChanged(double arg1);
+
+    void on_btnRender_clicked();
+    void selectedProperties(int value);
+
+    void on_ambMaterial_2_clicked();
+
+    void on_diffMaterial_2_clicked();
+
+    void on_speMaterial_2_clicked();
+
+    void on_actionCube_triggered();
+
+    void on_actionCylinder_triggered();
+
+    void on_actionHemisphere_triggered();
+
+    void on_actionPrism_triggered();
+
+    void on_actionSphere_triggered();
+
+    void on_actionArea_triggered();
+
+    void on_actionDirectional_triggered();
+
+    void on_actionPontual_triggered();
+
+    void on_actionSpot_triggered();
+
+    void on_deleteLight_clicked();
 
 private:
     Ui::MainWindow *ui;
@@ -121,7 +169,7 @@ private:
     QColor m_color_difuse;
     QColor m_color_material_view;
     QColor m_color_material_object;
-    void defaultCamera();
+
 };
 
 #endif // MAINWINDOW_H

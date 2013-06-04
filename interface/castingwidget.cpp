@@ -92,19 +92,19 @@ void CastingWidget::paintGL()
     }
 
     if(draw){
-        glClear(GL_COLOR_BUFFER_BIT);
-        //scene->viewport[0] = 300;
-        //scene->viewport[1] = 300;
-        GLubyte *pixel = new GLubyte[width*height*3];
-        RayTracing *casting = new RayTracing(scene,this,back_color,otimized);
-        //casting.setScene(scene);
-        HBB *hbb = new HBB(scene->objects,0);
-        casting->hierachicalbb = hbb;
-        casting->rayTracing(pixel);
-        glDrawPixels(width, height, GL_RGB, GL_UNSIGNED_BYTE, pixel);
-        //delete []casting;
-        delete []pixel;
-        init = false;
+//        glClear(GL_COLOR_BUFFER_BIT);
+//        //scene->viewport[0] = 300;
+//        //scene->viewport[1] = 300;
+//        GLubyte *pixel = new GLubyte[width*height*3];
+//        RayTracing *casting = new RayTracing(scene,this,back_color,otimized);
+//        //casting.setScene(scene);
+//        HBB *hbb = new HBB(scene->objects,0);
+//        casting->hierachicalbb = hbb;
+//        casting->rayTracing(pixel);
+//        glDrawPixels(width, height, GL_RGB, GL_UNSIGNED_BYTE, pixel);
+//        //delete []casting;
+//        delete []pixel;
+//        init = false;
 
     }
     draw = false;

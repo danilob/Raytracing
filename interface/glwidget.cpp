@@ -8,6 +8,7 @@
 #include "draw/draw.h"
 #include "math/quaternion.h"
 #include "extra/functions.h"
+#include "math/raytracing.h"
 
 
 //variáveis estáticas
@@ -152,20 +153,21 @@ GLWidget::GLWidget(QWidget *parent) :
     scene = new Scene();
     id_material = 0;
 
-    scene->pushObjects(BLOCK_SPHERE,id_material);
+    scene->pushObjects(BLOCK_CONE,MATERIAL_CHROME);
     updateLightingGL();
     listingObjects(scene->objects);
     listingLights(scene->lights);
     angle = 45.0;
     move = false;
     sizegrid = 20;
-    showgrid = false;
+    showgrid = true;
     solidgrid = false;
     state_key = 0;
     q.setQuaternion(1,0,0,0);
     projection.setVec4(angle,45,0.01,120000.0);
+    updateProjection(projection);
     showviewports = false;
-    create = false;
+    showhbb = false;
     //boundingboxes = new HBB();
 
 
@@ -210,69 +212,17 @@ void GLWidget::paintGL()
 
     //      glPushMatrix();
 
-    // top left: top view
-    // glPushMatrix();
-    if(showviewports){
-        glViewport(0, height/2, width/2, height/2);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        scene->pushProjection(angle,(float)width/(float)height,projection.z(),projection.w());
-        gluPerspective(angle,(float)width/(float)height,projection.z(),projection.w());
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        gluLookAt(cam_eye.x1,cam_eye.x2,cam_eye.x3,cam_at.x1,cam_at.x2,cam_at.x3,cam_up.x1,cam_up.x2,cam_up.x3);
-        projection.setVec4(angle,(float)width/(float)height,projection.z(),projection.w());
-        updateProjection(projection);
-        scene->pushViewport(width,height);
-        scene->pushViewer(cam_eye,cam_at,cam_up);
-        if (showgrid) Draw::drawPlane(sizegrid,solidgrid);
-        scene->renderLightsOpenGL();
-        scene->drawObjectsOpenGL();
-        // top right: right view
-        glViewport( width/2, height/2,  width/2, height/2);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(-sizegrid, sizegrid, -sizegrid, sizegrid, projection.z(), projection.w());
-        gluLookAt(5.0, 5.0, 0.0, 0.0, 5.0, 0.0, 0.0, 1.0, 0.0);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        if (showgrid) Draw::drawPlane(sizegrid,solidgrid);
-        scene->renderLightsOpenGL();
-        scene->drawObjectsOpenGL();
 
-        // bottom left: front view
-        glViewport(0, 0,  width/2, height/2);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(-sizegrid, sizegrid, -sizegrid, sizegrid, projection.z(), projection.w());
-        gluLookAt(0.0, 5.0, 5.0, 0.0, 5.0, 0.0, 0.0, 1.0, 0.0);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        if (showgrid) Draw::drawPlane(sizegrid,solidgrid);
-        scene->renderLightsOpenGL();
-        scene->drawObjectsOpenGL();
 
-        // bottom right: rotating perspective view
-        glViewport(width/2, 0, width/2,  height/2);
-        glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-        glOrtho(-sizegrid, sizegrid, -sizegrid, sizegrid, projection.z(), projection.w());
-        gluLookAt(0.0, 6.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, -1.0);
-        glMatrixMode(GL_MODELVIEW);
-        glLoadIdentity();
-        if (showgrid) Draw::drawPlane(sizegrid,solidgrid);
-        scene->renderLightsOpenGL();
-        scene->drawObjectsOpenGL();
-    }else{
 
         if (showgrid) Draw::drawPlane(sizegrid,solidgrid);
         scene->renderLightsOpenGL();
         scene->drawObjectsOpenGL();
-        if (create) boundingboxes->drawStructure();
+        if (showhbb) boundingboxes->drawStructure();
             //boundingboxes->box.wireframe();
 
-    }
 
+    //updateGL();
     //glPopMatrix();
 
     //updateCameraGL();
@@ -336,6 +286,7 @@ void GLWidget::updateCameraGL()
     gluLookAt(cam_eye.x1,cam_eye.x2,cam_eye.x3,cam_at.x1,cam_at.x2,cam_at.x3,cam_up.x1,cam_up.x2,cam_up.x3);
     scene->pushViewer(cam_eye,cam_at,cam_up);
     scene->pushViewport(width,height);
+    //updateGL();
 
 }
 
@@ -391,11 +342,15 @@ void GLWidget::mouseMoveEvent(QMouseEvent *event)
         mouseMotion(event->pos().x(),y,height,width);
         if (trackingMouse) {
             //glRotatef(angletrack, axis[0], axis[1], axis[2]);
+
             Quaternion qnew;
-            qnew.setQuaternion(cos(0.25*angletrack*M_PI/(360.0)),Vec4(axis[0],axis[1],axis[2]).unitary()*sin(0.25*angletrack*M_PI/(360.0)));
-            qnew = qnew.normalize();
+            //qnew.setQuaternion(Vec4(axis[0],axis[1],axis[2],angletrack));
+            qnew.setQuaternion(cos(angletrack*M_PI/(180.0)),Vec4(axis[0],axis[1],axis[2]).unitary()*sin(angletrack*M_PI/(180.0)));
+            //qnew = qnew.normalize();
             //q = q.normalize();
-            q = qnew;
+            q = qnew*q;
+            //q = q.normalize();
+            q = qnew.normalize();
 
             cam_eye = q.getMatrix().vector(cam_eye);
 
@@ -445,18 +400,22 @@ void GLWidget::mouseReleaseEvent(QMouseEvent *event)
 
 void GLWidget::mousePressEvent(QMouseEvent *event)
 {
-    if(event->buttons() & Qt::LeftButton)
+    if(state_key==Qt::Key_O){
+        setSelectedObject(RayTracing::objectClicked(scene,event->pos().x(),height-event->pos().y()));
+        return;
+    }
+    if(event->buttons() && Qt::LeftButton && state_key==0)
     {
-        //trackingMouse = true;
+        trackingMouse = true;
         int y = height-event->pos().y();
         startMotion(event->pos().x(),y,height,width);
-        Quaternion qnew;
-        //        qnew.setQuaternion(cos(angletrack*M_PI/360),Vec4(axis[0],axis[1],axis[2]).unitary()*sin(angletrack*M_PI/360));
-        //        //qnew = qnew.normalize();
-        //        //q = q.normalize();
-        //        qnew = qnew.normalize();
-        //        q = qnew;
-        //        q = q.normalize();
+//        Quaternion qnew;
+//                qnew.setQuaternion(cos(angletrack*M_PI/180),Vec4(axis[0],axis[1],axis[2]).unitary()*sin(angletrack*M_PI/180));
+//                //qnew = qnew.normalize();
+//                //q = q.normalize();
+//                //qnew = qnew.normalize();
+//                q = qnew;
+//                q = q.normalize();
         //Vec4 teste;
         //        cam_eye = q.getMatrix().vector(cam_eye);
 
@@ -504,14 +463,14 @@ void GLWidget::updateLightingGL()
 
     SpotLight* direct2        = new SpotLight();
     direct2->setLight(70,0,light2pos,light2dir,light2diffuse,light2specular,light2ambient);
-    scene->pushLights(direct2);
+    //scene->pushLights(direct2);
 
     Vec4* light3pos           = new Vec4( -0.5, 0.5, -0.5, 0.0 );
     Vec4* light3diffuse       = new Vec4( 0.798f, 0.838f, 1.0, 1.0 );
     Vec4* light3specular      = new Vec4( 0.06f, 0.0f, 0.0f, 1.0 );
     DirectionalLight* direct3 = new DirectionalLight();
     direct3->setLight(light3pos,light3diffuse,light3specular,new Vec4());
-    scene->pushLights(direct3);
+    //scene->pushLights(direct3);
 
 
     //    listingLights(scene->lights);
@@ -521,6 +480,13 @@ void GLWidget::updateLightingGL()
 
 void GLWidget::keyPressEvent(QKeyEvent *event)
 {
+    if(event->key() == Qt::Key_O){
+        if(state_key == event->key()){
+            state_key = 0;
+        }else{
+            state_key = event->key();
+        }
+    }
     if(event->key() == Qt::Key_S ){
         if(state_key == event->key()){
             state_key = 0;
@@ -888,6 +854,27 @@ void GLWidget::setSelectedObject(int k)
     updateGL();
 }
 
+
+void GLWidget::setSelectedObject(Object* obj)
+{
+    for (int i=0;i<scene->objects.size();i++) scene->objects.at(i)->setSelected(false);
+    if(obj!=NULL){
+        obj->setSelected(true);
+        showObjectSelected(obj);
+    }
+    updateGL();
+
+}
+
+int GLWidget::getItemSelected()
+{
+    for(int i=0;i<scene->objects.size();i++){
+        if(scene->objects.at(i)->isSelected()) return i;
+    }
+    return -1;
+
+}
+
 void GLWidget::setTransformMatrixToObjectSelected(Matrix4x4 m)
 {
     for(int i=0;i<scene->objects.size();i++){
@@ -931,6 +918,8 @@ std::vector<Object *> GLWidget::getObjectsScene()
 void GLWidget::addObject(int type)
 {
     scene->addObject(type);
+    listingObjects(scene->objects);
+    updateGL();
 }
 
 void GLWidget::removeObjectSelected()
@@ -1034,6 +1023,14 @@ void GLWidget::setLightSelectedAngle(int angle)
     updateGL();
 }
 
+void GLWidget::setLightSelectedAngleInner(int angle)
+{
+    for (int i=0;i<scene->lights.size();i++){
+        if(scene->lights.at(i)->isSelected()) scene->lights.at(i)->setAngleInner(angle);
+    }
+    updateGL();
+}
+
 void GLWidget::setLightSelectedExponent(int exp)
 {
     for (int i=0;i<scene->lights.size();i++){
@@ -1050,10 +1047,28 @@ void GLWidget::setLightSelectedName(QString s)
     updateGL();
 }
 
+void GLWidget::setLightSelectedVecA(Vec4 a)
+{
+    for (int i=0;i<scene->lights.size();i++){
+        if(scene->lights.at(i)->isSelected()) scene->lights.at(i)->setVecA(a);
+    }
+    updateGL();
+}
+
+void GLWidget::setLightSelectedVecB(Vec4 b)
+{
+    for (int i=0;i<scene->lights.size();i++){
+        if(scene->lights.at(i)->isSelected()) scene->lights.at(i)->setVecB(b);
+    }
+    updateGL();
+}
+
 std::vector<Light *> GLWidget::getLightsScene()
 {
     return scene->lights;
 }
+
+
 
 void GLWidget::removeLightSelected()
 {
@@ -1080,32 +1095,9 @@ void GLWidget::setLightSelected(bool b)
 
 void GLWidget::addLight(int val)
 {
-    switch (val){
-    case (LIGHT_DIRECTIONAL):{
-        DirectionalLight* newDir = new DirectionalLight();
-        newDir->setEnabled(false);
-        scene->pushLights(newDir);
-        listingLights(scene->lights);
-        updateGL();
-        break;
-    }
-    case (LIGHT_SPOT):{
-        SpotLight* newDir = new SpotLight();
-        newDir->setEnabled(false);
-        scene->pushLights(newDir);
-        listingLights(scene->lights);
-        updateGL();
-        break;
-    }
-    case (LIGHT_PONTUAL):{
-        PontualLight* newDir = new PontualLight();
-        newDir->setEnabled(false);
-        scene->pushLights(newDir);
-        listingLights(scene->lights);
-        updateGL();
-        break;
-    }
-    }
+    scene->addLight(val);
+    listingLights(scene->lights);
+    updateGL();
 }
 
 void GLWidget::showGrid(bool b)
@@ -1143,10 +1135,11 @@ void GLWidget::showViewports(bool b)
     updateGL();
 }
 
-void GLWidget::getHBB()
+void GLWidget::showHBB(bool s)
 {
-    create = true;
-    boundingboxes = new HBB(scene->objects,0);
+    //create = true;
+    showhbb = s;
+    if (s) boundingboxes = new HBB(scene->objects,0);
     updateGL();
 
 }
@@ -1162,9 +1155,38 @@ void GLWidget::saveScene(QString file)
 
 void GLWidget::loadScene(QString file)
 {
+    showhbb = false;
     Functions::loadScene(this->scene,file.toStdString());
+    std::vector<Object*> objects = this->scene->objects;
+    for(int i=0;i<objects.size();i++) objects.at(i)->setSelected(false);
     listingObjects(scene->objects);
     listingLights(scene->lights);
     updateGL();
 
+}
+
+void GLWidget::renderScene(QGraphicsView *qw, int percent, int samples)
+{
+    RayTracing *tracing = new RayTracing(scene,this,Vec4());
+    int scenewidth = (int)(scene->viewport[0]*(percent/100.0));
+    int sceneheight = (int)(scene->viewport[1]*(percent/100.0));
+    QImage *image = new QImage(scenewidth,sceneheight,QImage::Format_RGB32);
+    HBB *hbb = new HBB(scene->objects,0);
+    tracing->hierachicalbb = hbb;
+    tracing->withhbb = true;
+    tracing->rayTracing(image,percent,samples);
+    QImage printImage = image->scaled((int)((width*percent)/100),(int)((height*percent)/100), Qt::KeepAspectRatio);
+    QGraphicsScene *sc = new QGraphicsScene();
+    sc->addPixmap(QPixmap::fromImage(printImage));
+    qw->setScene(sc);
+}
+
+int GLWidget::numberRays()
+{
+    return width*height;
+}
+
+void GLWidget::setValueProgressRay(int value)
+{
+    setProgressRay(value);
 }

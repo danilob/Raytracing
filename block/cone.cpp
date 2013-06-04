@@ -59,7 +59,7 @@ Cone::Cone()
         }
         mesh->faces.push_back(face[i]);
     }
-    for (int i=SEGMENTS-1;i>0;i--){
+    for (int i=SEGMENTS-1;i>=0;i--){
         face[SEGMENTS].vertexs.push_back(&vertexs[i]);
     }
     face[SEGMENTS].normals.push_back(&normals[SEGMENTS+1]);
@@ -78,9 +78,10 @@ void Cone::draw()
     }
     if (selected){
 
-        glColor3f(1,1,1);
-        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-        mesh->draw();
+        Draw::drawSelection(getMax(),getMin());
+//        glColor3f(1,1,1);
+//        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+//        mesh->draw();
 
     }
 }
@@ -203,7 +204,7 @@ QString Cone::saveObject()
 {
     QString obj;
     QString aux;
-    obj += "y ";
+    obj += "e ";
     Vec4 parameters;
     //translacao
     parameters = transform.getTranslateSeted();
@@ -215,8 +216,16 @@ QString Cone::saveObject()
     parameters = transform.getRotationSeted();
     obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
     obj += aux.sprintf("%d ",this->getIdMaterial());
+    parameters = this->getMesh()->getMaterialM()->getAmbiente();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    parameters = this->getMesh()->getMaterialM()->getDiffuse();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    parameters = this->getMesh()->getMaterialM()->getSpecular();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getShininess());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getReflection());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getRefraction());
     if (this->enabled)
-
         obj += "t ";
     else
         obj += "f ";

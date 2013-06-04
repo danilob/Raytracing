@@ -130,6 +130,26 @@ void HBB::drawStructure()
     Cube(box.getMax(),box.getMin()).wireframe();
 }
 
+void HBB::setSelected(bool)
+{
+    return;
+}
+
+bool HBB::isSelected()
+{
+    return false;
+}
+
+void HBB::setEnabled(bool)
+{
+    return;
+}
+
+bool HBB::isEnabled()
+{
+    return false;
+}
+
 bool HBB::HBBIntersection(RayIntersection *intersect, Ray ray, Object *obj)
 {
     if(hitBox(ray,box.getMatrixTransformation())){

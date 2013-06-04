@@ -1,6 +1,7 @@
 #include "scene.h"
 #include "math/ray.h"
 
+
 Scene::Scene()
 {
     objects.clear();
@@ -875,4 +876,34 @@ void Scene::addObject(int type)
     }
     }
 
+}
+
+void Scene::addLight(int type)
+{
+    switch (type){
+    case (LIGHT_DIRECTIONAL):{
+        DirectionalLight* newDir = new DirectionalLight();
+        newDir->setEnabled(false);
+        this->pushLights(newDir);
+        break;
+    }
+    case (LIGHT_SPOT):{
+        SpotLight* newDir = new SpotLight();
+        newDir->setEnabled(false);
+        this->pushLights(newDir);
+        break;
+    }
+    case (LIGHT_PONTUAL):{
+        PontualLight* newDir = new PontualLight();
+        newDir->setEnabled(false);
+        this->pushLights(newDir);
+        break;
+    }
+    case (LIGHT_AREA):{
+        AreaLight* newDir = new AreaLight();
+        newDir->setEnabled(false);
+        this->pushLights(newDir);
+        break;
+    }
+    }
 }

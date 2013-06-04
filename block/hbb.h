@@ -22,10 +22,10 @@ public:
     bool hit(RayIntersection *intersect);
     std::vector<Object*> sortObjects(std::vector<Object*> objects,int axis);
     void drawStructure();
-     void        setSelected(bool b) {};           //seta o objeto como selecionado para possiveis alterações
-     bool        isSelected() {};                  //verifica se o objeto esta selecionado
-     void        setEnabled(bool b) {};            //seta o objeto como habilitado para o raycasting e para desenho
-     bool        isEnabled() {};                   //verifica se o objeto esta habilitado
+     void        setSelected(bool);           //seta o objeto como selecionado para possiveis alterações
+     bool        isSelected();                  //verifica se o objeto esta selecionado
+     void        setEnabled(bool);            //seta o objeto como habilitado para o raycasting e para desenho
+     bool        isEnabled();                   //verifica se o objeto esta habilitado
      void        setMaterial(int) {};              //aplica um determinado material ao objeto
      Mesh*       getMesh() {};                     //extrai a malha do objeto
      Matrix4x4   getMatrixTransformation() {return box.transform;}     //extrai a matriz de transformação do objeto

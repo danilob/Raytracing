@@ -8,81 +8,146 @@ Sphere::Sphere()
     double alpha = 2*M_PI / STACKS;
     double beta = 2*M_PI / SLICES;
 
-    for (int i = SLICES;i>0;i--){
-        double  ratio_radius = sqrt((pow(radius,2)-pow(sin(beta*(i-1))*radius,2)));
-        for(int j=0;j<STACKS;j++){
-            vertexs[j+(STACKS*(SLICES-i))].setVec4(cos(alpha*j)*ratio_radius,sin(beta*(i-1)),sin(alpha*j)*ratio_radius);
-            initvertexs[j+(STACKS*(SLICES-i))] = vertexs[j+(STACKS*(SLICES-i))];
-            normals[j+(STACKS*(SLICES-i))] = Vec4(vertexs[j+(STACKS*(SLICES-i))]).unitary();
-            initnormals[j+(STACKS*(SLICES-i))] = normals[j+(STACKS*(SLICES-i))];
+    //vertexs[0] = Vec4(0.0,radius,0.0);
+    for (int i = 0;i<STACKS/2;i++){
+        double  ratio_radius = sin(alpha*(i+1));
+        for(int j=0;j<SLICES;j++){
+            vertexs[i*SLICES+(j+1)].setVec4(cos(beta*j)*ratio_radius,cos(alpha*(i+1)),sin(beta*j)*ratio_radius);
+            initvertexs[i*SLICES+(j+1)] = vertexs[i*SLICES+(j+1)];
+            normals[i*SLICES+(j+1)] = Vec4(vertexs[i*SLICES+(j+1)]).unitary();
+            initnormals[i*SLICES+(j+1)] = normals[i*SLICES+(j+1)];
         }
     }
-    //vertexs[0] = Vec4(0.0,radius,0.0);
-    //vertexs[SLICES*STACKS+1] = Vec4(0.0,-radius,0.0);
-//    vertexs[STACKS*SLICES] = Vec4(0.0,radius,0.0);
-//    initvertexs[STACKS*SLICES] = vertexs[STACKS*SLICES];
-//    normals[STACKS*SLICES] = Vec4(0.0,radius,0.0).unitary();
-//    initnormals[STACKS*SLICES] = normals[STACKS*SLICES];
-//    normals[(STACKS*SLICES)+1] = Vec4(0.0,-1.0,0.0).unitary();
-//    initnormals[STACKS*SLICES+1] = Vec4(0.0,-1.0,0.0).unitary();
+    vertexs[0] = Vec4(0.0,radius,0.0);
+    initvertexs[0] = Vec4(0.0,radius,0.0);
+    normals[0] = Vec4(0,1,0);
+    initnormals[0] = Vec4(0,1,0);
+    vertexs[SLICES*(STACKS/2)+1] = Vec4(0.0,-radius,0.0);
+    initvertexs[SLICES*(STACKS/2)+1] = Vec4(0.0,-radius,0.0);
+    normals[SLICES*(STACKS/2)+1] = Vec4(0,-1,0);
+    initnormals[SLICES*(STACKS/2)+1] = Vec4(0,-1,0);
     transform.setIdentity();
     mesh = new Mesh();
     //vertexs[SLICES*STACKS]
-    Face face[(STACKS*SLICES)+(2*STACKS)];
+    Face face[((STACKS/2)*SLICES)+(2*SLICES)];
     //desenho da lateral do hemisferio
-    for(int i=(SLICES-1);i>0;i--){
-        for(int j=0;j<STACKS;j++){
-        if(j<STACKS-1){
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i))]);
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i-1))]);
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i-1))+1]);
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i))+1]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i))]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i-1))]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i))+1]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i-1)+1)]);
-        }else{
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i))]);
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i-1))]);
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[STACKS+((j+1)*(SLICES-i-2))]);
-            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[STACKS+((j+1)*(SLICES-i-1))]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i))]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i-1))]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[STACKS+((j+1)*(SLICES-i-2))]);
-            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[STACKS+((j+1)*(SLICES-i-1))]);
-        }
-        mesh->faces.push_back(face[j+(STACKS*(SLICES-i))]);
+    for(int i=0;i<STACKS/2;i++){
+        for(int j=0;j<SLICES;j++){
+            if(i==0){
+                if ((j+1)!=SLICES){
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[0]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(j+1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(j+2)]);
+                    face[i*SLICES+j].normals.push_back(&normals[0]);
+                    face[i*SLICES+j].normals.push_back(&normals[(j+1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[(j+2)]);
+                }else{
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[0]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(j+1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(SLICES-j)]);
+                    face[i*SLICES+j].normals.push_back(&normals[0]);
+                    face[i*SLICES+j].normals.push_back(&normals[(j+1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[(SLICES-j)]);
+                }
+
+            }else if((i+1)==STACKS/2){
+                    if ((j+1)!=SLICES){
+                        face[i*SLICES+j].vertexs.push_back(&vertexs[SLICES*(STACKS/2)+1]);
+                        face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*SLICES+(j+2)]);
+                        face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*SLICES+(j+1)]);
+                        face[i*SLICES+j].normals.push_back(&normals[SLICES*(STACKS/2)+1]);
+                        face[i*SLICES+j].normals.push_back(&normals[(i-1)*SLICES+(j+2)]);
+                        face[i*SLICES+j].normals.push_back(&normals[(i-1)*SLICES+(j+1)]);
+                    }else{
+                        face[i*SLICES+j].vertexs.push_back(&vertexs[SLICES*(STACKS/2)+1]);
+                        face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*STACKS+(1)]);
+                        face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*STACKS+(j+1)]);
+                        face[i*SLICES+j].normals.push_back(&normals[SLICES*(STACKS/2)+1]);
+                        face[i*SLICES+j].normals.push_back(&normals[(i-1)*STACKS+(1)]);
+                        face[i*SLICES+j].normals.push_back(&normals[(i-1)*STACKS+(j+1)]);
+                    }
+
+            }else{
+                if ((j+1)!=SLICES){
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*SLICES+(j+1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[i*SLICES+(j+1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[i*SLICES+(j+2)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*SLICES+(j+2)]);
+
+                    face[i*SLICES+j].normals.push_back(&normals[(i-1)*SLICES+(j+1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[i*SLICES+(j+1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[i*SLICES+(j+2)]);
+                    face[i*SLICES+j].normals.push_back(&normals[(i-1)*SLICES+(j+2)]);
+                }else{
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*SLICES+(j+1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[i*SLICES+(j+1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[i*SLICES+(1)]);
+                    face[i*SLICES+j].vertexs.push_back(&vertexs[(i-1)*SLICES+(1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[(i-1)*SLICES+(j+1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[i*SLICES+(j+1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[i*SLICES+(1)]);
+                    face[i*SLICES+j].normals.push_back(&normals[(i-1)*SLICES+(1)]);
+                }
+
+            }
+
+            mesh->faces.push_back(face[i*SLICES+j]);
+
         }
     }
-    //desenho do fundo da esfera
-
-//    for(int j=0;j<STACKS;j++){
+//    for(int i=(SLICES-1);i>0;i--){
+//        for(int j=0;j<STACKS;j++){
 //        if(j<STACKS-1){
-//            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[STACKS*SLICES]);
-//            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[j+1]);
-//            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[j]);
-//            face[j+(STACKS*(SLICES))].normals.push_back(&normals[STACKS*SLICES]);
-//            face[j+(STACKS*(SLICES))].normals.push_back(&normals[j+1]);
-//            face[j+(STACKS*(SLICES))].normals.push_back(&normals[j]);
-
+//            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i))]);
+//            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i-1))]);
+//            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i-1))+1]);
+//            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i))+1]);
+//            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i))]);
+//            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i-1))]);
+//            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i))+1]);
+//            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i-1)+1)]);
 //        }else{
-//            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[j]);
-//            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[STACKS*SLICES]);
-//            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[0]);
-//            face[j+(STACKS*(SLICES))].normals.push_back(&normals[j]);
-//            face[j+(STACKS*(SLICES))].normals.push_back(&normals[STACKS*SLICES]);
-//            face[j+(STACKS*(SLICES))].normals.push_back(&normals[0]);
-
+//            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i))]);
+//            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[j+(STACKS*(SLICES-i-1))]);
+//            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[STACKS+((j+1)*(SLICES-i-2))]);
+//            face[j+(STACKS*(SLICES-i))].vertexs.push_back(&vertexs[STACKS+((j+1)*(SLICES-i-1))]);
+//            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i))]);
+//            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[j+(STACKS*(SLICES-i-1))]);
+//            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[STACKS+((j+1)*(SLICES-i-2))]);
+//            face[j+(STACKS*(SLICES-i))].normals.push_back(&normals[STACKS+((j+1)*(SLICES-i-1))]);
 //        }
-//        mesh->faces.push_back(face[j+(STACKS*(SLICES))]);
+//        mesh->faces.push_back(face[j+(STACKS*(SLICES-i))]);
+//        }
 //    }
+//    //desenho do fundo da esfera
 
-//    for(int i=0;i<STACKS;i++){
-//        face[(STACKS*SLICES)+STACKS].vertexs.push_back(&vertexs[i+STACKS*(SLICES-1)]);
-//        if (i==0)
-//            face[(STACKS*SLICES)+STACKS].normals.push_back(&normals[(STACKS*SLICES)+1]);
-//    }
-//    mesh->faces.push_back(face[(STACKS*SLICES)+STACKS]);
+////    for(int j=0;j<STACKS;j++){
+////        if(j<STACKS-1){
+////            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[STACKS*SLICES]);
+////            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[j+1]);
+////            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[j]);
+////            face[j+(STACKS*(SLICES))].normals.push_back(&normals[STACKS*SLICES]);
+////            face[j+(STACKS*(SLICES))].normals.push_back(&normals[j+1]);
+////            face[j+(STACKS*(SLICES))].normals.push_back(&normals[j]);
+
+////        }else{
+////            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[j]);
+////            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[STACKS*SLICES]);
+////            face[j+(STACKS*(SLICES))].vertexs.push_back(&vertexs[0]);
+////            face[j+(STACKS*(SLICES))].normals.push_back(&normals[j]);
+////            face[j+(STACKS*(SLICES))].normals.push_back(&normals[STACKS*SLICES]);
+////            face[j+(STACKS*(SLICES))].normals.push_back(&normals[0]);
+
+////        }
+////        mesh->faces.push_back(face[j+(STACKS*(SLICES))]);
+////    }
+
+////    for(int i=0;i<STACKS;i++){
+////        face[(STACKS*SLICES)+STACKS].vertexs.push_back(&vertexs[i+STACKS*(SLICES-1)]);
+////        if (i==0)
+////            face[(STACKS*SLICES)+STACKS].normals.push_back(&normals[(STACKS*SLICES)+1]);
+////    }
+////    mesh->faces.push_back(face[(STACKS*SLICES)+STACKS]);
 
     enabled = true;
     selected = false;
@@ -93,22 +158,32 @@ void Sphere::draw()
     if(isEnabled()){
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
     refreshNormals();
+//    refreshVertexs();
 //    glPointSize(1.0);
-  //  for (int i=0;i<SLICES*STACKS;i++){
+//    for (int i=0;i<SLICES*(STACKS/2);i++){
 //        glBegin(GL_POINTS);
 //        glVertex3f(vertexs[i].x(),vertexs[i].y(),vertexs[i].z());
-//        glPointSize(i*1.5);
 //        glEnd();
-    //}
+//    }
+//    glDisable(GL_LIGHTING);
+//    glColor3f(1,1,1);
+//    glBegin(GL_POINTS);
+//    glVertex3f(getMax().x(),getMax().y(),getMax().z());
+//    glVertex3f(getMin().x(),getMin().y(),getMin().z());
+
+//    glEnd();
+//    glEnable(GL_LIGHTING);
+
 
     mesh->draw();
     //boundingBox().wireframe();
     }
     if (selected){
 
-        glColor3f(1,1,1);
-        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-        mesh->draw();
+        Draw::drawSelection(getMax(),getMin());
+//        glColor3f(1,1,1);
+//        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+//        mesh->draw();
 
     }
 
@@ -146,16 +221,16 @@ void Sphere::setIdentityTransform()
 
 void Sphere::refreshNormals()
 {
-    for (int i = SLICES;i>0;i--){
-        for(int j=0;j<STACKS;j++){
-            vertexs[j+(STACKS*(SLICES-i))] = transform.transpose().vector(initvertexs[j+(STACKS*(SLICES-i))]);
-            normals[j+(STACKS*(SLICES-i))] = transform.transform_normal_ray(transform,initnormals[j+(STACKS*(SLICES-i))]).unitary();
+    for (int i = 0;i<(STACKS/2);i++){
+        for(int j=0;j<SLICES;j++){
+            vertexs[i*SLICES+(j+1)] = transform.transpose().vector(initvertexs[i*SLICES+(j+1)]);
+            normals[i*SLICES+(j+1)] = transform.transform_normal_ray(transform,initnormals[i*SLICES+(j+1)]).unitary()*(-1);
         }
     }
-
-    vertexs[STACKS*SLICES] = transform.transpose().vector(initvertexs[STACKS*SLICES]);
-    normals[STACKS*SLICES] = transform.transform_normal_ray(transform,initnormals[STACKS*SLICES]).unitary();
-    normals[STACKS*SLICES+1] = transform.transform_normal_ray(transform,initnormals[STACKS*SLICES+1]).unitary();
+    vertexs[0] = transform.transpose().vector(initvertexs[0]);
+    vertexs[(STACKS/2)*SLICES+1] = transform.transpose().vector(initvertexs[(STACKS/2)*SLICES+1]);
+    normals[0] = transform.transform_normal_ray(transform,initnormals[0]).unitary()*(-1);
+    normals[(STACKS/2)*SLICES+1] = transform.transform_normal_ray(transform,initnormals[(STACKS/2)*SLICES+1]).unitary()*(-1);
 }
 
 void Sphere::setMaterial(int material)
@@ -252,6 +327,15 @@ QString Sphere::saveObject()
     parameters = transform.getRotationSeted();
     obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
     obj += aux.sprintf("%d ",this->getIdMaterial());
+    parameters = this->getMesh()->getMaterialM()->getAmbiente();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    parameters = this->getMesh()->getMaterialM()->getDiffuse();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    parameters = this->getMesh()->getMaterialM()->getSpecular();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getShininess());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getReflection());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getRefraction());
     if (this->enabled)
         obj += "t ";
     else
@@ -281,7 +365,7 @@ Vec4 Sphere::getMin()
 
     refreshVertexs();
     float pmin[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
-    for (int i=1;i<SLICES*STACKS+2;i++){
+    for (int i=1;i<SLICES*(STACKS/2)+1;i++){
         if(pmin[0]>=vertexs[i].x1) pmin[0] = vertexs[i].x1;
         if(pmin[1]>=vertexs[i].x2) pmin[1] = vertexs[i].x2;
         if(pmin[2]>=vertexs[i].x3) pmin[2] = vertexs[i].x3;
@@ -296,7 +380,7 @@ Vec4 Sphere::getMax()
 {
     refreshVertexs();
     float pmax[3] = {vertexs[0].x(),vertexs[0].y(),vertexs[0].z()};
-    for (int i=1;i<SLICES*STACKS+2;i++){
+    for (int i=1;i<SLICES*(STACKS/2)+1;i++){
 
         if(pmax[0]<=vertexs[i].x1) pmax[0] = vertexs[i].x1;
         if(pmax[1]<=vertexs[i].x2) pmax[1] = vertexs[i].x2;

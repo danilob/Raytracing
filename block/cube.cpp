@@ -318,9 +318,10 @@ void Cube::draw()
     }
     if (selected){
         //glDisable(GL_Li);
-        glColor3f(1,1,1);
-        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-        mesh->draw();
+        Draw::drawSelection(getMax(),getMin());
+//        glColor3f(1,1,1);
+//        glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
+//        mesh->draw();
         //this->//boundingBox().wireframe();
 
     }
@@ -330,17 +331,15 @@ void Cube::draw()
 void Cube::wireframe()
 {
     glDisable(GL_LIGHTING);
-    glLineWidth(2.0);
+    glLineWidth(0.5);
     glColor3f(1,1,1);
-    glPointSize(4);
     for (int i=0;i<8;i++){
         //transform.transpose();
         vertexs[i] = transform.transpose().vector(initvertexs[i]);
 
 
     }
-    glPointSize(1);
-    glLineWidth(2.0);
+    glLineWidth(0.5);
     refreshNormals();
     glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
     mesh->draw();
@@ -472,6 +471,15 @@ QString Cube::saveObject()
     parameters = transform.getRotationSeted();
     obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
     obj += aux.sprintf("%d ",this->getIdMaterial());
+    parameters = this->getMesh()->getMaterialM()->getAmbiente();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    parameters = this->getMesh()->getMaterialM()->getDiffuse();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    parameters = this->getMesh()->getMaterialM()->getSpecular();
+    obj += aux.sprintf("%.3f %.3f %.3f ",parameters.x(),parameters.y(),parameters.z());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getShininess());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getReflection());
+    obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getRefraction());
     if (this->enabled)
         obj += "t ";
     else
