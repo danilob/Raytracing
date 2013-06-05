@@ -1175,10 +1175,7 @@ void GLWidget::renderScene(QGraphicsView *qw, int percent, int samples)
     tracing->hierachicalbb = hbb;
     tracing->withhbb = true;
     tracing->rayTracing(image,percent,samples);
-    QImage printImage = image->scaled((int)((width*percent)/100),(int)((height*percent)/100), Qt::KeepAspectRatio);
-    QGraphicsScene *sc = new QGraphicsScene();
-    sc->addPixmap(QPixmap::fromImage(printImage));
-    qw->setScene(sc);
+
 }
 
 int GLWidget::numberRays()
@@ -1189,4 +1186,9 @@ int GLWidget::numberRays()
 void GLWidget::setValueProgressRay(int value)
 {
     setProgressRay(value);
+}
+
+void GLWidget::showSampleRender(QImage *img)
+{
+    showSample(img);
 }

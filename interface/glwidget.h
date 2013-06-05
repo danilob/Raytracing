@@ -25,6 +25,7 @@ signals:
     void showLightSelected(Light *light);
     void stateSelected(int state);
     void setProgressRay(int value);
+    void showSample(QImage*);
 
 public slots:
     void showGrid(bool b);
@@ -77,6 +78,7 @@ public slots:
     void renderScene(QGraphicsView *qw, int percent,int samples);
     int numberRays();
     void setValueProgressRay(int value);
+    void showSampleRender(QImage*);
 
 
 

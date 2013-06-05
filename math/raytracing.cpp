@@ -169,17 +169,24 @@ void RayTracing::rayTracing(QImage *pixels, int proportion,int samples)
           gettimeofday(&tempo_inicio,NULL);
     float alfa,beta;
     omp_set_num_threads(8);
-    int c = (height/omp_get_num_threads()*width);
+
+    int c = width*height/omp_get_num_threads();
     Vec4 dir;
     Ray ray;
     QRgb value;
-    Vec4 rays_color = Vec4();
-
+    //Vec4 rays_color = Vec4();
+    Vec4 matriz[width][height];
+    for(int j=0;j<height;j++)
+        for(int i =0;i<width;i++){
+            pixels->setPixel(i,height-(j+1),qRgb(0,0,0));
+            matriz[i][height-(j+1)] = Vec4(0,0,0);
+        }
+    int i,j,t;
+    //QImage image = QImage(scenewidth,sceneheight,QImage::Format_RGB32);
     #pragma omp parallel for schedule(dynamic,c) collapse(3)
-    for(int j=0;j<height;j++){
-        for (int i=0;i<width;i++){
-
-            for(int k=0;k<samples;k++){
+    for (t=0;t<samples;t++){
+        for(j=0;j<height;j++){
+            for (i=0;i<width;i++){
                 if(samples==0){
                     alfa  = -w/2.0 + deltax/2.0  + i*deltax;
                     beta  = -h/2.0 + deltay/2.0 + j*deltay;
@@ -189,41 +196,25 @@ void RayTracing::rayTracing(QImage *pixels, int proportion,int samples)
                 }
 
                 dir.setVec4(alfa,beta,-scene->projection.x3);
-                //Ray dof = depthOfField(dir,2.0,50);
-                //Ray ray(changetoviewer.transpose().vector(dof.origin),changetoviewer.transpose().vector(dof.direction));
                 ray.setOrigin(changetoviewer.transpose().vector(Vec4(0,0,0)));
                 ray.setDirection(changetoviewer.transpose().vector(dir));
                 ray.setDirection((ray.direction - ray.origin).unitary());
-                #pragma omp reduction(+:rays_color)
-                {
-                rays_color = rays_color + rayIntersection(ray);
-                }
                 depth = 0;
                 in = false;
-                if(samples-1==k){
-//                    #pragma omp atomic
-//                    count++;
-//                    raycast->setValueProgressRay(count);
-               #pragma omp critical
-                    {
-                    rays_color = rays_color / samples;
-                }
-                    //color[(scene->viewport[0]*j)+(i)] = rays_color;
-                    value = qRgb(rays_color.x()*255, rays_color.y()*255,rays_color.z()*255);
-                    pixels->setPixel(i,height-(j+1),value);
                 #pragma omp critical
                 {
-                    rays_color = Vec4();
+                    matriz[i][height-(j+1)] = matriz[i][height-(j+1)] + rayIntersection(ray);
                 }
-                }
-
-
             }
-            //#pragma omp barrier
-
-
         }
     }
+    for(int j=0;j<height;j++)
+        for(int i =0;i<width;i++){
+            matriz[i][height-(j+1)] = matriz[i][height-(j+1)]/samples;
+            value = qRgb((matriz[i][height-(j+1)].x()*255),(matriz[i][height-(j+1)].y()*255),(matriz[i][height-(j+1)].z()*255));
+            pixels->setPixel(i,height-(j+1),value);
+        }
+raycast->showSampleRender(pixels);
     gettimeofday(&tempo_fim,NULL);
       tf = (double)tempo_fim.tv_usec + ((double)tempo_fim.tv_sec * (1000000.0));
       ti = (double)tempo_inicio.tv_usec + ((double)tempo_inicio.tv_sec * (1000000.0));

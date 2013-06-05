@@ -64,6 +64,7 @@ public slots:
     void copyScene();
     void setMaxProgress();
     void onColorBackgroudCastingChange();
+    void showSampleRender(QImage*);
 
 
     //slots de objeto

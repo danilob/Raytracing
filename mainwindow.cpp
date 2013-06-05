@@ -107,6 +107,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->anglespotLight,SIGNAL(valueChanged(int)),this,SLOT(setPropertiesLights()));
     connect(ui->anglespotinnerLight,SIGNAL(valueChanged(int)),this,SLOT(setPropertiesLights()));
     connect(ui->exponentSpotLight,SIGNAL(valueChanged(int)),this,SLOT(setPropertiesLights()));
+    connect(ui->widgetOpenGL,SIGNAL(showSample(QImage*)),this,SLOT(showSampleRender(QImage*)));
 
     //connects de render
     connect(ui->showHBB,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(showHBB(bool)));
@@ -341,6 +342,15 @@ void MainWindow::onColorBackgroudCastingChange()
 //   pal.setColor(QPalette::Window,m_color);
 //   ui->backgroudCasting->setPalette(pal);
     //   emit colorBackgroudCastingChange(m_color);
+}
+
+void MainWindow::showSampleRender(QImage *image)
+{
+    QImage printImage = image->scaled((int)((ui->width_l->text().toInt()*ui->proportion->value())/100),(int)((ui->height_l->text().toInt()*ui->proportion->value())/100), Qt::KeepAspectRatio);
+    QGraphicsScene *sc = new QGraphicsScene();
+    sc->addPixmap(QPixmap::fromImage(printImage));
+    ui->graphicsRender->setScene(sc);
+    printf("\nIn!");
 }
 
 
