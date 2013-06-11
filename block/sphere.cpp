@@ -3,7 +3,7 @@
 
 Sphere::Sphere()
 {
-
+motion = Vec4();
     double radius = 1.0;
     double alpha = 2*M_PI / STACKS;
     double beta = 2*M_PI / SLICES;
@@ -267,8 +267,24 @@ int Sphere::getIdMaterial()
 void Sphere::tryIntersection(RayIntersection *intersect, Ray ray)
 {
 
-
+    if(motion==Vec4())
         intersect->raySphereIntersection(mesh,transform,ray,this);
+    else{
+        Matrix4x4 mat = Matrix4x4();
+        mat.setIdentity();
+        Vec4 position = this->getMatrixTransformation().getTranslateSeted();
+        Vec4 rotate = this->getMatrixTransformation().getRotationSeted();
+        Vec4 scale = this->getMatrixTransformation().getScaleSeted();
+
+        Vec4 nextposition = position+this->motion;
+        nextposition = position + (nextposition - position)*myrand;
+        mat.scale(scale.x(),scale.y(),scale.z());
+        mat.setRotationX(rotate.x());
+        mat.setRotationY(rotate.y());
+        mat.setRotationZ(rotate.z());
+        mat.setTranslate(nextposition);
+        intersect->raySphereIntersection(mesh,mat,ray,this);
+    }
 }
 
 void Sphere::setSelected(bool b)
@@ -336,6 +352,8 @@ QString Sphere::saveObject()
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getShininess());
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getReflection());
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getRefraction());
+    obj += aux.sprintf("%.3f %.3f ",this->getMesh()->getMaterialM()->getGlossyReflection(),this->getMesh()->getMaterialM()->getGlossyRefraction());
+    obj += aux.sprintf("%.3f %.3f %.3f ",motion.x(),motion.y(),motion.z());
     if (this->enabled)
         obj += "t ";
     else
@@ -403,4 +421,14 @@ void Sphere::refreshVertexs()
             vertexs[j+(STACKS*(SLICES-i))] = transform.transpose().vector(initvertexs[j+(STACKS*(SLICES-i))]);
         }
     }
+}
+
+void Sphere::setMotion(Vec4 m)
+{
+    motion = m;
+}
+
+Vec4 Sphere::getMotion()
+{
+    return motion;
 }

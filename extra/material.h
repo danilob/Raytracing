@@ -55,6 +55,8 @@ public:
     float shininess;                    //brilho do material considerando de 0-1 padronizado para 128
     float refraction;
     float reflection;
+    float glossyrefraction;
+    float glossyreflection;
     //float refl;    /* reflection 0-1 */
     //float transp;  /* transparency 0-1 */
 
@@ -78,6 +80,11 @@ public:
     float           getRefraction();
     void            setReflection(float value);
     float           getReflection();
+    //efeito
+    void            setGlossyRefraction(float value);
+    float           getGlossyRefraction();
+    void            setGlossyReflection(float value);
+    float           getGlossyReflection();
 
     QColor          getColorAmbienteMaterial();
     QColor          getColorDiffuseMaterial();

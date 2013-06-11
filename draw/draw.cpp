@@ -98,8 +98,6 @@ void Draw::drawSpot(Vec4 *position_, Vec4 *direction,double angle)
             vertexs[i].setVec4(cos(alpha*i)*radius+(position_->x1+direction->x1),(position_->x2+direction->x2),sin(alpha*i)*radius+(position_->x3+direction->x3));
         }
         vertexs[_pbase] = Vec4(position_->x1,position_->x2,position_->x3);
-        Vec4 normal;
-        glTranslated(position_->x1,position_->x2,position_->x3);
         glBegin(GL_LINES);
             for (int i=0;i<_pbase;i++){
                     glVertex3d(vertexs[_pbase].x1,vertexs[_pbase].x2,vertexs[_pbase].x3) ;

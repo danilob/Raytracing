@@ -4,6 +4,7 @@
 
 Plane::Plane()
 {
+    motion = Vec4();
     //default: side = 1.0
     //configurar o cubo no quadrante positivo do eixo global no canto
     double side = 1.0;
@@ -182,6 +183,16 @@ Matrix4x4 Plane::getMatrixTransformation()
     return transform;
 }
 
+int Plane::getNumFaces()
+{
+    return 1;
+}
+
+int Plane::getNumVertexs()
+{
+    return 4;
+}
+
 void Plane::setTransform(Matrix4x4 m)
 {
     transform = m;
@@ -212,6 +223,8 @@ QString Plane::saveObject()
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getShininess());
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getReflection());
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getRefraction());
+    obj += aux.sprintf("%.3f %.3f ",this->getMesh()->getMaterialM()->getGlossyReflection(),this->getMesh()->getMaterialM()->getGlossyRefraction());
+    obj += aux.sprintf("%.3f %.3f %.3f ",motion.x(),motion.y(),motion.z());
     if (this->enabled)
         obj += "t ";
     else
@@ -277,4 +290,14 @@ Cube Plane::boundingBox()
 Vec4 Plane::getCenter()
 {
     return (this->getMax()+this->getMin())/2.0;
+}
+
+void Plane::setMotion(Vec4 m)
+{
+    motion = m;
+}
+
+Vec4 Plane::getMotion()
+{
+    return motion;
 }

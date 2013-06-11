@@ -18,6 +18,8 @@ public:
     bool operator == (Vec4 v);
     bool operator != (Vec4 v);
     Vec4 operator + (Vec4 v);                    //soma de dois vetores
+    void operator += (Vec4 v);                    //soma de dois vetores
+    void operator /= (float k);                    //soma de dois vetores
     Vec4 operator ^ (Vec4 v);                    //produto vetorial entre dois vetores
     Vec4 operator - (Vec4 v);                    //subtração de dois vetores
     Vec4 operator / (float k);                   //divisão das componentes do vetor por um numero real

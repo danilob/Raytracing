@@ -184,6 +184,54 @@ void RayIntersection::rayCylinderIntersection(Mesh *mesh,Matrix4x4 transform, Ra
 
 void RayIntersection::rayConeIntersection(Mesh *mesh, Matrix4x4 transform, Ray ray, Object *obj)
 {
+    Ray copy;
+    copy.setOrigin(transform.transform_origin_ray(transform,ray.origin));
+    copy.setDirection(transform.transform_direction_ray(transform,ray.direction));
+    float a,b,c,delta,t0,t1,t_;
+    a = copy.direction.x()*copy.direction.x() + copy.direction.z()*copy.direction.z() - copy.direction.y()*copy.direction.y();
+    b = 2*copy.origin.x()*copy.direction.x() + 2*copy.direction.y() - 2*copy.origin.y()*copy.direction.y() + 2*copy.origin.z()*copy.direction.z();
+    c = copy.origin.x()*copy.origin.x() - copy.origin.y()*copy.origin.y() + 2*copy.origin.y() + copy.origin.z()*copy.origin.z() - 1.0;
+
+//    a = copy.direction.x()*copy.direction.x() + copy.direction.z()*copy.direction.z() - copy.direction.y()*copy.direction.y()/4.0;
+//    b = 2*copy.origin.x()*copy.direction.x() - copy.origin.y()*copy.direction.y()/2.0 + copy.direction.y()/4.0 + 2*copy.origin.z()*copy.direction.z();
+//    c = copy.origin.x()*copy.origin.x() - copy.origin.y()*copy.origin.y()/4.0 + copy.origin.y()/4.0 + 1.0/16.0 + copy.origin.z()*copy.origin.z();
+
+    delta = b*b - 4*a*c;
+    Vec4 pos,n;
+    if (delta<0.0){
+       return;
+
+    }else{
+    t0 = (-b - sqrt(delta))/(2*a);
+    t1 = (-b + sqrt(delta))/(2*a);
+    t_ = fmin(t0,t1);
+    pos = copy.positionRay(t_);
+    n   = pos.unitary();
+    }
+
+    if(pos.y()<=0){
+        n = Vec4(0,-1,0);
+        float est = (n*Vec4(0,0,0) - copy.origin*n)/(n*(copy.direction));
+        if (est<0.0) return;
+        Vec4 posi = copy.positionRay(est);
+        if (((posi.x()*posi.x() + posi.z()*posi.z())<=1)){
+            t0 = est;
+            pos = posi;
+        }else{
+            return;
+        }
+    }
+    if (pos.y()>1.0) return;
+    pos = transform.transform_position_ray(transform,pos);
+    n = transform.transform_normal_ray(transform,n);
+    t_ = (pos - ray.origin).module();
+    if (t_<t && t_>tmin) {
+        this->t = t_;
+        this->normal = n.unitary();
+        this->material = mesh->material;
+        this->obj = obj;
+    }
+
 }
 
 void RayIntersection::raySphereIntersection(Mesh *mesh, Matrix4x4 transform, Ray ray,Object *obj)

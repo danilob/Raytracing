@@ -203,6 +203,29 @@ float Mesh::getReflection()
     return material->getReflection();
 }
 
+
+void Mesh::setGlossyRefraction(float value)
+{
+    material->setGlossyRefraction(value);
+}
+
+float Mesh::getGlossyRefraction()
+{
+    return material->getGlossyRefraction();
+}
+
+void Mesh::setGlossyReflection(float value)
+{
+    material->setGlossyReflection(value);
+}
+
+float Mesh::getGlossyReflection()
+{
+    return material->getGlossyReflection();
+}
+
+
+
 void Mesh::setShininess(float shine)
 {
     material->setShininess(shine);

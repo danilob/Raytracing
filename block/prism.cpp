@@ -2,6 +2,7 @@
 
 Prism::Prism()
 {
+    motion = Vec4();
     //valores default do prisma de base triangular reto
     double cathetus = 1.0;
     double height   = 1.0;
@@ -179,8 +180,24 @@ int Prism::getIdMaterial()
 
 void Prism::tryIntersection(RayIntersection *intersect, Ray ray)
 {
-
+    if(motion==Vec4())
     intersect->rayBoxIntersection(mesh,ray,transform,getMaxInit(),getMinInit(),this);
+    else{
+        Matrix4x4 mat = Matrix4x4();
+        mat.setIdentity();
+        Vec4 position = this->getMatrixTransformation().getTranslateSeted();
+        Vec4 rotate = this->getMatrixTransformation().getRotationSeted();
+        Vec4 scale = this->getMatrixTransformation().getScaleSeted();
+
+        Vec4 nextposition = position+this->motion;
+        nextposition = position + (nextposition - position)*myrand;
+        mat.scale(scale.x(),scale.y(),scale.z());
+        mat.setRotationX(rotate.x());
+        mat.setRotationY(rotate.y());
+        mat.setRotationZ(rotate.z());
+        mat.setTranslate(nextposition);
+        intersect->rayBoxIntersection(mesh,ray,mat,getMaxInit(),getMinInit(),this);
+    }
 }
 
 void Prism::setSelected(bool b)
@@ -250,6 +267,8 @@ QString Prism::saveObject()
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getShininess());
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getReflection());
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getRefraction());
+    obj += aux.sprintf("%.3f %.3f ",this->getMesh()->getMaterialM()->getGlossyReflection(),this->getMesh()->getMaterialM()->getGlossyRefraction());
+    obj += aux.sprintf("%.3f %.3f %.3f ",motion.x(),motion.y(),motion.z());
     if (this->enabled)
         obj += "t ";
     else
@@ -348,4 +367,14 @@ Vec4 Prism::getMaxInit()
     }
     return Vec4(pmax[0],pmax[1],pmax[2]);
 
+}
+
+void Prism::setMotion(Vec4 m)
+{
+    motion = m;
+}
+
+Vec4 Prism::getMotion()
+{
+    return motion;
 }

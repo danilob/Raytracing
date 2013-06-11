@@ -23,7 +23,6 @@ SOURCES += main.cpp\
     draw/draw.cpp \
     extra/material.cpp \
     extra/functions.cpp \
-    extra/effects.cpp \
     interface/scene.cpp \
     interface/glwidget.cpp \
     interface/castingwidget.cpp \
@@ -55,7 +54,6 @@ HEADERS  += mainwindow.h \
     draw/draw.h \
     extra/material.h \
     extra/functions.h \
-    extra/effects.h \
     interface/scene.h \
     interface/glwidget.h \
     interface/castingwidget.h \

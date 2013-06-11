@@ -162,7 +162,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-8,0,-20);
         cube_predio_esquerdo->setIdentityTransform();
         cube_predio_esquerdo->aplyTransform(t);
-        cube_predio_esquerdo->transform = t;
+        cube_predio_esquerdo->setTransform(t);
         objects.push_back(cube_predio_esquerdo);
 
         t.setIdentity();
@@ -170,7 +170,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-3,0,-20);
         cube_predio_direito->setIdentityTransform();
         cube_predio_direito->aplyTransform(t);
-        cube_predio_direito->transform = t;
+        cube_predio_direito->setTransform(t);
         objects.push_back(cube_predio_direito);
 
         //desenhando a rampa entre os predios
@@ -179,7 +179,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-6,0,-17);
         cube_rampa_predios->setIdentityTransform();
         cube_rampa_predios->aplyTransform(t);
-        cube_rampa_predios->transform = t;
+        cube_rampa_predios->setTransform(t);
         objects.push_back(cube_rampa_predios);
 
         //desenhando a rampa da câmera
@@ -188,7 +188,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-4.5,0.5,7);
         cube_rampa_camara->setIdentityTransform();
         cube_rampa_camara->aplyTransform(t);
-        cube_rampa_camara->transform = t;
+        cube_rampa_camara->setTransform(t);
         objects.push_back(cube_rampa_camara);
 
         //desenhando a rampa da câmera superior
@@ -199,7 +199,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-6,2.15,6.8);
         cube_rampa_superior->setIdentityTransform();
         cube_rampa_superior->aplyTransform(t);
-        cube_rampa_superior->transform = t;
+        cube_rampa_superior->setTransform(t);
         objects.push_back(cube_rampa_superior);
 
         //desenhando a rampa da câmera superior reto
@@ -209,7 +209,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-6,0.5,12);
         cube_rampa_superior_01->setIdentityTransform();
         cube_rampa_superior_01->aplyTransform(t);
-        cube_rampa_superior_01->transform = t;
+        cube_rampa_superior_01->setTransform(t);
         objects.push_back(cube_rampa_superior_01);
 
         //desenhando a rampa da câmera superior parte 2
@@ -219,7 +219,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-6,0.5,13.90);
         cube_rampa_superior_02->setIdentityTransform();
         cube_rampa_superior_02->aplyTransform(t);
-        cube_rampa_superior_02->transform = t;
+        cube_rampa_superior_02->setTransform(t);
         objects.push_back(cube_rampa_superior_02);
 
         //desenhando a rampa da câmera parte 1
@@ -230,7 +230,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-4.5,0.5,13.90);
         cube_rampa_camara_01->setIdentityTransform();
         cube_rampa_camara_01->aplyTransform(t);
-        cube_rampa_camara_01->transform = t;
+        cube_rampa_camara_01->setTransform(t);
         objects.push_back(cube_rampa_camara_01);
 
         //desenhando a laje superior
@@ -239,7 +239,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-17,2.1,-9);
         cube_laje_superior->setIdentityTransform();
         cube_laje_superior->aplyTransform(t);
-        cube_laje_superior->transform = t;
+        cube_laje_superior->setTransform(t);
         objects.push_back(cube_laje_superior);
 
         //desenhando a laje inferior
@@ -248,7 +248,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-17,0.5,-9);
         cube_laje_inferior->setIdentityTransform();
         cube_laje_inferior->aplyTransform(t);
-        cube_laje_inferior->transform = t;
+        cube_laje_inferior->setTransform(t);
         objects.push_back(cube_laje_inferior);
 
         //desenhando a base interna
@@ -257,7 +257,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-17,0,-9);
         cube_base_interna->setIdentityTransform();
         cube_base_interna->aplyTransform(t);
-        cube_base_interna->transform = t;
+        cube_base_interna->setTransform(t);
         objects.push_back(cube_base_interna);
 
 
@@ -268,7 +268,7 @@ void Scene::pushObjects(int define,int material)
         hemisphere_menor->setIdentityTransform();
         hemisphere_menor->aplyTransform(t);
         //t.showMatrix4x4();
-        hemisphere_menor->transform = t;
+        hemisphere_menor->setTransform(t);
         objects.push_back(hemisphere_menor);
 
         t.setIdentity();
@@ -277,7 +277,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(8,5,-1);
         hemisphere_maior->setIdentityTransform();
         hemisphere_maior->aplyTransform(t);
-        hemisphere_maior->transform = t;
+        hemisphere_maior->setTransform(t);
         objects.push_back(hemisphere_maior);
 
 
@@ -288,7 +288,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(17,2.1,-9);
         prism_canto_01->setIdentityTransform();
         prism_canto_01->aplyTransform(t);
-        prism_canto_01->transform = t;
+        prism_canto_01->setTransform(t);
         objects.push_back(prism_canto_01);
 
 
@@ -299,7 +299,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(17,2.35,7);
         prism_canto_02->setIdentityTransform();
         prism_canto_02->aplyTransform(t);
-        prism_canto_02->transform = t;
+        prism_canto_02->setTransform(t);
         objects.push_back(prism_canto_02);
 
         t.setIdentity();
@@ -309,7 +309,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-17,2.35,-9);
         prism_canto_03->setIdentityTransform();
         prism_canto_03->aplyTransform(t);
-        prism_canto_03->transform = t;
+        prism_canto_03->setTransform(t);
         objects.push_back(prism_canto_03);
 
         t.setIdentity();
@@ -319,7 +319,7 @@ void Scene::pushObjects(int define,int material)
         t.translate(-17,2.10,7);
         prism_canto_04->setIdentityTransform();
         prism_canto_04->aplyTransform(t);
-        prism_canto_04->transform = t;
+        prism_canto_04->setTransform(t);
         objects.push_back(prism_canto_04);
 
         //desenhando as colunas entre as lajes
@@ -535,7 +535,7 @@ void Scene::pushObjects(int define,int material)
         coluna_laje_reta->setTransform(t);
 
         objects.push_back(coluna_laje_reta);
-        for(int i=0;i<objects.size();i++){
+        for(unsigned int i=0;i<objects.size();i++){
             objects.at(i)->setMaterial(material);
         }
         t.setIdentity();
@@ -811,6 +811,22 @@ void Scene::setMaterialAllObjects(int id)
     for (int i=0;i<objects.size();i++){
         objects.at(i)->setMaterial(id);
     }
+}
+
+void Scene::setDOF(float radius, float focal)
+{
+    this->focal = focal;
+    this->radius = radius;
+}
+
+float Scene::getRadiusDOF()
+{
+    return radius;
+}
+
+float Scene::getFocalDOF()
+{
+    return focal;
 }
 
 Scene::~Scene()

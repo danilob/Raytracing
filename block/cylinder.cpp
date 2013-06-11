@@ -5,6 +5,7 @@ double alpha = 2*M_PI / SEGMENTS;
 
 Cylinder::Cylinder()
 {
+    motion = Vec4();
     transform.setIdentity();
     for (int i = 0;i<SEGMENTS;i++){
         vertexs[i].setVec4(cos(alpha*i)*radius,0,sin(alpha*i)*radius);
@@ -162,8 +163,24 @@ int Cylinder::getIdMaterial()
 
 void Cylinder::tryIntersection(RayIntersection *intersect, Ray ray)
 {
-
+    if(motion==Vec4())
     intersect->rayCylinderIntersection(mesh,this->transform,ray,this);
+    else{
+        Matrix4x4 mat = Matrix4x4();
+        mat.setIdentity();
+        Vec4 position = this->getMatrixTransformation().getTranslateSeted();
+        Vec4 rotate = this->getMatrixTransformation().getRotationSeted();
+        Vec4 scale = this->getMatrixTransformation().getScaleSeted();
+
+        Vec4 nextposition = position+this->motion;
+        nextposition = position + (nextposition - position)*myrand;
+        mat.scale(scale.x(),scale.y(),scale.z());
+        mat.setRotationX(rotate.x());
+        mat.setRotationY(rotate.y());
+        mat.setRotationZ(rotate.z());
+        mat.setTranslate(nextposition);
+        intersect->rayCylinderIntersection(mesh,mat,ray,this);
+    }
 }
 
 void Cylinder::setSelected(bool b)
@@ -231,6 +248,8 @@ QString Cylinder::saveObject()
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getShininess());
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getReflection());
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getRefraction());
+    obj += aux.sprintf("%.3f %.3f ",this->getMesh()->getMaterialM()->getGlossyReflection(),this->getMesh()->getMaterialM()->getGlossyRefraction());
+    obj += aux.sprintf("%.3f %.3f %.3f ",motion.x(),motion.y(),motion.z());
     if (this->enabled)
 
         obj += "t ";
@@ -311,4 +330,14 @@ void Cylinder::refreshVertexs()
         vertexs[i+SEGMENTS] = transform.transpose().vector(initvertexs[i+SEGMENTS]);
 
     }
+}
+
+void Cylinder::setMotion(Vec4 m)
+{
+    motion = m;
+}
+
+Vec4 Cylinder::getMotion()
+{
+    return motion;
 }

@@ -45,6 +45,9 @@ public:
     void pushProjection(float angle,float aspect,float near,float far);
     void pushBackgroundColor(Vec4 background);
     void setMaterialAllObjects(int id);
+    void setDOF(float radius,float focal);
+    float getRadiusDOF();
+    float getFocalDOF();
     ~Scene();
 
 public:
@@ -57,6 +60,9 @@ public:
     Vec4 projection;              //valores de projeção: angle, aspect, near,far
     int viewport[2];              //dimensões da janela de visualização
     bool push_obj;                //flag que indica se eh possivel adicionar objetos
+    //parametros do efeito dof do cenário
+    float radius; //raio
+    float focal;  //distância focal
 
 };
 

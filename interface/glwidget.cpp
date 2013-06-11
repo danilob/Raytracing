@@ -854,6 +854,13 @@ void GLWidget::setSelectedObject(int k)
     updateGL();
 }
 
+void GLWidget::setMotionObjectSelected(Vec4 motion)
+{
+    for(int i=0;i<scene->objects.size();i++){
+        if(scene->objects.at(i)->isSelected()) scene->objects.at(i)->setMotion(motion);
+    }
+}
+
 
 void GLWidget::setSelectedObject(Object* obj)
 {
@@ -987,6 +994,12 @@ void GLWidget::setVisibleLightSelected(bool b)
     for (int i=0;i<scene->lights.size();i++){
         if(scene->lights.at(i)->isSelected()) scene->lights.at(i)->setVisible(b);
     }
+    updateGL();
+}
+
+void GLWidget::setDOF(float radius, float focal)
+{
+    scene->setDOF(radius,focal);
     updateGL();
 }
 
@@ -1159,8 +1172,12 @@ void GLWidget::loadScene(QString file)
     Functions::loadScene(this->scene,file.toStdString());
     std::vector<Object*> objects = this->scene->objects;
     for(int i=0;i<objects.size();i++) objects.at(i)->setSelected(false);
+    updateProjection(scene->projection);
+    getCam(scene->viewer[0],scene->viewer[1],scene->viewer[2]);
     listingObjects(scene->objects);
     listingLights(scene->lights);
+    radiusDOF(scene->radius);
+    focalDOF(scene->focal);
     updateGL();
 
 }

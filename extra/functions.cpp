@@ -60,7 +60,10 @@ bool Functions::saveScene(Scene* scene, QString fileName)
 {
     QFile sFile(fileName);
     QString saida,aux;
-    saida = aux.sprintf("%d \n",scene->objects.size());
+    saida = aux.sprintf("%.3f %.3f\n",scene->radius,scene->focal);
+    saida += aux.sprintf("%.3f %.3f %.3f %.3f\n",scene->projection.x(),scene->projection.y(),scene->projection.z(),scene->projection.w());
+    saida += aux.sprintf("%.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f %.3f\n",scene->viewer[0].x(),scene->viewer[0].y(),scene->viewer[0].z(),scene->viewer[1].x(),scene->viewer[1].y(),scene->viewer[1].z(),scene->viewer[2].x(),scene->viewer[2].y(),scene->viewer[2].z());
+    saida += aux.sprintf("\n%d\n",(int)scene->objects.size());
     for (unsigned int i=0;i<scene->objects.size();i++){
         saida += scene->objects.at(i)->saveObject();
     }
@@ -95,6 +98,14 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
 
     string type;
     int obj_count;
+    float r1,r2,r3,r4;
+    file >> r1 >> r2;
+    scene->setDOF(r1,r2);
+    file >> r1 >> r2 >> r3 >> r4;
+    scene->pushProjection(r1,r2,r3,r4);
+    Vec4 eye,at,up;
+    file >> eye.x1 >> eye.x2 >> eye.x3 >> at.x1 >> at.x2 >> at.x3 >> up.x1 >> up.x2 >> up.x3;
+    scene->pushViewer(eye,at,up);
     file >> obj_count;
     for(int i=0;i<obj_count;i++){
         file >> type;
@@ -135,6 +146,13 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             file >> value;
             float refraction = value;
             cone->getMesh()->setRefraction(refraction);
+            float glossyrefraction,glossyreflection;
+            file >> glossyreflection >> glossyrefraction;
+            cone->getMesh()->setGlossyReflection(glossyreflection);
+            cone->getMesh()->setGlossyRefraction(glossyrefraction);
+            Vec4 motion;
+            file >> motion.x1 >> motion.x2 >> motion.x3;
+            cone->setMotion(motion);
             char val;
             file >> val;
             if (val == 'f')
@@ -189,6 +207,13 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             file >> value;
             float refraction = value;
             cube->getMesh()->setRefraction(refraction);
+            float glossyrefraction,glossyreflection;
+            file >> glossyreflection >> glossyrefraction;
+            cube->getMesh()->setGlossyReflection(glossyreflection);
+            cube->getMesh()->setGlossyRefraction(glossyrefraction);
+            Vec4 motion;
+            file >> motion.x1 >> motion.x2 >> motion.x3;
+            cube->setMotion(motion);
             char val;
             file >> val;
             if (val == 'f')
@@ -243,6 +268,13 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             file >> value;
             float refraction = value;
             plane->getMesh()->setRefraction(refraction);
+            float glossyrefraction,glossyreflection;
+            file >> glossyreflection >> glossyrefraction;
+            plane->getMesh()->setGlossyReflection(glossyreflection);
+            plane->getMesh()->setGlossyRefraction(glossyrefraction);
+            Vec4 motion;
+            file >> motion.x1 >> motion.x2 >> motion.x3;
+            plane->setMotion(motion);
             char val;
             file >> val;
             if (val == 'f')
@@ -297,6 +329,13 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             file >> value;
             float refraction = value;
             sphere->getMesh()->setRefraction(refraction);
+            float glossyrefraction,glossyreflection;
+            file >> glossyreflection >> glossyrefraction;
+            sphere->getMesh()->setGlossyReflection(glossyreflection);
+            sphere->getMesh()->setGlossyRefraction(glossyrefraction);
+            Vec4 motion;
+            file >> motion.x1 >> motion.x2 >> motion.x3;
+            sphere->setMotion(motion);
             char val;
             file >> val;
             if (val == 'f')
@@ -351,6 +390,13 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             file >> value;
             float refraction = value;
             cylinder->getMesh()->setRefraction(refraction);
+            float glossyrefraction,glossyreflection;
+            file >> glossyreflection >> glossyrefraction;
+            cylinder->getMesh()->setGlossyReflection(glossyreflection);
+            cylinder->getMesh()->setGlossyRefraction(glossyrefraction);
+            Vec4 motion;
+            file >> motion.x1 >> motion.x2 >> motion.x3;
+            cylinder->setMotion(motion);
             char val;
             file >> val;
             if (val == 'f')
@@ -404,6 +450,13 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             file >> value;
             float refraction = value;
             prism->getMesh()->setRefraction(refraction);
+            float glossyrefraction,glossyreflection;
+            file >> glossyreflection >> glossyrefraction;
+            prism->getMesh()->setGlossyReflection(glossyreflection);
+            prism->getMesh()->setGlossyRefraction(glossyrefraction);
+            Vec4 motion;
+            file >> motion.x1 >> motion.x2 >> motion.x3;
+            prism->setMotion(motion);
             char val;
             file >> val;
             if (val == 'f')
@@ -457,6 +510,13 @@ bool Functions::loadScene(Scene *scene, const string &fileName)
             file >> value;
             float refraction = value;
             hemi->getMesh()->setRefraction(refraction);
+            float glossyrefraction,glossyreflection;
+            file >> glossyreflection >> glossyrefraction;
+            hemi->getMesh()->setGlossyReflection(glossyreflection);
+            hemi->getMesh()->setGlossyRefraction(glossyrefraction);
+            Vec4 motion;
+            file >> motion.x1 >> motion.x2 >> motion.x3;
+            hemi->setMotion(motion);
             char val;
             file >> val;
             if (val == 'f')

@@ -10,6 +10,7 @@ bool infolight = false;
 int  type_light = -1;
 Object *ObjSelected = NULL;
 Light *LightSelected = NULL;
+QImage lastRender;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -57,6 +58,11 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionPropertiesScene,SIGNAL(toggled(bool)),this,SLOT(showPropertiesScene(bool)));
     connect(ui->widgetOpenGL,SIGNAL(widgetHeight(int)),ui->height_l,SLOT(setNum(int)));
     connect(ui->widgetOpenGL,SIGNAL(widgetWidth(int)),ui->width_l,SLOT(setNum(int)));
+    connect(ui->widgetOpenGL,SIGNAL(radiusDOF(double)),ui->radiusDOF,SLOT(setValue(double)));
+    connect(ui->widgetOpenGL,SIGNAL(focalDOF(double)),ui->focalDOF,SLOT(setValue(double)));
+    connect(ui->radiusDOF,SIGNAL(valueChanged(double)),this,SLOT(setPropertyDOF()));
+    connect(ui->focalDOF,SIGNAL(valueChanged(double)),this,SLOT(setPropertyDOF()));
+
 
     //connects dos objetos
     connect(ui->rotx,SIGNAL(valueChanged(int)),this,SLOT(setPropertyObject()));
@@ -68,6 +74,15 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->scalex,SIGNAL(valueChanged(double)),this,SLOT(setPropertyObject()));
     connect(ui->scaley,SIGNAL(valueChanged(double)),this,SLOT(setPropertyObject()));
     connect(ui->scalez,SIGNAL(valueChanged(double)),this,SLOT(setPropertyObject()));
+    connect(ui->xmotion,SIGNAL(valueChanged(double)),this,SLOT(setPropertyObject()));
+    connect(ui->ymotion,SIGNAL(valueChanged(double)),this,SLOT(setPropertyObject()));
+    connect(ui->zmotion,SIGNAL(valueChanged(double)),this,SLOT(setPropertyObject()));
+
+    connect(ui->reflection,SIGNAL(valueChanged(double)),this,SLOT(setPropertyObject()));
+    connect(ui->refraction,SIGNAL(valueChanged(double)),this,SLOT(setPropertyObject()));
+    connect(ui->glossyreflection,SIGNAL(valueChanged(double)),this,SLOT(setPropertyObject()));
+    connect(ui->glossyrefraction,SIGNAL(valueChanged(double)),this,SLOT(setPropertyObject()));
+
     connect(ui->shiniMaterial,SIGNAL(valueChanged(double)),this,SLOT(setPropertyObject()));
     connect(ui->nomeObj,SIGNAL(editingFinished()),this,SLOT(updateListObjects()));
     connect(ui->materialobject,SIGNAL(activated(int)),this,SLOT(setPropertyObject()));
@@ -75,10 +90,12 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->objects_list,SIGNAL(itemClicked(QListWidgetItem*)),this,SLOT(selectObject()));
     connect(ui->objects_list,SIGNAL(currentRowChanged(int)),this,SLOT(selectObject()));
     connect(ui->selectedObj,SIGNAL(clicked(bool)),this,SLOT(selectObject()));
+    connect(ui->selectedObj,SIGNAL(clicked(bool)),this,SLOT(setPropertyObject()));
     connect(ui->enableObj,SIGNAL(clicked(bool)),this,SLOT(setPropertyObject()));
     connect(ui->widgetOpenGL,SIGNAL(showObjectSelected(Object*)),this,SLOT(infoObject(Object*)));
     connect(ui->selectedObj,SIGNAL(toggled(bool)),ui->groupBoxPropertiesObj,SLOT(setVisible(bool)));
     connect(ui->deleteObj,SIGNAL(clicked()),this,SLOT(delObtectSelected()));
+
 
     //connects das luzes
     connect(ui->widgetOpenGL,SIGNAL(listingLights(std::vector<Light*>)),this,SLOT(lightsList(std::vector<Light*>)));
@@ -109,6 +126,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->exponentSpotLight,SIGNAL(valueChanged(int)),this,SLOT(setPropertiesLights()));
     connect(ui->widgetOpenGL,SIGNAL(showSample(QImage*)),this,SLOT(showSampleRender(QImage*)));
 
+
     //connects de render
     connect(ui->showHBB,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(showHBB(bool)));
     connect(ui->widgetOpenGL,SIGNAL(setProgressRay(int)),ui->progressRender,SLOT(setValue(int)));
@@ -122,12 +140,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-
-
-void MainWindow::resize(int w, int h)
-{
-
-}
 
 void MainWindow::updadePositionCamera()
 {
@@ -337,47 +349,37 @@ void MainWindow::setMaxProgress()
 
 void MainWindow::onColorBackgroudCastingChange()
 {
-//   m_color.setRgb(ui->sliderRed->value(),ui->sliderGreen->value(),ui->sliderBlue->value());
-//   QPalette pal = ui->backgroudCasting->palette();
-//   pal.setColor(QPalette::Window,m_color);
-//   ui->backgroudCasting->setPalette(pal);
-    //   emit colorBackgroudCastingChange(m_color);
+
 }
 
 void MainWindow::showSampleRender(QImage *image)
 {
     QImage printImage = image->scaled((int)((ui->width_l->text().toInt()*ui->proportion->value())/100),(int)((ui->height_l->text().toInt()*ui->proportion->value())/100), Qt::KeepAspectRatio);
+    lastRender = printImage;
     QGraphicsScene *sc = new QGraphicsScene();
     sc->addPixmap(QPixmap::fromImage(printImage));
     ui->graphicsRender->setScene(sc);
-    printf("\nIn!");
+
+
 }
 
+void MainWindow::setPropertyDOF()
+{
+    ui->widgetOpenGL->setDOF(ui->radiusDOF->value(),ui->focalDOF->value());
+}
 
-
-//void MainWindow::on_btnSaveImgRay_clicked()
-//{
-//    QString mfile = QFileDialog::getSaveFileName(this,"Save Screen Shot RayCasting");
-//    ui->widgetOpenGLRay->saveScreen(mfile);
-//}
-
-//void MainWindow::on_btnSaveSceneOpenGL_clicked()
-//{
-//    QString mfile = QFileDialog::getSaveFileName(this,"Save Screen Shot OpenGL");
-//    ui->widgetOpenGL->saveImagem(mfile);
-//}
 
 void MainWindow::objectsList(std::vector<Object*> objects)
 {
     ui->objects_list->clear();
-    for(int i=0;i<objects.size();i++){
+    for(unsigned int i=0;i<objects.size();i++){
         QString s;
         s.setNum(i);
         s.push_back(" - ");
         s.push_back(objects.at(i)->getName());
         ui->objects_list->addItem(s);
     }
-    if (!ui->objects_list->hasFocus()) enableObjectTab(false);
+    if (!ui->objects_list->hasFocus()) selectedProperties(-1);
 }
 
 void MainWindow::selectObject()
@@ -476,9 +478,17 @@ void MainWindow::infoObject(Object *obj)
     ui->speMaterial->setStyleSheet(ss);
     ui->speMaterial->update();
 
+    ui->reflection->setValue(mat->getReflection());
+    ui->refraction->setValue(mat->getRefraction());
+    ui->glossyreflection->setValue(mat->getGlossyReflection());
+    ui->glossyrefraction->setValue(mat->getGlossyRefraction());
 
     ui->nomeObj->setText(obj->getName());
     ui->enableObj->setChecked(obj->isEnabled());
+    Vec4 motion = obj->getMotion();
+    ui->xmotion->setValue(motion.x());
+    ui->ymotion->setValue(motion.y());
+    ui->zmotion->setValue(motion.z());
 
     info = false;
 }
@@ -501,6 +511,11 @@ void MainWindow::setPropertyObject()
 
     ui->widgetOpenGL->setIdMaterialToObjectSelected(ui->materialobject->currentIndex());
     ui->widgetOpenGL->setEnabledObjectSelected(ui->enableObj->isChecked());
+    if (ObjSelected!=NULL) ObjSelected->setSelected(ui->selectedObj->isChecked());
+    Vec4 motion = Vec4(ui->xmotion->value(),ui->ymotion->value(),ui->zmotion->value());
+    ui->widgetOpenGL->setMotionObjectSelected(motion);
+
+
 
     Material *mat = ObjSelected->getMesh()->getMaterialM();
     QColor color = mat->getColorDiffuseMaterial();
@@ -547,52 +562,21 @@ void MainWindow::setPropertyObject()
 
     mat->setShininess(ui->shiniMaterial->value());
     ui->widgetOpenGL->update();
+    mat->setGlossyReflection(ui->glossyreflection->value());
+    mat->setGlossyRefraction(ui->glossyrefraction->value());
+    mat->setReflection(ui->reflection->value());
+    mat->setRefraction(ui->refraction->value());
+
 
     }
 
 }
 
-void MainWindow::enableObjectTab(bool e)
-{
-//    if (e){
-//        ui->rotx->setEnabled(true);
-//        ui->roty->setEnabled(true);
-//        ui->rotz->setEnabled(true);
-//        ui->scalex->setEnabled(true);
-//        ui->scaley->setEnabled(true);
-//        ui->scalez->setEnabled(true);
-//        ui->transx->setEnabled(true);
-//        ui->transy->setEnabled(true);
-//        ui->transz->setEnabled(true);
-//        ui->materialobject->setEnabled(true);
-//        ui->nomeObj->setEnabled(true);
-//        ui->delObj->setEnabled(true);
-//        ui->enableObj->setEnabled(true);
-//        ui->selectedObj->setEnabled(true);
-//        ui->materialColorObject->setVisible(true);
-//    }else{
-//        ui->rotx->setEnabled(false);
-//        ui->roty->setEnabled(false);
-//        ui->rotz->setEnabled(false);
-//        ui->scalex->setEnabled(false);
-//        ui->scaley->setEnabled(false);
-//        ui->scalez->setEnabled(false);
-//        ui->transx->setEnabled(false);
-//        ui->transy->setEnabled(false);
-//        ui->transz->setEnabled(false);
-//        ui->materialobject->setEnabled(false);
-//        ui->nomeObj->setEnabled(false);
-//        ui->delObj->setEnabled(false);
-//        ui->enableObj->setEnabled(false);
-//        ui->selectedObj->setEnabled(false);
-//        ui->materialColorObject->setVisible(false);
-//    }
-}
 
 void MainWindow::updateListObjects()
 {
     ui->widgetOpenGL->setNameObjectSelected(ui->nomeObj->text());
-    for(int i=0;i<ui->widgetOpenGL->getObjectsScene().size();i++){
+    for(unsigned int i=0;i<ui->widgetOpenGL->getObjectsScene().size();i++){
         QString s;
         s.setNum(i);
         s.push_back(" - ");
@@ -635,7 +619,7 @@ void MainWindow::lightsList(std::vector<Light*> lights)
 {
     ui->lights_list->clear();
 
-    for(int i=0;i<lights.size();i++){
+    for(unsigned int i=0;i<lights.size();i++){
         QString s;
         s.setNum(i);
         s.push_back(" - ");
@@ -644,34 +628,6 @@ void MainWindow::lightsList(std::vector<Light*> lights)
     }
 
     //if (!ui->lights_list->hasFocus()) enableLightTab(false);
-}
-
-void MainWindow::onColorSpecularChange()
-{
-//    m_color_specular.setRgb(ui->specularRed->value(),ui->specularGreen->value(),ui->specularBlue->value());
-//    QPalette pal = ui->specularwidget->palette();
-//    pal.setColor(QPalette::Window,m_color_specular);
-//    ui->specularwidget->setPalette(pal);
-//    emit colorSpecularChange(m_color_specular);
-}
-
-
-void MainWindow::onColorAmbientChange()
-{
-//    m_color_ambient.setRgb(ui->ambientRed->value(),ui->ambientGreen->value(),ui->ambientBlue->value());
-//    QPalette pal = ui->ambientwidget->palette();
-//    pal.setColor(QPalette::Window,m_color_ambient);
-//    ui->ambientwidget->setPalette(pal);
-//    emit colorAmbientChange(m_color_ambient);
-}
-
-void MainWindow::onColorDiffuseChange()
-{
-//    m_color_difuse.setRgb(ui->difuseRed->value(),ui->difuseGreen->value(),ui->difuseBlue->value());
-//    QPalette pal = ui->difusewidget->palette();
-//    pal.setColor(QPalette::Window,m_color_difuse);
-//    ui->difusewidget->setPalette(pal);
-//    emit colorDiffuseChange(m_color_difuse);
 }
 
 void MainWindow::selectLight()
@@ -692,239 +648,6 @@ void MainWindow::selectLight()
 
 }
 
-void MainWindow::enableLightTab(bool e)
-{
-//    if(e){
-//        switch(type_light){
-//        case (LIGHT_AMBIENT):{
-//            ui->specularBlue->setEnabled(false);
-//            ui->specularBlue->setValue(0);
-//            ui->sliderSpecularBlue->setEnabled(false);
-//            ui->specularRed->setEnabled(false);
-//            ui->specularRed->setValue(0);
-//            ui->sliderSpecularRed->setEnabled(false);
-//            ui->specularGreen->setEnabled(false);
-//            ui->specularGreen->setValue(0);
-//            ui->sliderSpecularGreen->setEnabled(false);
-
-//            ui->ambientBlue->setEnabled(true);
-//            ui->sliderAmbientBlue->setEnabled(true);
-//            ui->ambientRed->setEnabled(true);
-//            ui->sliderAmbientRed->setEnabled(true);
-//            ui->ambientGreen->setEnabled(true);
-//            ui->sliderAmbientGreen->setEnabled(true);
-
-//            ui->difuseBlue->setEnabled(false);
-//            ui->difuseBlue->setValue(0);
-//            ui->sliderDiffuseBlue->setEnabled(false);
-//            ui->difuseRed->setEnabled(false);
-//            ui->difuseRed->setValue(false);
-//            ui->sliderDiffuseRed->setEnabled(false);
-//            ui->difuseGreen->setEnabled(false);
-//            ui->difuseGreen->setValue(0);
-//            ui->sliderDiffuseGreen->setEnabled(false);
-
-//            ui->nameLight->setEnabled(true);
-//            ui->delLight->setEnabled(false);
-//            ui->enableLight->setEnabled(false);
-//            ui->visibleLight->setEnabled(false);
-//            ui->selectedLight->setEnabled(true);
-
-//            ui->positionxLight->setEnabled(false);
-//            ui->positionyLight->setEnabled(false);
-//            ui->positionzLight->setEnabled(false);
-
-//            ui->directionxLight->setEnabled(false);
-//            ui->directionyLight->setEnabled(false);
-//            ui->directionzLight->setEnabled(false);
-
-//            ui->attenuationcLight->setEnabled(false);
-//            ui->attenuationlLight->setEnabled(false);
-//            ui->attenuationqLight->setEnabled(false);
-
-//            ui->anglespotLight->setEnabled(false);
-//            ui->exponentSpotLight->setEnabled(false);
-//            break;
-//        }
-//        case (LIGHT_SPOT):{
-//            ui->specularBlue->setEnabled(true);
-//            ui->sliderSpecularBlue->setEnabled(true);
-//            ui->specularRed->setEnabled(true);
-//            ui->sliderSpecularRed->setEnabled(true);
-//            ui->specularGreen->setEnabled(true);
-//            ui->sliderSpecularGreen->setEnabled(true);
-
-//            ui->ambientBlue->setEnabled(true);
-//            ui->sliderAmbientBlue->setEnabled(true);
-//            ui->ambientRed->setEnabled(true);
-//            ui->sliderAmbientRed->setEnabled(true);
-//            ui->ambientGreen->setEnabled(true);
-//            ui->sliderAmbientGreen->setEnabled(true);
-
-//            ui->difuseBlue->setEnabled(true);
-//            ui->sliderDiffuseBlue->setEnabled(true);
-//            ui->difuseRed->setEnabled(true);
-//            ui->sliderDiffuseRed->setEnabled(true);
-//            ui->difuseGreen->setEnabled(true);
-//            ui->sliderDiffuseGreen->setEnabled(true);
-
-//            ui->nameLight->setEnabled(true);
-//            ui->delLight->setEnabled(true);
-//            ui->enableLight->setEnabled(true);
-//            ui->visibleLight->setEnabled(true);
-//            ui->selectedLight->setEnabled(true);
-
-//            ui->positionxLight->setEnabled(true);
-//            ui->positionyLight->setEnabled(true);
-//            ui->positionzLight->setEnabled(true);
-
-//            ui->directionxLight->setEnabled(true);
-//            ui->directionyLight->setEnabled(true);
-//            ui->directionzLight->setEnabled(true);
-
-//            ui->attenuationcLight->setEnabled(true);
-//            ui->attenuationlLight->setEnabled(true);
-//            ui->attenuationqLight->setEnabled(true);
-
-//            ui->anglespotLight->setEnabled(true);
-//            ui->exponentSpotLight->setEnabled(true);
-//            break;
-//        }
-//        case (LIGHT_DIRECTIONAL):{
-//            ui->specularBlue->setEnabled(true);
-//            ui->sliderSpecularBlue->setEnabled(true);
-//            ui->specularRed->setEnabled(true);
-//            ui->sliderSpecularRed->setEnabled(true);
-//            ui->specularGreen->setEnabled(true);
-//            ui->sliderSpecularGreen->setEnabled(true);
-
-//            ui->ambientBlue->setEnabled(true);
-//            ui->sliderAmbientBlue->setEnabled(true);
-//            ui->ambientRed->setEnabled(true);
-//            ui->sliderAmbientRed->setEnabled(true);
-//            ui->ambientGreen->setEnabled(true);
-//            ui->sliderAmbientGreen->setEnabled(true);
-
-//            ui->difuseBlue->setEnabled(true);
-//            ui->sliderDiffuseBlue->setEnabled(true);
-//            ui->difuseRed->setEnabled(true);
-//            ui->sliderDiffuseRed->setEnabled(true);
-//            ui->difuseGreen->setEnabled(true);
-//            ui->sliderDiffuseGreen->setEnabled(true);
-
-//            ui->nameLight->setEnabled(true);
-//            ui->delLight->setEnabled(true);
-//            ui->enableLight->setEnabled(true);
-//            ui->visibleLight->setEnabled(true);
-//            ui->selectedLight->setEnabled(true);
-
-//            ui->positionxLight->setEnabled(false);
-//            ui->positionyLight->setEnabled(false);
-//            ui->positionzLight->setEnabled(false);
-
-//            ui->directionxLight->setEnabled(true);
-//            ui->directionyLight->setEnabled(true);
-//            ui->directionzLight->setEnabled(true);
-
-//            ui->attenuationcLight->setEnabled(false);
-//            ui->attenuationlLight->setEnabled(false);
-//            ui->attenuationqLight->setEnabled(false);
-
-//            ui->anglespotLight->setEnabled(false);
-//            ui->exponentSpotLight->setEnabled(false);
-//            break;
-//        }
-//        case (LIGHT_PONTUAL):{
-//            ui->specularBlue->setEnabled(true);
-//            ui->sliderSpecularBlue->setEnabled(true);
-//            ui->specularRed->setEnabled(true);
-//            ui->sliderSpecularRed->setEnabled(true);
-//            ui->specularGreen->setEnabled(true);
-//            ui->sliderSpecularGreen->setEnabled(true);
-
-//            ui->ambientBlue->setEnabled(true);
-//            ui->sliderAmbientBlue->setEnabled(true);
-//            ui->ambientRed->setEnabled(true);
-//            ui->sliderAmbientRed->setEnabled(true);
-//            ui->ambientGreen->setEnabled(true);
-//            ui->sliderAmbientGreen->setEnabled(true);
-
-//            ui->difuseBlue->setEnabled(true);
-//            ui->sliderDiffuseBlue->setEnabled(true);
-//            ui->difuseRed->setEnabled(true);
-//            ui->sliderDiffuseRed->setEnabled(true);
-//            ui->difuseGreen->setEnabled(true);
-//            ui->sliderDiffuseGreen->setEnabled(true);
-
-//            ui->nameLight->setEnabled(true);
-//            ui->delLight->setEnabled(true);
-//            ui->enableLight->setEnabled(true);
-//            ui->visibleLight->setEnabled(true);
-//            ui->selectedLight->setEnabled(true);
-
-//            ui->positionxLight->setEnabled(true);
-//            ui->positionyLight->setEnabled(true);
-//            ui->positionzLight->setEnabled(true);
-
-//            ui->directionxLight->setEnabled(false);
-//            ui->directionyLight->setEnabled(false);
-//            ui->directionzLight->setEnabled(false);
-
-//            ui->attenuationcLight->setEnabled(true);
-//            ui->attenuationlLight->setEnabled(true);
-//            ui->attenuationqLight->setEnabled(true);
-
-//            ui->anglespotLight->setEnabled(false);
-//            ui->exponentSpotLight->setEnabled(false);
-//            break;
-//        }
-//        }
-
-//    }else{
-//        ui->specularBlue->setEnabled(false);
-//        ui->sliderSpecularBlue->setEnabled(false);
-//        ui->specularRed->setEnabled(false);
-//        ui->sliderSpecularRed->setEnabled(false);
-//        ui->specularGreen->setEnabled(false);
-//        ui->sliderSpecularGreen->setEnabled(false);
-
-//        ui->ambientBlue->setEnabled(false);
-//        ui->sliderAmbientBlue->setEnabled(false);
-//        ui->ambientRed->setEnabled(false);
-//        ui->sliderAmbientRed->setEnabled(false);
-//        ui->ambientGreen->setEnabled(false);
-//        ui->sliderAmbientGreen->setEnabled(false);
-
-//        ui->difuseBlue->setEnabled(false);
-//        ui->sliderDiffuseBlue->setEnabled(false);
-//        ui->difuseRed->setEnabled(false);
-//        ui->sliderDiffuseRed->setEnabled(false);
-//        ui->difuseGreen->setEnabled(false);
-//        ui->sliderDiffuseGreen->setEnabled(false);
-
-//        ui->nameLight->setEnabled(false);
-//        ui->delLight->setEnabled(false);
-//        ui->enableLight->setEnabled(false);
-//        ui->visibleLight->setEnabled(false);
-//        ui->selectedLight->setEnabled(false);
-
-//        ui->positionxLight->setEnabled(false);
-//        ui->positionyLight->setEnabled(false);
-//        ui->positionzLight->setEnabled(false);
-
-//        ui->directionxLight->setEnabled(false);
-//        ui->directionyLight->setEnabled(false);
-//        ui->directionzLight->setEnabled(false);
-
-//        ui->attenuationcLight->setEnabled(false);
-//        ui->attenuationlLight->setEnabled(false);
-//        ui->attenuationqLight->setEnabled(false);
-
-//        ui->anglespotLight->setEnabled(false);
-//        ui->exponentSpotLight->setEnabled(false);
-
-    //    }
-}
 
 void MainWindow::showPropertiesScene(bool b)
 {
@@ -1316,7 +1039,7 @@ void MainWindow::updateListLights()
 {
 
     ui->widgetOpenGL->setLightSelectedName(ui->nameLight->text());
-    for(int i=0;i<ui->widgetOpenGL->getLightsScene().size();i++){
+    for(unsigned int i=0;i<ui->widgetOpenGL->getLightsScene().size();i++){
         QString s;
         s.setNum(i);
         s.push_back(" - ");
@@ -1329,8 +1052,7 @@ void MainWindow::updateListLights()
 
 void MainWindow::delLightSelected()
 {
-//    ui->widgetOpenGL->removeLightSelected();
-//    updateListLights();
+
 }
 
 void MainWindow::addPontualLight()
@@ -1350,8 +1072,7 @@ void MainWindow::addSpotLight()
 
 void MainWindow::callshowGrid(bool b)
 {
-    //ui->sizeGrid->setEnabled(b);
-    //ui->widgetOpenGL->showGrid(b);
+    ui->widgetOpenGL->showGrid(b);
 }
 
 void MainWindow::callsizeGrid(int val)
@@ -1359,33 +1080,13 @@ void MainWindow::callsizeGrid(int val)
     ui->widgetOpenGL->sizeGrid(val);
 }
 
-void MainWindow::setColorMaterialView(int i)
-{
-//    QColor color = Material::getColorMaterial(i);
-//    m_color_material_view.setRgb(color.red(),color.green(),color.blue());
-//    QPalette pal = ui->materialColorView->palette();
-//    pal.setColor(QPalette::Window,m_color_material_view);
-//    ui->materialColorView->setPalette(pal);
-
-
-}
-
-void MainWindow::setColorMaterialObject(int i)
-{
-//    QColor color = Material::getColorMaterial(i);
-//    m_color_material_object.setRgb(color.red(),color.green(),color.blue());
-//    QPalette pal = ui->materialColorObject->palette();
-//    pal.setColor(QPalette::Window,m_color_material_object);
-//    ui->materialColorObject->setPalette(pal);
-
-}
 
 void MainWindow::callsolidGrid(bool b)
 {
     ui->widgetOpenGL->solidGrid(b);
 }
 
-void MainWindow::stateSelected(int st)
+void MainWindow::stateSelected(int)
 {
 //    if(st==0){
 //        ui->stateSelected->setText("Set Vector At View Camera");
@@ -1405,33 +1106,6 @@ void MainWindow::setProjection()
 {
     ui->widgetOpenGL->updateProjectionOut(Vec4(ui->anglePerspective->value(),0,ui->nearPerspective->value(),ui->farPerspective->value()));
 }
-
-//void MainWindow::on_SaveScene_clicked()
-//{
-//    QString mfile = QFileDialog::getSaveFileName(this,"Save Scene");
-//    ui->widgetOpenGL->saveScene(mfile);
-//}
-
-//void MainWindow::on_pushButton_2_clicked()
-//{
-//    QString mfile = QFileDialog::getOpenFileName(this,"Load Scene");
-//    ui->widgetOpenGL->loadScene(mfile);
-//}
-
-//void MainWindow::on_pushButton_3_clicked()
-//{
-//    ui->widgetOpenGL->addObject(BLOCK_SPHERE);
-//}
-
-//void MainWindow::on_pushButton_4_clicked()
-//{
-//    ui->widgetOpenGL->addObject(BLOCK_PLANE);
-//}
-
-//void MainWindow::on_createHBB_clicked()
-//{
-//    ui->widgetOpenGL->getHBB();
-//}
 
 void MainWindow::on_actionScreenShot_triggered()
 {
@@ -1580,7 +1254,7 @@ void MainWindow::on_btnRender_clicked()
 {
     ui->tabWidget->setCurrentIndex(1);
     int nr = ui->widgetOpenGL->numberRays();
-    nr = (int)(nr*((float)ui->proportion->value()/100.0)*((float)ui->proportion->value()/100.0));
+    nr = (int)(nr*((float)ui->proportion->value()/100.0)*((float)ui->proportion->value()/100.0))*ui->numSamples->value();
     ui->progressRender->setMaximum(nr);
     ui->widgetOpenGL->renderScene(ui->graphicsRender,ui->proportion->value(),ui->numSamples->value());
 }
@@ -1732,4 +1406,12 @@ void MainWindow::on_actionSpot_triggered()
 void MainWindow::on_deleteLight_clicked()
 {
     ui->widgetOpenGL->removeLightSelected();
+}
+
+void MainWindow::on_actionScreanShot_Render_triggered()
+{
+    if(ui->tabRender->isVisible()){
+        QString mfile = QFileDialog::getSaveFileName(this,"Save Screen Shot Render","../renderImg/");
+        if(!mfile.isEmpty()) lastRender.save(mfile+".png","PNG");
+    }
 }

@@ -22,7 +22,6 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void resize(int w, int h);
     void defaultCamera();
     QColor color() const{
         return m_color;
@@ -42,15 +41,11 @@ public:
     QColor colorMatObj() const{
         return m_color_material_object;
     }
-    void enableObjectTab(bool e);
-    void enableLightTab(bool e);
 
 
 
 public slots:
     void stateSelected(int st);
-    void setColorMaterialView(int i);
-    void setColorMaterialObject(int i);
     void callshowGrid(bool b);
     void callsizeGrid(int val);
     void callsolidGrid(bool b);
@@ -65,7 +60,8 @@ public slots:
     void setMaxProgress();
     void onColorBackgroudCastingChange();
     void showSampleRender(QImage*);
-
+    //slots do cenário
+    void setPropertyDOF();
 
     //slots de objeto
     void objectsList(std::vector<Object*> objects);
@@ -83,9 +79,6 @@ public slots:
     void setPropertiesLights();
     void infoLight(Light* obj);
     void selectLight();
-    void onColorSpecularChange();
-    void onColorAmbientChange();
-    void onColorDiffuseChange();
     void updateListLights();
     void delLightSelected();
     void addPontualLight();
@@ -161,6 +154,8 @@ private slots:
     void on_actionSpot_triggered();
 
     void on_deleteLight_clicked();
+
+    void on_actionScreanShot_Render_triggered();
 
 private:
     Ui::MainWindow *ui;

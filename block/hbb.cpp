@@ -7,14 +7,13 @@ HBB::HBB()
     left_node = NULL;
     right_node = NULL;
     box = Cube();
-    select = NULL;
+
 }
 
 HBB::HBB(std::vector<Object*> objects, int axis)
 {
-    select = NULL;
     std::vector<Object*> copy;
-    for(int i=0; i<objects.size();i++) copy.push_back(objects.at(i));
+    for(unsigned int i=0; i<objects.size();i++) copy.push_back(objects.at(i));
     int n = copy.size();
     if (n==1){
         left = copy.at(0);
@@ -32,7 +31,7 @@ HBB::HBB(std::vector<Object*> objects, int axis)
     }else{
         //ordenar segundo o eixo
         std::vector<Object*> sort = sortObjects(copy,axis);
-        for(int i=0; i<sort.size();i++) copy.at(i) = sort.at(i);
+        for(unsigned int i=0; i<sort.size();i++) copy.at(i) = sort.at(i);
 
         std::vector<Object*> l;
         std::vector<Object*> r;
@@ -58,7 +57,7 @@ HBB::~HBB()
     delete right;
     delete left_node;
     delete right_node;
-    delete select;
+
 }
 
 std::vector<Object*> HBB::sortObjects(std::vector<Object*> objects, int axis)
@@ -66,9 +65,9 @@ std::vector<Object*> HBB::sortObjects(std::vector<Object*> objects, int axis)
     int pos;
     switch (axis){
         case 0 :{ //então organizaremos seguinto o eixo x
-                    for(int i=0; i<objects.size();i++){
+                    for(unsigned int i=0; i<objects.size();i++){
                         pos = i;
-                        for(int j=i+1;j<objects.size();j++){
+                        for(unsigned int j=i+1;j<objects.size();j++){
                                 if (objects.at(pos)->getCenter().x()>objects.at(j)->getCenter().x()){
 
                                 }
@@ -83,9 +82,9 @@ std::vector<Object*> HBB::sortObjects(std::vector<Object*> objects, int axis)
                     break;
                 }
         case 1:{//então organizaremos seguindo o eixo y
-                    for(int i=0; i<objects.size();i++){
+                    for(unsigned int i=0; i<objects.size();i++){
                         pos = i;
-                        for(int j=i+1;j<objects.size();j++){
+                        for(unsigned int j=i+1;j<objects.size();j++){
                                 if (objects.at(pos)->getCenter().y()>objects.at(j)->getCenter().y()){
                                     pos = j;
                                 }
@@ -101,9 +100,9 @@ std::vector<Object*> HBB::sortObjects(std::vector<Object*> objects, int axis)
                     break;
                 }
         case 2:{
-                    for(int i=0; i<objects.size();i++){
+                    for(unsigned int i=0; i<objects.size();i++){
                         pos = i;
-                        for(int j=i+1;j<objects.size();j++){
+                        for(unsigned int j=i+1;j<objects.size();j++){
                                 if (objects.at(pos)->getCenter().z()>objects.at(j)->getCenter().z()){
                                     pos = j;
                                 }
@@ -130,26 +129,6 @@ void HBB::drawStructure()
     Cube(box.getMax(),box.getMin()).wireframe();
 }
 
-void HBB::setSelected(bool)
-{
-    return;
-}
-
-bool HBB::isSelected()
-{
-    return false;
-}
-
-void HBB::setEnabled(bool)
-{
-    return;
-}
-
-bool HBB::isEnabled()
-{
-    return false;
-}
-
 bool HBB::HBBIntersection(RayIntersection *intersect, Ray ray, Object *obj)
 {
     if(hitBox(ray,box.getMatrixTransformation())){
@@ -168,18 +147,20 @@ bool HBB::HBBIntersection(RayIntersection *intersect, Ray ray, Object *obj)
                 t2 = intersect->t;
             }
             if(intersect->normal==Vec4()) return false;
-            //if(t1==t2) select = left;
-            //else       select = right;
             return true;
         }else{
             return false;
         }
-        //if(left!=NULL) left->tryIntersection(intersect,ray);
-        //if(right!=NULL) right->tryIntersection(intersect,ray);
+
     }
 
     return false;
 
+}
+
+Matrix4x4 HBB::getMatrixTransformation()
+{
+    return box.getMatrixTransformation();
 }
 
 bool HBB::hitBox(Ray ray, Matrix4x4 transform)
@@ -213,4 +194,118 @@ bool HBB::hitBox(Ray ray, Matrix4x4 transform)
     return true;
 }
 
+void HBB::wireframe()
+{
+    return;
+}
+
+void HBB::setSelected(bool)
+{
+    return;
+}
+
+bool HBB::isSelected()
+{
+    return false;
+}
+
+void HBB::setEnabled(bool)
+{
+    return;
+}
+
+bool HBB::isEnabled()
+{
+    return false;
+}
+
+void HBB::setMaterial(int)
+{
+    return;
+}
+
+Mesh *HBB::getMesh()
+{
+    return NULL;
+}
+
+void HBB::setTransform(Matrix4x4)
+{
+    return;
+}
+
+QString HBB::getName()
+{
+    return "";
+}
+
+void HBB::setName(QString)
+{
+    return;
+}
+
+int HBB::getNumFaces()
+{
+    return -1;
+}
+
+int HBB::getNumVertexs()
+{
+    return -1;
+}
+
+int HBB::getIdMaterial()
+{
+    return -1;
+}
+
+void HBB::tryIntersection(RayIntersection *, Ray)
+{
+    return;
+}
+
+void HBB::draw()
+{
+    return;
+}
+
+void HBB::refreshNormals()
+{
+    return;
+}
+
+QString HBB::saveObject()
+{
+    return "";
+}
+
+Cube HBB::boundingBox()
+{
+    return Cube();
+}
+
+Vec4 HBB::getMax()
+{
+    return Vec4();
+}
+
+Vec4 HBB::getMin()
+{
+    return Vec4();
+}
+
+Vec4 HBB::getCenter()
+{
+    return Vec4();
+}
+
+void HBB::setMotion(Vec4)
+{
+    return;
+}
+
+Vec4 HBB::getMotion()
+{
+    return Vec4();
+}
 

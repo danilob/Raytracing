@@ -33,6 +33,12 @@ public:
     float          getRefraction();
     void           setReflection(float value);
     float          getReflection();
+
+    void           setGlossyRefraction(float value);
+    float          getGlossyRefraction();
+    void           setGlossyReflection(float value);
+    float          getGlossyReflection();
+
     void           setShininess(float shine);
     float          getShininess();
     void           drawNormalVertex();

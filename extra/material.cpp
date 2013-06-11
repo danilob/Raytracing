@@ -4,6 +4,8 @@ Material::Material()
 {
     refraction = 0;
     reflection = 0;
+    glossyrefraction = 0;
+    glossyreflection = 0;
 }
 
 Material::Material(Vec4 amb, Vec4 diff, Vec4 spe, float shininess)
@@ -701,6 +703,10 @@ void Material::setMaterial(Material *mat, Vec4 amb, Vec4 diff, Vec4 spe, float s
 
 void Material::setMaterial(Vec4 amb, Vec4 diff, Vec4 spe, float shini)
 {
+    refraction = 0;
+    reflection = 0;
+    glossyrefraction = 0;
+    glossyreflection = 0;
     this->ambient[0] = amb.x();
     this->ambient[1] = amb.y();
     this->ambient[2] = amb.z();
@@ -790,6 +796,26 @@ void Material::setReflection(float value)
 float Material::getReflection()
 {
     return reflection;
+}
+
+void Material::setGlossyRefraction(float value)
+{
+    glossyrefraction = value;
+}
+
+float Material::getGlossyRefraction()
+{
+    return glossyrefraction;
+}
+
+void Material::setGlossyReflection(float value)
+{
+    glossyreflection = value;
+}
+
+float Material::getGlossyReflection()
+{
+    return glossyreflection;
 }
 
 QColor Material::getColorAmbienteMaterial()

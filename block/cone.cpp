@@ -4,6 +4,7 @@
 
 Cone::Cone()
 {
+    motion = Vec4();
     double height = 1.0;
     double radius = 1.0;
     double alpha = 2*M_PI / SEGMENTS;
@@ -15,8 +16,8 @@ Cone::Cone()
         initnormals[i] = normals[i];
 
     }
-    vertexs[SEGMENTS] = Vec4(0,1,0);
-    initvertexs[SEGMENTS] = Vec4(0,1,0);
+    vertexs[SEGMENTS] = Vec4(0,height,0);
+    initvertexs[SEGMENTS] = Vec4(0,height,0);
     normals[SEGMENTS] = Vec4(0,1,0);
     initnormals[SEGMENTS] = Vec4(0,1,0);
     normals[SEGMENTS+1] = Vec4(0,-1,0);
@@ -97,7 +98,7 @@ void Cone::refreshNormals()
 {
     for (int i = 0;i<SEGMENTS+1;i++){
         vertexs[i] = transform.transpose().vector(initvertexs[i]);
-        normals[i] = transform.transform_normal_ray(transform,initnormals[i]);
+        normals[i] = transform.transform_normal_ray(transform,initnormals[i])*(-1);
 
     }
     normals[SEGMENTS+1] = transform.transform_normal_ray(transform,initnormals[SEGMENTS+1]);
@@ -157,7 +158,25 @@ int Cone::getIdMaterial()
 void Cone::tryIntersection(RayIntersection *intersect, Ray ray)
 {
 
-    intersect->rayConeIntersection(mesh,this->transform,ray,this);
+
+    if (motion==Vec4())
+       intersect->rayConeIntersection(mesh,this->transform,ray,this);
+    else{
+        Matrix4x4 mat = Matrix4x4();
+        mat.setIdentity();
+        Vec4 position = this->getMatrixTransformation().getTranslateSeted();
+        Vec4 rotate = this->getMatrixTransformation().getRotationSeted();
+        Vec4 scale = this->getMatrixTransformation().getScaleSeted();
+
+        Vec4 nextposition = position+this->motion;
+        nextposition = position + (nextposition - position)*myrand;
+        mat.scale(scale.x(),scale.y(),scale.z());
+        mat.setRotationX(rotate.x());
+        mat.setRotationY(rotate.y());
+        mat.setRotationZ(rotate.z());
+        mat.setTranslate(nextposition);
+        intersect->rayConeIntersection(mesh,mat,ray,this);
+    }
 }
 
 void Cone::setSelected(bool b)
@@ -225,6 +244,8 @@ QString Cone::saveObject()
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getShininess());
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getReflection());
     obj += aux.sprintf("%.3f ",this->getMesh()->getMaterialM()->getRefraction());
+    obj += aux.sprintf("%.3f %.3f ",this->getMesh()->getMaterialM()->getGlossyReflection(),this->getMesh()->getMaterialM()->getGlossyRefraction());
+    obj += aux.sprintf("%.3f %.3f %.3f ",motion.x(),motion.y(),motion.z());
     if (this->enabled)
         obj += "t ";
     else
@@ -290,5 +311,15 @@ void Cone::refreshVertexs()
     }
     vertexs[SEGMENTS] = transform.transpose().vector(initvertexs[SEGMENTS]);
 
+}
+
+void Cone::setMotion(Vec4 m)
+{
+    motion = m;
+}
+
+Vec4 Cone::getMotion()
+{
+    return motion;
 }
 

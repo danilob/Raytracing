@@ -26,6 +26,8 @@ signals:
     void stateSelected(int state);
     void setProgressRay(int value);
     void showSample(QImage*);
+    void radiusDOF(double);
+    void focalDOF(double);
 
 public slots:
     void showGrid(bool b);
@@ -42,6 +44,7 @@ public slots:
     void setMaterialAllObjects(int id);
     void setDefaultWorld();
     void setSelectedObject(int i);
+    void setMotionObjectSelected(Vec4 motion);
     void setSelectedLight(int i);
     void setTransformMatrixToObjectSelected(Matrix4x4 m);
     void setIdMaterialToObjectSelected(int i);
@@ -63,6 +66,7 @@ public slots:
 
     void setEnabledLightSelected(bool b);
     void setVisibleLightSelected(bool b);
+    void setDOF(float radius,float focal);
 
     void setEnabledObjectSelected(bool b);
     void setNameObjectSelected(QString s);
