@@ -10,6 +10,8 @@ Scene::Scene()
     lights.push_back(ambient);
     background_color = Vec4(0,0,0,1.0);
     push_obj = true;
+    focal = 0;
+    radius = 0;
 }
 
 void Scene::pushObjects(Object *obj){

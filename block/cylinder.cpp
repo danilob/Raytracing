@@ -341,3 +341,44 @@ Vec4 Cylinder::getMotion()
 {
     return motion;
 }
+
+bool Cylinder::getEnabledTexture()
+{
+    return this->enable_texture;
+}
+
+void Cylinder::setEnabledTexture(bool b)
+{
+    this->enable_texture = b;
+}
+
+void Cylinder::addTexture(Texture *tex)
+{
+    this->textures.push_back(tex);
+}
+
+void Cylinder::removeTexture(Texture *tex)
+{
+    std::vector<Texture*>::iterator iter;
+    iter = this->textures.begin();
+    for(unsigned int i=0;i<textures.size();i++){
+
+        if(textures.at(i) == tex){
+            textures.erase(iter);
+            break;
+        }
+        iter++;
+    }
+}
+
+int Cylinder::getLenTexture()
+{
+    return textures.size();
+}
+
+Texture *Cylinder::getTexture(int i)
+{
+    return textures.at(i);
+}
+
+

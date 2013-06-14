@@ -378,3 +378,44 @@ Vec4 Prism::getMotion()
 {
     return motion;
 }
+
+bool Prism::getEnabledTexture()
+{
+    return this->enable_texture;
+}
+
+void Prism::setEnabledTexture(bool b)
+{
+    this->enable_texture = b;
+}
+
+void Prism::addTexture(Texture *tex)
+{
+    this->textures.push_back(tex);
+}
+
+void Prism::removeTexture(Texture *tex)
+{
+    std::vector<Texture*>::iterator iter;
+    iter = this->textures.begin();
+    for(unsigned int i=0;i<textures.size();i++){
+
+        if(textures.at(i) == tex){
+            textures.erase(iter);
+            break;
+        }
+        iter++;
+    }
+}
+
+int Prism::getLenTexture()
+{
+    return textures.size();
+}
+
+Texture *Prism::getTexture(int i)
+{
+    return textures.at(i);
+}
+
+

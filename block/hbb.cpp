@@ -309,3 +309,34 @@ Vec4 HBB::getMotion()
     return Vec4();
 }
 
+bool HBB::getEnabledTexture()
+{
+    return false;
+}
+
+void HBB::setEnabledTexture(bool b)
+{
+    return;
+}
+
+void HBB::addTexture(Texture *tex)
+{
+    return;
+}
+
+void HBB::removeTexture(Texture *tex)
+{
+    return;
+}
+
+int HBB::getLenTexture()
+{
+    return -1;
+}
+
+Texture *HBB::getTexture(int i)
+{
+    return NULL;
+}
+
+

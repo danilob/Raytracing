@@ -9,6 +9,7 @@
 #include "draw/draw.h"
 #include <stdio.h>
 #include <stdlib.h> // RAND_MAX é definido em stdlib.h
+#include "extra/texture.h"
 #define myrand ((float)(random())/(float)(RAND_MAX) )
 class Cube;
 
@@ -39,6 +40,14 @@ public:
     virtual Vec4        getCenter() = 0;                            //retorna o ponto médio do objeto, não necessariamente este ponto esta no objeto
     virtual void        setMotion(Vec4) = 0;                        //seta uma posição para o objeto
     virtual Vec4        getMotion() = 0;                            //extrai a posição do objeto
+    virtual bool        getEnabledTexture() = 0;                    //habilita o uso da textura
+    virtual void        setEnabledTexture(bool) = 0;                //seta se a textura esta habilitada ou não
+    virtual void        addTexture(Texture*) = 0;                   //adiciona a testura ao objeto
+    virtual void        removeTexture(Texture*) = 0;                //remove uma textura
+    virtual int         getLenTexture() = 0;                        //retorna a quantidade de texturas do objeto
+    virtual Texture*    getTexture(int) = 0;                        //retorna a textura de acordo com o indice
+
+
 };
 
 

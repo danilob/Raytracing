@@ -2324,6 +2324,7 @@ QGroupBox{
       <string>Object</string>
      </property>
      <addaction name="actionCube"/>
+     <addaction name="actionCone"/>
      <addaction name="actionCylinder"/>
      <addaction name="actionHemisphere"/>
      <addaction name="actionPrism"/>
@@ -2510,6 +2511,14 @@ QGroupBox{
   <action name="actionScreanShot_Render">
    <property name="text">
     <string>ScreenShot Render</string>
+   </property>
+  </action>
+  <action name="actionCone">
+   <property name="text">
+    <string>Cone</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
    </property>
   </action>
  </widget>

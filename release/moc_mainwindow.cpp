@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-** Created: Tue Jun 11 03:27:42 2013
+** Created: Fri Jun 14 11:04:52 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,8 +23,8 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      66,   14, // methods
-       6,  344, // properties
+      67,   14, // methods
+       6,  349, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
@@ -99,14 +99,15 @@ static const uint qt_meta_data_MainWindow[] = {
     1569,   11,   11,   11, 0x08,
     1595,   11,   11,   11, 0x08,
     1620,   11,   11,   11, 0x08,
+    1659,   11,   11,   11, 0x08,
 
  // properties: name, type, flags
-    1666, 1659, 0x43495001,
-    1672, 1659, 0x43495001,
-    1681, 1659, 0x43495001,
-    1690, 1659, 0x43495001,
-    1699, 1659, 0x43495001,
-    1712, 1659, 0x43495001,
+    1692, 1685, 0x43495001,
+    1698, 1685, 0x43495001,
+    1707, 1685, 0x43495001,
+    1716, 1685, 0x43495001,
+    1725, 1685, 0x43495001,
+    1738, 1685, 0x43495001,
 
  // properties: notify_signal_id
        0,
@@ -171,8 +172,9 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "on_actionSpot_triggered()\0"
     "on_deleteLight_clicked()\0"
     "on_actionScreanShot_Render_triggered()\0"
-    "QColor\0color\0colorDif\0colorAmb\0colorSpe\0"
-    "colorMatView\0colorMatObj\0"
+    "on_actionCone_triggered()\0QColor\0color\0"
+    "colorDif\0colorAmb\0colorSpe\0colorMatView\0"
+    "colorMatObj\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -247,6 +249,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 63: _t->on_actionSpot_triggered(); break;
         case 64: _t->on_deleteLight_clicked(); break;
         case 65: _t->on_actionScreanShot_Render_triggered(); break;
+        case 66: _t->on_actionCone_triggered(); break;
         default: ;
         }
     }
@@ -284,9 +287,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 66)
+        if (_id < 67)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 66;
+        _id -= 67;
     }
 #ifndef QT_NO_PROPERTIES
       else if (_c == QMetaObject::ReadProperty) {

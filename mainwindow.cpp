@@ -384,14 +384,12 @@ void MainWindow::objectsList(std::vector<Object*> objects)
 
 void MainWindow::selectObject()
 {
-
     int item = -1;
     if(ui->selectedObj->isChecked() || ui->objects_list->hasFocus()){
         ui->selectedObj->setChecked(true);
         for(int i=0;i < ui->objects_list->count();i++){
             if(ui->objects_list->item(i)->isSelected()){
                 item = i;
-
                 break;
             }
       }
@@ -1414,4 +1412,9 @@ void MainWindow::on_actionScreanShot_Render_triggered()
         QString mfile = QFileDialog::getSaveFileName(this,"Save Screen Shot Render","../renderImg/");
         if(!mfile.isEmpty()) lastRender.save(mfile+".png","PNG");
     }
+}
+
+void MainWindow::on_actionCone_triggered()
+{
+    ui->widgetOpenGL->addObject(BLOCK_CONE);
 }

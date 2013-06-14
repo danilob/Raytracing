@@ -253,7 +253,7 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                 if (scene->lights.at(i)->isEnabled()){
                     /* testar se a direção do ponto observado a luz está obstruido */
                     if ((testObstruction(raio)==Vec4())){
-                        aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l);
+                        aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*(1-material->reflection);
                     }
 
 

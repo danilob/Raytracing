@@ -584,3 +584,44 @@ Vec4 Cube::getMotion()
 {
     return motion;
 }
+
+bool Cube::getEnabledTexture()
+{
+    return this->enable_texture;
+}
+
+void Cube::setEnabledTexture(bool b)
+{
+    this->enable_texture = b;
+}
+
+void Cube::addTexture(Texture *tex)
+{
+    this->textures.push_back(tex);
+}
+
+void Cube::removeTexture(Texture *tex)
+{
+    std::vector<Texture*>::iterator iter;
+    iter = this->textures.begin();
+    for(unsigned int i=0;i<textures.size();i++){
+
+        if(textures.at(i) == tex){
+            textures.erase(iter);
+            break;
+        }
+        iter++;
+    }
+}
+
+int Cube::getLenTexture()
+{
+    return textures.size();
+}
+
+Texture *Cube::getTexture(int i)
+{
+    return textures.at(i);
+}
+
+

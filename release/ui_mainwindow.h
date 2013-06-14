@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Tue Jun 11 03:27:37 2013
+** Created: Fri Jun 14 11:00:45 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -65,6 +65,7 @@ public:
     QAction *actionDepth_of_Field;
     QAction *actionScreenShot;
     QAction *actionScreanShot_Render;
+    QAction *actionCone;
     QWidget *centralWidget;
     QGridLayout *gridLayout;
     QVBoxLayout *verticalLayout;
@@ -329,6 +330,8 @@ public:
         actionScreenShot->setObjectName(QString::fromUtf8("actionScreenShot"));
         actionScreanShot_Render = new QAction(MainWindow);
         actionScreanShot_Render->setObjectName(QString::fromUtf8("actionScreanShot_Render"));
+        actionCone = new QAction(MainWindow);
+        actionCone->setObjectName(QString::fromUtf8("actionCone"));
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QString::fromUtf8("centralWidget"));
         gridLayout = new QGridLayout(centralWidget);
@@ -1580,6 +1583,7 @@ public:
         menuLights->addAction(menuLight->menuAction());
         menuLights->addSeparator();
         menuObject_2->addAction(actionCube);
+        menuObject_2->addAction(actionCone);
         menuObject_2->addAction(actionCylinder);
         menuObject_2->addAction(actionHemisphere);
         menuObject_2->addAction(actionPrism);
@@ -1640,6 +1644,8 @@ public:
         actionScreenShot->setText(QApplication::translate("MainWindow", "ScreenShot OpenGL", 0, QApplication::UnicodeUTF8));
         actionScreenShot->setShortcut(QApplication::translate("MainWindow", "Alt+S", 0, QApplication::UnicodeUTF8));
         actionScreanShot_Render->setText(QApplication::translate("MainWindow", "ScreenShot Render", 0, QApplication::UnicodeUTF8));
+        actionCone->setText(QApplication::translate("MainWindow", "Cone", 0, QApplication::UnicodeUTF8));
+        actionCone->setShortcut(QApplication::translate("MainWindow", "Ctrl+E", 0, QApplication::UnicodeUTF8));
         groupBoxPropertiesObj->setTitle(QApplication::translate("MainWindow", "Properties Object", 0, QApplication::UnicodeUTF8));
         label_10->setText(QApplication::translate("MainWindow", "Name", 0, QApplication::UnicodeUTF8));
         selectedObj->setText(QApplication::translate("MainWindow", "Select", 0, QApplication::UnicodeUTF8));

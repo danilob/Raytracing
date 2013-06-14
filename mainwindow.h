@@ -157,6 +157,8 @@ private slots:
 
     void on_actionScreanShot_Render_triggered();
 
+    void on_actionCone_triggered();
+
 private:
     Ui::MainWindow *ui;
     QColor m_color;

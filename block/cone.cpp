@@ -323,3 +323,43 @@ Vec4 Cone::getMotion()
     return motion;
 }
 
+bool Cone::getEnabledTexture()
+{
+    return this->enable_texture;
+}
+
+void Cone::setEnabledTexture(bool b)
+{
+    this->enable_texture = b;
+}
+
+void Cone::addTexture(Texture *tex)
+{
+    this->textures.push_back(tex);
+}
+
+void Cone::removeTexture(Texture *tex)
+{
+    std::vector<Texture*>::iterator iter;
+    iter = this->textures.begin();
+    for(unsigned int i=0;i<textures.size();i++){
+
+        if(textures.at(i) == tex){
+            textures.erase(iter);
+            break;
+        }
+        iter++;
+    }
+}
+
+int Cone::getLenTexture()
+{
+    return textures.size();
+}
+
+Texture *Cone::getTexture(int i)
+{
+    return textures.at(i);
+}
+
+

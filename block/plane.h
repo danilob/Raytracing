@@ -20,6 +20,11 @@ private:
     Vec4      motion;         //efeito de translação motion blur do objeto
     bool      selected;       //verifica se o objeto esta selecionado
     bool      enabled;        //verifica se o objeto esta ativo
+
+    //textura
+    std::vector<Texture*> textures;
+    bool                  enable_texture;
+
 public:
     Plane();
     ~Plane();
@@ -50,6 +55,12 @@ public:
     Vec4      getCenter();
     void      setMotion(Vec4 m);
     Vec4      getMotion();
+    bool      getEnabledTexture();
+    void      setEnabledTexture(bool b);
+    void      addTexture(Texture* tex);
+    void      removeTexture(Texture* tex);
+    int       getLenTexture();
+    Texture*  getTexture(int i);
 
 
 

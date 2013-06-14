@@ -152,8 +152,7 @@ GLWidget::GLWidget(QWidget *parent) :
     glEnable(GL_MULTISAMPLE);
     scene = new Scene();
     id_material = 0;
-
-    scene->pushObjects(BLOCK_CONE,MATERIAL_CHROME);
+    //scene->pushObjects(BLOCK_CONE,MATERIAL_CHROME);
     updateLightingGL();
     listingObjects(scene->objects);
     listingLights(scene->lights);

@@ -49,6 +49,12 @@ public:
      Vec4                 getCenter();
      void                 setMotion(Vec4);
      Vec4                 getMotion();
+     bool      getEnabledTexture();
+     void      setEnabledTexture(bool b);
+     void      addTexture(Texture* tex);
+     void      removeTexture(Texture* tex);
+     int       getLenTexture();
+     Texture*  getTexture(int i);
 };
 
 #endif // HBB_H

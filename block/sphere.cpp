@@ -432,3 +432,44 @@ Vec4 Sphere::getMotion()
 {
     return motion;
 }
+
+bool Sphere::getEnabledTexture()
+{
+    return this->enable_texture;
+}
+
+void Sphere::setEnabledTexture(bool b)
+{
+    this->enable_texture = b;
+}
+
+void Sphere::addTexture(Texture *tex)
+{
+    this->textures.push_back(tex);
+}
+
+void Sphere::removeTexture(Texture *tex)
+{
+    std::vector<Texture*>::iterator iter;
+    iter = this->textures.begin();
+    for(unsigned int i=0;i<textures.size();i++){
+
+        if(textures.at(i) == tex){
+            textures.erase(iter);
+            break;
+        }
+        iter++;
+    }
+}
+
+int Sphere::getLenTexture()
+{
+    return textures.size();
+}
+
+Texture *Sphere::getTexture(int i)
+{
+    return textures.at(i);
+}
+
+

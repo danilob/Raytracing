@@ -353,3 +353,44 @@ Vec4 HemiSphere::getMotion()
 {
     return motion;
 }
+
+bool HemiSphere::getEnabledTexture()
+{
+    return this->enable_texture;
+}
+
+void HemiSphere::setEnabledTexture(bool b)
+{
+    this->enable_texture = b;
+}
+
+void HemiSphere::addTexture(Texture *tex)
+{
+    this->textures.push_back(tex);
+}
+
+void HemiSphere::removeTexture(Texture *tex)
+{
+    std::vector<Texture*>::iterator iter;
+    iter = this->textures.begin();
+    for(unsigned int i=0;i<textures.size();i++){
+
+        if(textures.at(i) == tex){
+            textures.erase(iter);
+            break;
+        }
+        iter++;
+    }
+}
+
+int HemiSphere::getLenTexture()
+{
+    return textures.size();
+}
+
+Texture *HemiSphere::getTexture(int i)
+{
+    return textures.at(i);
+}
+
+
