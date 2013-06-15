@@ -3,6 +3,7 @@
 #include "math/vec4.h"
 #include "extra/material.h"
 #include "draw/draw.h"
+#include "extra/texture.h"
 #define LIGHT_AMBIENT     0
 #define LIGHT_DIRECTIONAL 1
 #define LIGHT_PONTUAL     2
@@ -16,7 +17,7 @@ public:
     virtual void       drawLight() = 0;
     virtual void       drawLightOpenGL(int flag_light = -1) = 0;
     virtual void       drawReferenceLight() = 0;
-    virtual Vec4       calculateColor(Vec4 pit,Vec4 n,Vec4 viewer, Material *m,Vec4 pos) = 0;
+    virtual Vec4       calculateColor(Vec4,Vec4,Vec4, Material *,Vec4 l= Vec4(),Vec4 tex= Vec4(),int mode =-1) = 0;
     virtual QString    getName() = 0;
     virtual void       setName(QString name) = 0;
     virtual bool       isEnabled() = 0;

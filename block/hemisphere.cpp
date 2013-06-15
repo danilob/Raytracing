@@ -364,6 +364,12 @@ void HemiSphere::setEnabledTexture(bool b)
     this->enable_texture = b;
 }
 
+void HemiSphere::setTexture(Texture *tex)
+{
+    this->textures.clear();
+    this->textures.push_back(tex);
+}
+
 void HemiSphere::addTexture(Texture *tex)
 {
     this->textures.push_back(tex);

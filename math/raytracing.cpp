@@ -202,7 +202,7 @@ Vec4 RayTracing::rayIntersection(Ray ray)
             delete ray_intersection;
             return this->backgroundcolor;
         }else{
-            Vec4 pixel = calculatePixelColor(obj,ray_intersection->normal,ray_intersection->material,ray.positionRay(ray_intersection->t),ray);
+            Vec4 pixel = calculatePixelColor(obj,ray_intersection->normal,ray_intersection->material,ray.positionRay(ray_intersection->t),ray,ray_intersection->mapping);
             delete ray_intersection;
             return pixel;
         }
@@ -225,7 +225,7 @@ Vec4 RayTracing::rayIntersection(Ray ray)
                 delete ray_intersection;
                 return this->backgroundcolor;
             }else{
-                Vec4 pixel = calculatePixelColor(obj,ray_intersection->normal,ray_intersection->material,ray.positionRay(ray_intersection->t),ray);
+                Vec4 pixel = calculatePixelColor(obj,ray_intersection->normal,ray_intersection->material,ray.positionRay(ray_intersection->t),ray,ray_intersection->mapping);
                 delete ray_intersection;
                 return pixel;
             }
@@ -235,11 +235,12 @@ Vec4 RayTracing::rayIntersection(Ray ray)
 
 
 
-Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material, Vec4 intercept,Ray r)
+Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material, Vec4 intercept,Ray r,Vec4 map)
 {
 
         Vec4 color = Vec4(0,0,0);
         Vec4 aux = Vec4(0,0,0);
+        int light_enable = 0;
         for (int i=1;i<scene->lights.size();i++){   
                 obj->setEnabled(false);
                 Vec4 l = scene->lights.at(i)->randLight();
@@ -251,9 +252,14 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                 Ray raio = Ray(intercept,(l - intercept).unitary());
 
                 if (scene->lights.at(i)->isEnabled()){
+                    light_enable++;
                     /* testar se a direção do ponto observado a luz está obstruido */
                     if ((testObstruction(raio)==Vec4())){
-                        aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*(1-material->reflection);
+                        if(obj->getLenTexture()>0){
+                            aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l,obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*(1-material->reflection);
+                        }else{
+                            aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*(1-material->reflection);
+                        }
                     }
 
 
@@ -285,7 +291,10 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
 
         }
 
-        color = color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4());
+        if (obj->getLenTexture()>0)
+            color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4(),obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*0.5)/light_enable;
+        else
+            color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()));
         color.x1 = fmin(color.x1,1.0);
         color.x2 = fmin(color.x2,1.0);
         color.x3 = fmin(color.x3,1.0);

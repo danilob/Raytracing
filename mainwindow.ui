@@ -46,9 +46,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-77</y>
              <width>248</width>
-             <height>688</height>
+             <height>749</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -106,211 +106,6 @@ QGroupBox{
                <property name="spacing">
                 <number>2</number>
                </property>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_10">
-                 <property name="text">
-                  <string>Name</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0" colspan="2">
-                <widget class="QLineEdit" name="nomeObj"/>
-               </item>
-               <item row="2" column="0" colspan="2">
-                <layout class="QHBoxLayout" name="horizontalLayout_2">
-                 <item>
-                  <widget class="QCheckBox" name="selectedObj">
-                   <property name="text">
-                    <string>Select</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="enableObj">
-                   <property name="text">
-                    <string>Enable</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_11">
-                 <property name="text">
-                  <string>Translate</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_12">
-                 <property name="text">
-                  <string>Rotate</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="5" column="1">
-                <widget class="QLabel" name="label_13">
-                 <property name="text">
-                  <string>Scale</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="6" column="0">
-                <layout class="QVBoxLayout" name="verticalLayout_4">
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <property name="sizeConstraint">
-                  <enum>QLayout::SetMinimumSize</enum>
-                 </property>
-                 <item>
-                  <widget class="QSpinBox" name="rotx">
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="prefix">
-                    <string>x : </string>
-                   </property>
-                   <property name="minimum">
-                    <number>0</number>
-                   </property>
-                   <property name="maximum">
-                    <number>360</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="roty">
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="prefix">
-                    <string>y : </string>
-                   </property>
-                   <property name="minimum">
-                    <number>0</number>
-                   </property>
-                   <property name="maximum">
-                    <number>360</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QSpinBox" name="rotz">
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="prefix">
-                    <string>z : </string>
-                   </property>
-                   <property name="minimum">
-                    <number>0</number>
-                   </property>
-                   <property name="maximum">
-                    <number>360</number>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="6" column="1">
-                <layout class="QVBoxLayout" name="verticalLayout_5">
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="scalex">
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="prefix">
-                    <string>x : </string>
-                   </property>
-                   <property name="minimum">
-                    <double>0.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>9999.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.500000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="scaley">
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="prefix">
-                    <string>y : </string>
-                   </property>
-                   <property name="minimum">
-                    <double>0.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>9999.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.500000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QDoubleSpinBox" name="scalez">
-                   <property name="alignment">
-                    <set>Qt::AlignCenter</set>
-                   </property>
-                   <property name="prefix">
-                    <string>z : </string>
-                   </property>
-                   <property name="minimum">
-                    <double>0.000000000000000</double>
-                   </property>
-                   <property name="maximum">
-                    <double>9999.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.500000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.000000000000000</double>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
-               <item row="7" column="0" colspan="2">
-                <layout class="QHBoxLayout" name="horizontalLayout_19">
-                 <item>
-                  <widget class="QLabel" name="label_16">
-                   <property name="text">
-                    <string>Ambient</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_15">
-                   <property name="text">
-                    <string>Diffuse</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QLabel" name="label_17">
-                   <property name="text">
-                    <string>Specular</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
                <item row="8" column="0" colspan="2">
                 <widget class="QFrame" name="frame">
                  <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -347,32 +142,47 @@ QGroupBox{
                  </layout>
                 </widget>
                </item>
-               <item row="9" column="0" colspan="2">
-                <layout class="QHBoxLayout" name="horizontalLayout_4">
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
+               <item row="1" column="0" colspan="2">
+                <widget class="QLineEdit" name="nomeObj"/>
+               </item>
+               <item row="2" column="0" colspan="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
                  <item>
-                  <widget class="QLabel" name="label_14">
+                  <widget class="QCheckBox" name="selectedObj">
                    <property name="text">
-                    <string>Shininess</string>
+                    <string>Select</string>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QDoubleSpinBox" name="shiniMaterial">
-                   <property name="decimals">
-                    <number>3</number>
-                   </property>
-                   <property name="maximum">
-                    <double>1.000000000000000</double>
-                   </property>
-                   <property name="singleStep">
-                    <double>0.050000000000000</double>
+                  <widget class="QCheckBox" name="enableObj">
+                   <property name="text">
+                    <string>Enable</string>
                    </property>
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_10">
+                 <property name="text">
+                  <string>Name</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QLabel" name="label_13">
+                 <property name="text">
+                  <string>Scale</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="12" column="0" colspan="2">
+                <widget class="QPushButton" name="loadTexture">
+                 <property name="text">
+                  <string>Add Texture</string>
+                 </property>
+                </widget>
                </item>
                <item row="10" column="0" colspan="2">
                 <widget class="QComboBox" name="materialobject">
@@ -537,6 +347,79 @@ QGroupBox{
                   </property>
                  </item>
                 </widget>
+               </item>
+               <item row="4" column="0" colspan="2">
+                <layout class="QVBoxLayout" name="verticalLayout_3">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="transx">
+                   <property name="layoutDirection">
+                    <enum>Qt::LeftToRight</enum>
+                   </property>
+                   <property name="wrapping">
+                    <bool>false</bool>
+                   </property>
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="prefix">
+                    <string>x : </string>
+                   </property>
+                   <property name="suffix">
+                    <string/>
+                   </property>
+                   <property name="minimum">
+                    <double>-9999.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>9999.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="transy">
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="prefix">
+                    <string>y : </string>
+                   </property>
+                   <property name="minimum">
+                    <double>-9999.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>9999.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="transz">
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="prefix">
+                    <string>z : </string>
+                   </property>
+                   <property name="minimum">
+                    <double>-9999.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>9999.000000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
                </item>
                <item row="11" column="0" colspan="2">
                 <widget class="QGroupBox" name="groupBox_4">
@@ -721,41 +604,59 @@ QGroupBox{
                  </layout>
                 </widget>
                </item>
-               <item row="4" column="0" colspan="2">
-                <layout class="QVBoxLayout" name="verticalLayout_3">
+               <item row="9" column="0" colspan="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_4">
                  <property name="spacing">
                   <number>0</number>
                  </property>
                  <item>
-                  <widget class="QDoubleSpinBox" name="transx">
-                   <property name="layoutDirection">
-                    <enum>Qt::LeftToRight</enum>
+                  <widget class="QLabel" name="label_14">
+                   <property name="text">
+                    <string>Shininess</string>
                    </property>
-                   <property name="wrapping">
-                    <bool>false</bool>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="shiniMaterial">
+                   <property name="decimals">
+                    <number>3</number>
                    </property>
+                   <property name="maximum">
+                    <double>1.000000000000000</double>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.050000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="6" column="0">
+                <layout class="QVBoxLayout" name="verticalLayout_4">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <property name="sizeConstraint">
+                  <enum>QLayout::SetMinimumSize</enum>
+                 </property>
+                 <item>
+                  <widget class="QSpinBox" name="rotx">
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
                    </property>
                    <property name="prefix">
                     <string>x : </string>
                    </property>
-                   <property name="suffix">
-                    <string/>
-                   </property>
                    <property name="minimum">
-                    <double>-9999.000000000000000</double>
+                    <number>0</number>
                    </property>
                    <property name="maximum">
-                    <double>9999.000000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.000000000000000</double>
+                    <number>360</number>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QDoubleSpinBox" name="transy">
+                  <widget class="QSpinBox" name="roty">
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
                    </property>
@@ -763,18 +664,15 @@ QGroupBox{
                     <string>y : </string>
                    </property>
                    <property name="minimum">
-                    <double>-9999.000000000000000</double>
+                    <number>0</number>
                    </property>
                    <property name="maximum">
-                    <double>9999.000000000000000</double>
-                   </property>
-                   <property name="value">
-                    <double>0.000000000000000</double>
+                    <number>360</number>
                    </property>
                   </widget>
                  </item>
                  <item>
-                  <widget class="QDoubleSpinBox" name="transz">
+                  <widget class="QSpinBox" name="rotz">
                    <property name="alignment">
                     <set>Qt::AlignCenter</set>
                    </property>
@@ -782,10 +680,126 @@ QGroupBox{
                     <string>z : </string>
                    </property>
                    <property name="minimum">
-                    <double>-9999.000000000000000</double>
+                    <number>0</number>
+                   </property>
+                   <property name="maximum">
+                    <number>360</number>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="7" column="0" colspan="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_19">
+                 <item>
+                  <widget class="QLabel" name="label_16">
+                   <property name="text">
+                    <string>Ambient</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_15">
+                   <property name="text">
+                    <string>Diffuse</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QLabel" name="label_17">
+                   <property name="text">
+                    <string>Specular</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_11">
+                 <property name="text">
+                  <string>Translate</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>Rotate</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="14" column="0" colspan="2">
+                <widget class="QPushButton" name="deleteObj">
+                 <property name="text">
+                  <string>Delete</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <layout class="QVBoxLayout" name="verticalLayout_5">
+                 <property name="spacing">
+                  <number>0</number>
+                 </property>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="scalex">
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="prefix">
+                    <string>x : </string>
+                   </property>
+                   <property name="minimum">
+                    <double>0.000000000000000</double>
                    </property>
                    <property name="maximum">
                     <double>9999.000000000000000</double>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.500000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="scaley">
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="prefix">
+                    <string>y : </string>
+                   </property>
+                   <property name="minimum">
+                    <double>0.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>9999.000000000000000</double>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.500000000000000</double>
+                   </property>
+                   <property name="value">
+                    <double>0.000000000000000</double>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QDoubleSpinBox" name="scalez">
+                   <property name="alignment">
+                    <set>Qt::AlignCenter</set>
+                   </property>
+                   <property name="prefix">
+                    <string>z : </string>
+                   </property>
+                   <property name="minimum">
+                    <double>0.000000000000000</double>
+                   </property>
+                   <property name="maximum">
+                    <double>9999.000000000000000</double>
+                   </property>
+                   <property name="singleStep">
+                    <double>0.500000000000000</double>
                    </property>
                    <property name="value">
                     <double>0.000000000000000</double>
@@ -794,12 +808,8 @@ QGroupBox{
                  </item>
                 </layout>
                </item>
-               <item row="12" column="0" colspan="2">
-                <widget class="QPushButton" name="deleteObj">
-                 <property name="text">
-                  <string>Delete</string>
-                 </property>
-                </widget>
+               <item row="13" column="0" colspan="2">
+                <widget class="QGraphicsView" name="onScreenImage"/>
                </item>
               </layout>
              </widget>

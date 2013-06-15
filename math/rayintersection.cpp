@@ -74,6 +74,9 @@ void RayIntersection::rayBoxIntersection(Mesh *mesh, Ray ray, Matrix4x4 transfor
                     this->t = t_;
                     this->normal = n.unitary();
                     this->material = mesh->material;
+                    if (obj->getLenTexture()>0){
+                    this->mapping = mappingPlanar4(mesh->faces.at(i),ray.positionRay(t_),obj->getTexture(0));
+                    }
                     this->obj = obj;
                 }
             }
@@ -135,10 +138,14 @@ void RayIntersection::rayCylinderIntersection(Mesh *mesh,Matrix4x4 transform, Ra
 
         }
         if(t0<0.0) return;
+        Vec4 auxp = Vec4();
         Vec4 pos = ray_copy.positionRay(t0);
         Vec4 lin = line.positionRay(sqrt(pow((pos-Vec4(0,0,0)).module(),2)-1));
         Vec4 n = (pos-Vec4(0,0,0)) - lin*(pos*lin);
         n = n.unitary();
+        if(obj->getLenTexture()>0){
+            auxp = mappingCylinderLateral(pos,obj->getTexture(0));
+        }
         //
 
         if(pos.x2>1){
@@ -149,6 +156,9 @@ void RayIntersection::rayCylinderIntersection(Mesh *mesh,Matrix4x4 transform, Ra
             if (((posi.x()*posi.x() + posi.z()*posi.z())<=1)){
                 t0 = est;
                 pos = posi;
+                if(obj->getLenTexture()>0){
+                    auxp = mappingCylinderCap(pos,obj->getTexture(0));
+                }
             }else{
                 return;
             }
@@ -161,6 +171,9 @@ void RayIntersection::rayCylinderIntersection(Mesh *mesh,Matrix4x4 transform, Ra
             if (((posi.x()*posi.x() + posi.z()*posi.z())<=1)){
                 t0 = est;
                 pos = posi;
+                if(obj->getLenTexture()>0){
+                    auxp = mappingCylinderCap(pos,obj->getTexture(0));
+                }
             }else{
                 return;
             }
@@ -177,6 +190,7 @@ void RayIntersection::rayCylinderIntersection(Mesh *mesh,Matrix4x4 transform, Ra
             this->normal = n.unitary();
             this->material = mesh->material;
             this->obj = obj;
+            if(obj->getLenTexture()>0) this->mapping = auxp;
         }
 
 
@@ -246,7 +260,7 @@ void RayIntersection::raySphereIntersection(Mesh *mesh, Matrix4x4 transform, Ray
     a = copy.direction.x()*copy.direction.x() + copy.direction.y()*copy.direction.y() + copy.direction.z()*copy.direction.z();
 
     delta = b*b - 4*a*c;
-    Vec4 pos,n;
+    Vec4 pos,auxp,n;
     if (delta<0.0){
        return;
 
@@ -255,6 +269,7 @@ void RayIntersection::raySphereIntersection(Mesh *mesh, Matrix4x4 transform, Ray
     t1 = (-b + sqrt(delta))/(2*a);
     t_ = fmin(t0,t1);
     pos = copy.positionRay(t_);
+    auxp = pos;
     n   = pos;
     }/*
     if (pos.x2 <APROXIMATE){
@@ -281,6 +296,7 @@ void RayIntersection::raySphereIntersection(Mesh *mesh, Matrix4x4 transform, Ray
         this->normal = n.unitary();
         this->material = mesh->material;
         this->obj = obj;
+        if(obj->getLenTexture()>0) this->mapping = mappingSpheric(auxp,obj->getTexture(0));
     }
 
 
@@ -342,6 +358,133 @@ RayIntersection::~RayIntersection()
 {
     //delete material;
     //delete obj;
+}
+
+Vec4 RayIntersection::mappingPlanar4(Face face, Vec4 pit,Texture* text)
+{
+    //considerando o seguinte esquema de face quadrada
+    //        dv
+    //  p0 --------- p3
+    //  |             |
+    //  | du          |
+    //  |             |
+    //  p1 --------- p2
+    if (text==NULL) return Vec4();
+
+    if (face.vertexs.size()!=4) return Vec4();
+    Vec4 p0 = Vec4(face.vertexs[0]->x(),face.vertexs[0]->y(),face.vertexs[0]->z());
+    Vec4 p1 = Vec4(face.vertexs[1]->x(),face.vertexs[1]->y(),face.vertexs[1]->z());
+    Vec4 p3 = Vec4(face.vertexs[3]->x(),face.vertexs[3]->y(),face.vertexs[3]->z());
+    float du = (p0 - p1).module();
+    float dv = (p0 - p3).module();
+    float d  = (p0 - pit).module();
+    float cos = ((pit - p0)*(p1 - p0))/(d*du);
+    float sin = sqrt((1 - cos*cos));
+    //float angle = (pit - p0)*(p1 - p0);
+    float u,v;
+    if(text->getTypeMapping()==MAP_TILING){
+    float x = ((d*cos)/(du/2) - floor((d*cos)/(du/2)))*(du/2);
+    float y = ((d*sin)/(dv/2) - floor((d*sin)/(dv/2)))*(dv/2);
+    u = (x)/(du/2);
+    v = (y)/(dv/2);
+    }else{
+        u = ((d*cos))/(du);
+        v = ((d*sin))/(dv);
+    }
+    return Vec4(u,v,0);
+
+//    float u = (d*cos)/du;
+//    float v = (d*sin)/dv;
+//    return Vec4(u,v,0);
+
+
+
+}
+
+Vec4 RayIntersection::mappingPlanar3(Face face, Vec4 pit, Texture *text)
+{
+}
+
+Vec4 RayIntersection::mappingSpheric(Vec4 pos, Texture *text)
+{
+    if (text==NULL) return Vec4();
+    float u = 0.5 + atan2(pos.x(),pos.z())/(2*M_PI);
+    float v = 0.5 - (asin(pos.y())/(M_PI));
+    return Vec4(u,v,0);
+}
+
+Vec4 RayIntersection::mappingCylinderLateral(Vec4 pos, Texture *text)
+{
+//    float angle = (Vec4(1,pos.y(),0)- Vec4(0,pos.y(),0))*(pos - Vec4(0,pos.y(),0));
+//    float cos = ((Vec4(1,pos.y(),0)- Vec4(0,pos.y(),0))*(pos - Vec4(0,pos.y(),0)))/((Vec4(1,pos.y(),0)- Vec4(0,pos.y(),0)).module()*(pos - Vec4(0,pos.y(),0)).module());
+//    if (angle<0){
+//        angle = (Vec4(0,pos.y(),0)-pos)*(Vec4(1,pos.y(),0)- Vec4(0,pos.y(),0));
+//    }
+    //if (v.get_dimensao() != 2) return(-1);
+        float resultado = 0;
+        // Checar se o vetor "v" está mais perto da reta X:
+        if (fabs(pos.z()) > fabs(pos.x()))// Se |v.x| > |v.y|...
+        {
+            resultado = pos.x()/pos.z();// (v.y/v.x)
+            if (pos.z() > 0)// Se (v.x > 0)...
+            {
+                if (resultado < 0) resultado += 8;
+            }
+            else resultado += 4;
+        }
+        else// Caso o vetor "v" esteja mais perto da reta Y:
+        {
+            resultado = pos.z()/pos.x();// (v.x/v.y)
+            // Se (v.y > 0)...
+            if (pos.x() > 0) resultado = 2 - resultado;
+            else resultado = 6 - resultado;
+        }
+        resultado/=8.0;
+
+    float u = resultado;
+    float v = 1-Vec4(0,pos.y(),0).module();
+    return Vec4(u,v,0);
+
+
+}
+
+Vec4 RayIntersection::mappingCylinderCap(Vec4 pos, Texture *text)
+{
+    float angle = atan2(pos.z(),pos.x());//((Vec4(1,pos.y(),0)- Vec4(0,pos.y(),0))*(pos-Vec4(0,pos.y(),0)));
+    float cos = ((Vec4(1,pos.y(),0)- Vec4(0,pos.y(),0))*(pos - Vec4(0,pos.y(),0)))/((Vec4(1,pos.y(),0)- Vec4(0,pos.y(),0)).module()*(pos - Vec4(0,pos.y(),0)).module());
+    float sin = sqrt((1.0 - cos*cos));
+    float d   = (Vec4(0,pos.y(),0) - pos).module();
+    //float angle = atan2(pos.z(),pos.x());
+    //float angle2 = atan2(pos.z(),pos.x());
+    float u,v;
+    if (angle<0){
+        if(cos>=0){
+            u = 0.5+(cos*d)*0.5;
+            v = 0.5+(sin*d*0.5);
+        }else{
+            u = 0.5+(cos*d)*0.5;
+            v = 0.5+(sin*d*0.5);
+        }
+    }else{
+        if(cos>=0){
+            u = 0.5+(cos*d)*0.5;
+            v = 0.5 - (sin*d)*0.5;
+        }else{
+            u = 0.5+(cos*d)*0.5;
+            v = 0.5 - (sin*d)*0.5;
+        }
+    }
+   /* if((cos)<0) u = ((cos))*d;
+    else            u = 0.5/((cos)*d) + 0.5;
+    if(acos(sin)<0) v = 0.5/((sin)*d) + 0.5;
+    else      v = ((sin))*d*/;
+    //u = 1 - (acos(cos))/(2*M_PI);
+
+//    if (angle<0) u = -angle/(2*M_PI);
+//    else         u = 1 - angle/(2*M_PI);
+    return Vec4(v,u,0);
+
+
 }
 
 

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Fri Jun 14 11:00:45 2013
+** Created: Fri Jun 14 19:54:31 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -75,35 +75,23 @@ public:
     QVBoxLayout *verticalLayout_2;
     QGroupBox *groupBoxPropertiesObj;
     QGridLayout *gridLayout_11;
-    QLabel *label_10;
-    QLineEdit *nomeObj;
-    QHBoxLayout *horizontalLayout_2;
-    QCheckBox *selectedObj;
-    QCheckBox *enableObj;
-    QLabel *label_11;
-    QLabel *label_12;
-    QLabel *label_13;
-    QVBoxLayout *verticalLayout_4;
-    QSpinBox *rotx;
-    QSpinBox *roty;
-    QSpinBox *rotz;
-    QVBoxLayout *verticalLayout_5;
-    QDoubleSpinBox *scalex;
-    QDoubleSpinBox *scaley;
-    QDoubleSpinBox *scalez;
-    QHBoxLayout *horizontalLayout_19;
-    QLabel *label_16;
-    QLabel *label_15;
-    QLabel *label_17;
     QFrame *frame;
     QHBoxLayout *horizontalLayout_3;
     QPushButton *ambMaterial;
     QPushButton *diffMaterial;
     QPushButton *speMaterial;
-    QHBoxLayout *horizontalLayout_4;
-    QLabel *label_14;
-    QDoubleSpinBox *shiniMaterial;
+    QLineEdit *nomeObj;
+    QHBoxLayout *horizontalLayout_2;
+    QCheckBox *selectedObj;
+    QCheckBox *enableObj;
+    QLabel *label_10;
+    QLabel *label_13;
+    QPushButton *loadTexture;
     QComboBox *materialobject;
+    QVBoxLayout *verticalLayout_3;
+    QDoubleSpinBox *transx;
+    QDoubleSpinBox *transy;
+    QDoubleSpinBox *transz;
     QGroupBox *groupBox_4;
     QGridLayout *gridLayout_10;
     QHBoxLayout *horizontalLayout_17;
@@ -123,11 +111,25 @@ public:
     QDoubleSpinBox *ymotion;
     QDoubleSpinBox *zmotion;
     QLabel *label_36;
-    QVBoxLayout *verticalLayout_3;
-    QDoubleSpinBox *transx;
-    QDoubleSpinBox *transy;
-    QDoubleSpinBox *transz;
+    QHBoxLayout *horizontalLayout_4;
+    QLabel *label_14;
+    QDoubleSpinBox *shiniMaterial;
+    QVBoxLayout *verticalLayout_4;
+    QSpinBox *rotx;
+    QSpinBox *roty;
+    QSpinBox *rotz;
+    QHBoxLayout *horizontalLayout_19;
+    QLabel *label_16;
+    QLabel *label_15;
+    QLabel *label_17;
+    QLabel *label_11;
+    QLabel *label_12;
     QPushButton *deleteObj;
+    QVBoxLayout *verticalLayout_5;
+    QDoubleSpinBox *scalex;
+    QDoubleSpinBox *scaley;
+    QDoubleSpinBox *scalez;
+    QGraphicsView *onScreenImage;
     QScrollArea *scrollLight;
     QWidget *scrollAreaWidgetContents_4;
     QFormLayout *formLayout;
@@ -351,7 +353,7 @@ public:
         scrollObject->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 248, 688));
+        scrollAreaWidgetContents->setGeometry(QRect(0, -77, 248, 749));
         verticalLayout_2 = new QVBoxLayout(scrollAreaWidgetContents);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -383,135 +385,6 @@ public:
         gridLayout_11->setContentsMargins(11, 11, 11, 11);
         gridLayout_11->setObjectName(QString::fromUtf8("gridLayout_11"));
         gridLayout_11->setContentsMargins(2, 5, 2, 2);
-        label_10 = new QLabel(groupBoxPropertiesObj);
-        label_10->setObjectName(QString::fromUtf8("label_10"));
-
-        gridLayout_11->addWidget(label_10, 0, 0, 1, 1);
-
-        nomeObj = new QLineEdit(groupBoxPropertiesObj);
-        nomeObj->setObjectName(QString::fromUtf8("nomeObj"));
-
-        gridLayout_11->addWidget(nomeObj, 1, 0, 1, 2);
-
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        selectedObj = new QCheckBox(groupBoxPropertiesObj);
-        selectedObj->setObjectName(QString::fromUtf8("selectedObj"));
-
-        horizontalLayout_2->addWidget(selectedObj);
-
-        enableObj = new QCheckBox(groupBoxPropertiesObj);
-        enableObj->setObjectName(QString::fromUtf8("enableObj"));
-
-        horizontalLayout_2->addWidget(enableObj);
-
-
-        gridLayout_11->addLayout(horizontalLayout_2, 2, 0, 1, 2);
-
-        label_11 = new QLabel(groupBoxPropertiesObj);
-        label_11->setObjectName(QString::fromUtf8("label_11"));
-
-        gridLayout_11->addWidget(label_11, 3, 0, 1, 1);
-
-        label_12 = new QLabel(groupBoxPropertiesObj);
-        label_12->setObjectName(QString::fromUtf8("label_12"));
-
-        gridLayout_11->addWidget(label_12, 5, 0, 1, 1);
-
-        label_13 = new QLabel(groupBoxPropertiesObj);
-        label_13->setObjectName(QString::fromUtf8("label_13"));
-
-        gridLayout_11->addWidget(label_13, 5, 1, 1, 1);
-
-        verticalLayout_4 = new QVBoxLayout();
-        verticalLayout_4->setSpacing(0);
-        verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
-        verticalLayout_4->setSizeConstraint(QLayout::SetMinimumSize);
-        rotx = new QSpinBox(groupBoxPropertiesObj);
-        rotx->setObjectName(QString::fromUtf8("rotx"));
-        rotx->setAlignment(Qt::AlignCenter);
-        rotx->setMinimum(0);
-        rotx->setMaximum(360);
-
-        verticalLayout_4->addWidget(rotx);
-
-        roty = new QSpinBox(groupBoxPropertiesObj);
-        roty->setObjectName(QString::fromUtf8("roty"));
-        roty->setAlignment(Qt::AlignCenter);
-        roty->setMinimum(0);
-        roty->setMaximum(360);
-
-        verticalLayout_4->addWidget(roty);
-
-        rotz = new QSpinBox(groupBoxPropertiesObj);
-        rotz->setObjectName(QString::fromUtf8("rotz"));
-        rotz->setAlignment(Qt::AlignCenter);
-        rotz->setMinimum(0);
-        rotz->setMaximum(360);
-
-        verticalLayout_4->addWidget(rotz);
-
-
-        gridLayout_11->addLayout(verticalLayout_4, 6, 0, 1, 1);
-
-        verticalLayout_5 = new QVBoxLayout();
-        verticalLayout_5->setSpacing(0);
-        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
-        scalex = new QDoubleSpinBox(groupBoxPropertiesObj);
-        scalex->setObjectName(QString::fromUtf8("scalex"));
-        scalex->setAlignment(Qt::AlignCenter);
-        scalex->setMinimum(0);
-        scalex->setMaximum(9999);
-        scalex->setSingleStep(0.5);
-        scalex->setValue(0);
-
-        verticalLayout_5->addWidget(scalex);
-
-        scaley = new QDoubleSpinBox(groupBoxPropertiesObj);
-        scaley->setObjectName(QString::fromUtf8("scaley"));
-        scaley->setAlignment(Qt::AlignCenter);
-        scaley->setMinimum(0);
-        scaley->setMaximum(9999);
-        scaley->setSingleStep(0.5);
-        scaley->setValue(0);
-
-        verticalLayout_5->addWidget(scaley);
-
-        scalez = new QDoubleSpinBox(groupBoxPropertiesObj);
-        scalez->setObjectName(QString::fromUtf8("scalez"));
-        scalez->setAlignment(Qt::AlignCenter);
-        scalez->setMinimum(0);
-        scalez->setMaximum(9999);
-        scalez->setSingleStep(0.5);
-        scalez->setValue(0);
-
-        verticalLayout_5->addWidget(scalez);
-
-
-        gridLayout_11->addLayout(verticalLayout_5, 6, 1, 1, 1);
-
-        horizontalLayout_19 = new QHBoxLayout();
-        horizontalLayout_19->setSpacing(6);
-        horizontalLayout_19->setObjectName(QString::fromUtf8("horizontalLayout_19"));
-        label_16 = new QLabel(groupBoxPropertiesObj);
-        label_16->setObjectName(QString::fromUtf8("label_16"));
-
-        horizontalLayout_19->addWidget(label_16);
-
-        label_15 = new QLabel(groupBoxPropertiesObj);
-        label_15->setObjectName(QString::fromUtf8("label_15"));
-
-        horizontalLayout_19->addWidget(label_15);
-
-        label_17 = new QLabel(groupBoxPropertiesObj);
-        label_17->setObjectName(QString::fromUtf8("label_17"));
-
-        horizontalLayout_19->addWidget(label_17);
-
-
-        gridLayout_11->addLayout(horizontalLayout_19, 7, 0, 1, 2);
-
         frame = new QFrame(groupBoxPropertiesObj);
         frame->setObjectName(QString::fromUtf8("frame"));
         horizontalLayout_3 = new QHBoxLayout(frame);
@@ -539,29 +412,81 @@ public:
 
         gridLayout_11->addWidget(frame, 8, 0, 1, 2);
 
-        horizontalLayout_4 = new QHBoxLayout();
-        horizontalLayout_4->setSpacing(0);
-        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
-        label_14 = new QLabel(groupBoxPropertiesObj);
-        label_14->setObjectName(QString::fromUtf8("label_14"));
+        nomeObj = new QLineEdit(groupBoxPropertiesObj);
+        nomeObj->setObjectName(QString::fromUtf8("nomeObj"));
 
-        horizontalLayout_4->addWidget(label_14);
+        gridLayout_11->addWidget(nomeObj, 1, 0, 1, 2);
 
-        shiniMaterial = new QDoubleSpinBox(groupBoxPropertiesObj);
-        shiniMaterial->setObjectName(QString::fromUtf8("shiniMaterial"));
-        shiniMaterial->setDecimals(3);
-        shiniMaterial->setMaximum(1);
-        shiniMaterial->setSingleStep(0.05);
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        selectedObj = new QCheckBox(groupBoxPropertiesObj);
+        selectedObj->setObjectName(QString::fromUtf8("selectedObj"));
 
-        horizontalLayout_4->addWidget(shiniMaterial);
+        horizontalLayout_2->addWidget(selectedObj);
+
+        enableObj = new QCheckBox(groupBoxPropertiesObj);
+        enableObj->setObjectName(QString::fromUtf8("enableObj"));
+
+        horizontalLayout_2->addWidget(enableObj);
 
 
-        gridLayout_11->addLayout(horizontalLayout_4, 9, 0, 1, 2);
+        gridLayout_11->addLayout(horizontalLayout_2, 2, 0, 1, 2);
+
+        label_10 = new QLabel(groupBoxPropertiesObj);
+        label_10->setObjectName(QString::fromUtf8("label_10"));
+
+        gridLayout_11->addWidget(label_10, 0, 0, 1, 1);
+
+        label_13 = new QLabel(groupBoxPropertiesObj);
+        label_13->setObjectName(QString::fromUtf8("label_13"));
+
+        gridLayout_11->addWidget(label_13, 5, 1, 1, 1);
+
+        loadTexture = new QPushButton(groupBoxPropertiesObj);
+        loadTexture->setObjectName(QString::fromUtf8("loadTexture"));
+
+        gridLayout_11->addWidget(loadTexture, 12, 0, 1, 2);
 
         materialobject = new QComboBox(groupBoxPropertiesObj);
         materialobject->setObjectName(QString::fromUtf8("materialobject"));
 
         gridLayout_11->addWidget(materialobject, 10, 0, 1, 2);
+
+        verticalLayout_3 = new QVBoxLayout();
+        verticalLayout_3->setSpacing(0);
+        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
+        transx = new QDoubleSpinBox(groupBoxPropertiesObj);
+        transx->setObjectName(QString::fromUtf8("transx"));
+        transx->setLayoutDirection(Qt::LeftToRight);
+        transx->setWrapping(false);
+        transx->setAlignment(Qt::AlignCenter);
+        transx->setMinimum(-9999);
+        transx->setMaximum(9999);
+        transx->setValue(0);
+
+        verticalLayout_3->addWidget(transx);
+
+        transy = new QDoubleSpinBox(groupBoxPropertiesObj);
+        transy->setObjectName(QString::fromUtf8("transy"));
+        transy->setAlignment(Qt::AlignCenter);
+        transy->setMinimum(-9999);
+        transy->setMaximum(9999);
+        transy->setValue(0);
+
+        verticalLayout_3->addWidget(transy);
+
+        transz = new QDoubleSpinBox(groupBoxPropertiesObj);
+        transz->setObjectName(QString::fromUtf8("transz"));
+        transz->setAlignment(Qt::AlignCenter);
+        transz->setMinimum(-9999);
+        transz->setMaximum(9999);
+        transz->setValue(0);
+
+        verticalLayout_3->addWidget(transz);
+
+
+        gridLayout_11->addLayout(verticalLayout_3, 4, 0, 1, 2);
 
         groupBox_4 = new QGroupBox(groupBoxPropertiesObj);
         groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
@@ -683,45 +608,132 @@ public:
 
         gridLayout_11->addWidget(groupBox_4, 11, 0, 1, 2);
 
-        verticalLayout_3 = new QVBoxLayout();
-        verticalLayout_3->setSpacing(0);
-        verticalLayout_3->setObjectName(QString::fromUtf8("verticalLayout_3"));
-        transx = new QDoubleSpinBox(groupBoxPropertiesObj);
-        transx->setObjectName(QString::fromUtf8("transx"));
-        transx->setLayoutDirection(Qt::LeftToRight);
-        transx->setWrapping(false);
-        transx->setAlignment(Qt::AlignCenter);
-        transx->setMinimum(-9999);
-        transx->setMaximum(9999);
-        transx->setValue(0);
+        horizontalLayout_4 = new QHBoxLayout();
+        horizontalLayout_4->setSpacing(0);
+        horizontalLayout_4->setObjectName(QString::fromUtf8("horizontalLayout_4"));
+        label_14 = new QLabel(groupBoxPropertiesObj);
+        label_14->setObjectName(QString::fromUtf8("label_14"));
 
-        verticalLayout_3->addWidget(transx);
+        horizontalLayout_4->addWidget(label_14);
 
-        transy = new QDoubleSpinBox(groupBoxPropertiesObj);
-        transy->setObjectName(QString::fromUtf8("transy"));
-        transy->setAlignment(Qt::AlignCenter);
-        transy->setMinimum(-9999);
-        transy->setMaximum(9999);
-        transy->setValue(0);
+        shiniMaterial = new QDoubleSpinBox(groupBoxPropertiesObj);
+        shiniMaterial->setObjectName(QString::fromUtf8("shiniMaterial"));
+        shiniMaterial->setDecimals(3);
+        shiniMaterial->setMaximum(1);
+        shiniMaterial->setSingleStep(0.05);
 
-        verticalLayout_3->addWidget(transy);
-
-        transz = new QDoubleSpinBox(groupBoxPropertiesObj);
-        transz->setObjectName(QString::fromUtf8("transz"));
-        transz->setAlignment(Qt::AlignCenter);
-        transz->setMinimum(-9999);
-        transz->setMaximum(9999);
-        transz->setValue(0);
-
-        verticalLayout_3->addWidget(transz);
+        horizontalLayout_4->addWidget(shiniMaterial);
 
 
-        gridLayout_11->addLayout(verticalLayout_3, 4, 0, 1, 2);
+        gridLayout_11->addLayout(horizontalLayout_4, 9, 0, 1, 2);
+
+        verticalLayout_4 = new QVBoxLayout();
+        verticalLayout_4->setSpacing(0);
+        verticalLayout_4->setObjectName(QString::fromUtf8("verticalLayout_4"));
+        verticalLayout_4->setSizeConstraint(QLayout::SetMinimumSize);
+        rotx = new QSpinBox(groupBoxPropertiesObj);
+        rotx->setObjectName(QString::fromUtf8("rotx"));
+        rotx->setAlignment(Qt::AlignCenter);
+        rotx->setMinimum(0);
+        rotx->setMaximum(360);
+
+        verticalLayout_4->addWidget(rotx);
+
+        roty = new QSpinBox(groupBoxPropertiesObj);
+        roty->setObjectName(QString::fromUtf8("roty"));
+        roty->setAlignment(Qt::AlignCenter);
+        roty->setMinimum(0);
+        roty->setMaximum(360);
+
+        verticalLayout_4->addWidget(roty);
+
+        rotz = new QSpinBox(groupBoxPropertiesObj);
+        rotz->setObjectName(QString::fromUtf8("rotz"));
+        rotz->setAlignment(Qt::AlignCenter);
+        rotz->setMinimum(0);
+        rotz->setMaximum(360);
+
+        verticalLayout_4->addWidget(rotz);
+
+
+        gridLayout_11->addLayout(verticalLayout_4, 6, 0, 1, 1);
+
+        horizontalLayout_19 = new QHBoxLayout();
+        horizontalLayout_19->setSpacing(6);
+        horizontalLayout_19->setObjectName(QString::fromUtf8("horizontalLayout_19"));
+        label_16 = new QLabel(groupBoxPropertiesObj);
+        label_16->setObjectName(QString::fromUtf8("label_16"));
+
+        horizontalLayout_19->addWidget(label_16);
+
+        label_15 = new QLabel(groupBoxPropertiesObj);
+        label_15->setObjectName(QString::fromUtf8("label_15"));
+
+        horizontalLayout_19->addWidget(label_15);
+
+        label_17 = new QLabel(groupBoxPropertiesObj);
+        label_17->setObjectName(QString::fromUtf8("label_17"));
+
+        horizontalLayout_19->addWidget(label_17);
+
+
+        gridLayout_11->addLayout(horizontalLayout_19, 7, 0, 1, 2);
+
+        label_11 = new QLabel(groupBoxPropertiesObj);
+        label_11->setObjectName(QString::fromUtf8("label_11"));
+
+        gridLayout_11->addWidget(label_11, 3, 0, 1, 1);
+
+        label_12 = new QLabel(groupBoxPropertiesObj);
+        label_12->setObjectName(QString::fromUtf8("label_12"));
+
+        gridLayout_11->addWidget(label_12, 5, 0, 1, 1);
 
         deleteObj = new QPushButton(groupBoxPropertiesObj);
         deleteObj->setObjectName(QString::fromUtf8("deleteObj"));
 
-        gridLayout_11->addWidget(deleteObj, 12, 0, 1, 2);
+        gridLayout_11->addWidget(deleteObj, 14, 0, 1, 2);
+
+        verticalLayout_5 = new QVBoxLayout();
+        verticalLayout_5->setSpacing(0);
+        verticalLayout_5->setObjectName(QString::fromUtf8("verticalLayout_5"));
+        scalex = new QDoubleSpinBox(groupBoxPropertiesObj);
+        scalex->setObjectName(QString::fromUtf8("scalex"));
+        scalex->setAlignment(Qt::AlignCenter);
+        scalex->setMinimum(0);
+        scalex->setMaximum(9999);
+        scalex->setSingleStep(0.5);
+        scalex->setValue(0);
+
+        verticalLayout_5->addWidget(scalex);
+
+        scaley = new QDoubleSpinBox(groupBoxPropertiesObj);
+        scaley->setObjectName(QString::fromUtf8("scaley"));
+        scaley->setAlignment(Qt::AlignCenter);
+        scaley->setMinimum(0);
+        scaley->setMaximum(9999);
+        scaley->setSingleStep(0.5);
+        scaley->setValue(0);
+
+        verticalLayout_5->addWidget(scaley);
+
+        scalez = new QDoubleSpinBox(groupBoxPropertiesObj);
+        scalez->setObjectName(QString::fromUtf8("scalez"));
+        scalez->setAlignment(Qt::AlignCenter);
+        scalez->setMinimum(0);
+        scalez->setMaximum(9999);
+        scalez->setSingleStep(0.5);
+        scalez->setValue(0);
+
+        verticalLayout_5->addWidget(scalez);
+
+
+        gridLayout_11->addLayout(verticalLayout_5, 6, 1, 1, 1);
+
+        onScreenImage = new QGraphicsView(groupBoxPropertiesObj);
+        onScreenImage->setObjectName(QString::fromUtf8("onScreenImage"));
+
+        gridLayout_11->addWidget(onScreenImage, 13, 0, 1, 2);
 
 
         verticalLayout_2->addWidget(groupBoxPropertiesObj);
@@ -1647,25 +1659,14 @@ public:
         actionCone->setText(QApplication::translate("MainWindow", "Cone", 0, QApplication::UnicodeUTF8));
         actionCone->setShortcut(QApplication::translate("MainWindow", "Ctrl+E", 0, QApplication::UnicodeUTF8));
         groupBoxPropertiesObj->setTitle(QApplication::translate("MainWindow", "Properties Object", 0, QApplication::UnicodeUTF8));
-        label_10->setText(QApplication::translate("MainWindow", "Name", 0, QApplication::UnicodeUTF8));
-        selectedObj->setText(QApplication::translate("MainWindow", "Select", 0, QApplication::UnicodeUTF8));
-        enableObj->setText(QApplication::translate("MainWindow", "Enable", 0, QApplication::UnicodeUTF8));
-        label_11->setText(QApplication::translate("MainWindow", "Translate", 0, QApplication::UnicodeUTF8));
-        label_12->setText(QApplication::translate("MainWindow", "Rotate", 0, QApplication::UnicodeUTF8));
-        label_13->setText(QApplication::translate("MainWindow", "Scale", 0, QApplication::UnicodeUTF8));
-        rotx->setPrefix(QApplication::translate("MainWindow", "x : ", 0, QApplication::UnicodeUTF8));
-        roty->setPrefix(QApplication::translate("MainWindow", "y : ", 0, QApplication::UnicodeUTF8));
-        rotz->setPrefix(QApplication::translate("MainWindow", "z : ", 0, QApplication::UnicodeUTF8));
-        scalex->setPrefix(QApplication::translate("MainWindow", "x : ", 0, QApplication::UnicodeUTF8));
-        scaley->setPrefix(QApplication::translate("MainWindow", "y : ", 0, QApplication::UnicodeUTF8));
-        scalez->setPrefix(QApplication::translate("MainWindow", "z : ", 0, QApplication::UnicodeUTF8));
-        label_16->setText(QApplication::translate("MainWindow", "Ambient", 0, QApplication::UnicodeUTF8));
-        label_15->setText(QApplication::translate("MainWindow", "Diffuse", 0, QApplication::UnicodeUTF8));
-        label_17->setText(QApplication::translate("MainWindow", "Specular", 0, QApplication::UnicodeUTF8));
         ambMaterial->setText(QApplication::translate("MainWindow", "amb", 0, QApplication::UnicodeUTF8));
         diffMaterial->setText(QApplication::translate("MainWindow", "diff", 0, QApplication::UnicodeUTF8));
         speMaterial->setText(QApplication::translate("MainWindow", "spe", 0, QApplication::UnicodeUTF8));
-        label_14->setText(QApplication::translate("MainWindow", "Shininess", 0, QApplication::UnicodeUTF8));
+        selectedObj->setText(QApplication::translate("MainWindow", "Select", 0, QApplication::UnicodeUTF8));
+        enableObj->setText(QApplication::translate("MainWindow", "Enable", 0, QApplication::UnicodeUTF8));
+        label_10->setText(QApplication::translate("MainWindow", "Name", 0, QApplication::UnicodeUTF8));
+        label_13->setText(QApplication::translate("MainWindow", "Scale", 0, QApplication::UnicodeUTF8));
+        loadTexture->setText(QApplication::translate("MainWindow", "Add Texture", 0, QApplication::UnicodeUTF8));
         materialobject->clear();
         materialobject->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "NO DEFINE", 0, QApplication::UnicodeUTF8)
@@ -1701,6 +1702,10 @@ public:
          << QApplication::translate("MainWindow", "WHITE RUBBER", 0, QApplication::UnicodeUTF8)
          << QApplication::translate("MainWindow", "YELLOW RUBBER", 0, QApplication::UnicodeUTF8)
         );
+        transx->setPrefix(QApplication::translate("MainWindow", "x : ", 0, QApplication::UnicodeUTF8));
+        transx->setSuffix(QString());
+        transy->setPrefix(QApplication::translate("MainWindow", "y : ", 0, QApplication::UnicodeUTF8));
+        transz->setPrefix(QApplication::translate("MainWindow", "z : ", 0, QApplication::UnicodeUTF8));
         groupBox_4->setTitle(QApplication::translate("MainWindow", "Effects", 0, QApplication::UnicodeUTF8));
         label_35->setText(QApplication::translate("MainWindow", "Glossy Reflection", 0, QApplication::UnicodeUTF8));
         label_34->setText(QApplication::translate("MainWindow", "Glossy Refraction", 0, QApplication::UnicodeUTF8));
@@ -1710,11 +1715,19 @@ public:
         ymotion->setPrefix(QApplication::translate("MainWindow", "y: ", 0, QApplication::UnicodeUTF8));
         zmotion->setPrefix(QApplication::translate("MainWindow", "z: ", 0, QApplication::UnicodeUTF8));
         label_36->setText(QApplication::translate("MainWindow", "Motion Blur", 0, QApplication::UnicodeUTF8));
-        transx->setPrefix(QApplication::translate("MainWindow", "x : ", 0, QApplication::UnicodeUTF8));
-        transx->setSuffix(QString());
-        transy->setPrefix(QApplication::translate("MainWindow", "y : ", 0, QApplication::UnicodeUTF8));
-        transz->setPrefix(QApplication::translate("MainWindow", "z : ", 0, QApplication::UnicodeUTF8));
+        label_14->setText(QApplication::translate("MainWindow", "Shininess", 0, QApplication::UnicodeUTF8));
+        rotx->setPrefix(QApplication::translate("MainWindow", "x : ", 0, QApplication::UnicodeUTF8));
+        roty->setPrefix(QApplication::translate("MainWindow", "y : ", 0, QApplication::UnicodeUTF8));
+        rotz->setPrefix(QApplication::translate("MainWindow", "z : ", 0, QApplication::UnicodeUTF8));
+        label_16->setText(QApplication::translate("MainWindow", "Ambient", 0, QApplication::UnicodeUTF8));
+        label_15->setText(QApplication::translate("MainWindow", "Diffuse", 0, QApplication::UnicodeUTF8));
+        label_17->setText(QApplication::translate("MainWindow", "Specular", 0, QApplication::UnicodeUTF8));
+        label_11->setText(QApplication::translate("MainWindow", "Translate", 0, QApplication::UnicodeUTF8));
+        label_12->setText(QApplication::translate("MainWindow", "Rotate", 0, QApplication::UnicodeUTF8));
         deleteObj->setText(QApplication::translate("MainWindow", "Delete", 0, QApplication::UnicodeUTF8));
+        scalex->setPrefix(QApplication::translate("MainWindow", "x : ", 0, QApplication::UnicodeUTF8));
+        scaley->setPrefix(QApplication::translate("MainWindow", "y : ", 0, QApplication::UnicodeUTF8));
+        scalez->setPrefix(QApplication::translate("MainWindow", "z : ", 0, QApplication::UnicodeUTF8));
         groupBoxPropertieLight->setTitle(QApplication::translate("MainWindow", "Properties Light", 0, QApplication::UnicodeUTF8));
         label_20->setText(QApplication::translate("MainWindow", "Name", 0, QApplication::UnicodeUTF8));
         selectedLight->setText(QApplication::translate("MainWindow", "Select", 0, QApplication::UnicodeUTF8));

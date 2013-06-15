@@ -42,6 +42,7 @@ public:
     virtual Vec4        getMotion() = 0;                            //extrai a posição do objeto
     virtual bool        getEnabledTexture() = 0;                    //habilita o uso da textura
     virtual void        setEnabledTexture(bool) = 0;                //seta se a textura esta habilitada ou não
+    virtual void        setTexture(Texture*) = 0;                   //esta função deleta as texturas anteriores e adiciona a textura do parametro
     virtual void        addTexture(Texture*) = 0;                   //adiciona a testura ao objeto
     virtual void        removeTexture(Texture*) = 0;                //remove uma textura
     virtual int         getLenTexture() = 0;                        //retorna a quantidade de texturas do objeto

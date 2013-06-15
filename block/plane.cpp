@@ -312,6 +312,12 @@ void Plane::setEnabledTexture(bool b)
     this->enable_texture = b;
 }
 
+void Plane::setTexture(Texture *tex)
+{
+    this->textures.clear();
+    this->textures.push_back(tex);
+}
+
 void Plane::addTexture(Texture *tex)
 {
     this->textures.push_back(tex);

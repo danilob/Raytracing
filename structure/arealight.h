@@ -11,7 +11,7 @@ public:
     void drawLight();
     void drawReferenceLight();
     void drawLightOpenGL(int flag_light);
-    Vec4 calculateColor(Vec4 pit,Vec4 n,Vec4 viewer, Material *m,Vec4 pos=Vec4(0,0,0));
+    Vec4 calculateColor(Vec4 pit,Vec4 n,Vec4 viewer, Material *m,Vec4 pos=Vec4(0,0,0),Vec4 texColor=Vec4(),int mode_texture=-1);
     QString    getName();
     void       setName(QString name);
     bool       isEnabled();

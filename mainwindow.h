@@ -159,6 +159,8 @@ private slots:
 
     void on_actionCone_triggered();
 
+    void on_loadTexture_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor m_color;

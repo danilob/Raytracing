@@ -340,3 +340,7 @@ Texture *HBB::getTexture(int i)
 }
 
 
+void HBB::setTexture(Texture *tex)
+{
+    return;
+}

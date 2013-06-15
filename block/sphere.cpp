@@ -443,6 +443,12 @@ void Sphere::setEnabledTexture(bool b)
     this->enable_texture = b;
 }
 
+void Sphere::setTexture(Texture *tex)
+{
+    this->textures.clear();
+    this->textures.push_back(tex);
+}
+
 void Sphere::addTexture(Texture *tex)
 {
     this->textures.push_back(tex);

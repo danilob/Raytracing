@@ -352,6 +352,12 @@ void Cylinder::setEnabledTexture(bool b)
     this->enable_texture = b;
 }
 
+void Cylinder::setTexture(Texture *tex)
+{
+    this->textures.clear();
+    this->textures.push_back(tex);
+}
+
 void Cylinder::addTexture(Texture *tex)
 {
     this->textures.push_back(tex);

@@ -18,9 +18,15 @@ void AmbientLight::drawLightOpenGL(int flag_light)
         glLightModelfv(GL_LIGHT_MODEL_AMBIENT,&ambient_light->x1);
 }
 
-Vec4 AmbientLight::calculateColor(Vec4 pit, Vec4 n,Vec4 viewer, Material *m,Vec4 pos)
+Vec4 AmbientLight::calculateColor(Vec4 pit, Vec4 n,Vec4 viewer, Material *m,Vec4 pos,Vec4 texColor,int mode_texture)
 {
     Vec4 ambiente;
+    if(texColor!= Vec4()){
+        ambiente.x1 = texColor.x() * ambient_light->x1;
+        ambiente.x2 = texColor.y() * ambient_light->x2;
+        ambiente.x3 = texColor.z() * ambient_light->x3;
+        return ambiente;
+    }
     ambiente.x1 = m->ambient[0] * ambient_light->x1;
     ambiente.x2 = m->ambient[1] * ambient_light->x2;
     ambiente.x3 = m->ambient[2] * ambient_light->x3;

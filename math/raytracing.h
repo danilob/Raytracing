@@ -28,7 +28,7 @@ public:
     void           rayTracing(QImage *pixels, int proportion, int samples);                               //retorna a imagem gerada pelo ray tracing
     void           setScene(Scene* scene);                                                                //adiciona o cenário para o calculo do ray tracing
     Vec4           rayIntersection(Ray ray);                                                              //retorna a cor do pixel final a partir do raio lançado de forma otimizada
-    Vec4           calculatePixelColor(Object *obj,Vec4 normal,Material* material,Vec4 intercept, Ray v); //calcula a cor do objeto com a iluminação na forma otimizada passando o ponto interseptado, seu vetor normal e o material do objeto
+    Vec4           calculatePixelColor(Object *obj,Vec4 normal,Material* material,Vec4 intercept, Ray v,Vec4 map = Vec4()); //calcula a cor do objeto com a iluminação na forma otimizada passando o ponto interseptado, seu vetor normal e o material do objeto
     Vec4           testObstruction(Ray ray);                                                              //lança um raio do objeto a fonte de luz e verifica se ocorre obstrução, gerando sombra ou não
     Ray            depthOfField(Vec4 pixel,float radius,float distancefocus);                             //efeito de depth of field ao cenário
     static Object* objectClicked(Scene* scn,int width,int height);                                        //retorna o objeto selecionado no clique da tela

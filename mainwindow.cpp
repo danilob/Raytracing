@@ -11,6 +11,7 @@ int  type_light = -1;
 Object *ObjSelected = NULL;
 Light *LightSelected = NULL;
 QImage lastRender;
+QImage* targetImage;
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -1417,4 +1418,38 @@ void MainWindow::on_actionScreanShot_Render_triggered()
 void MainWindow::on_actionCone_triggered()
 {
     ui->widgetOpenGL->addObject(BLOCK_CONE);
+}
+
+void MainWindow::on_loadTexture_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "../texture/", tr("Image Files (*.png *.tga *.bmp *.rgb *.jpg)"));
+    // you could have a BMP or Targa file at this point
+    // Qt has no Targa format support out of the box
+    if (!fileName.isEmpty())
+    {
+    targetImage = new QImage(fileName);
+    // Not much good if the file is not a PNG
+    // You allocate memory you do not free: memory leak
+    // No need for this to be on the heap at all
+
+    if(targetImage->isNull())
+    {
+    QMessageBox::information(this,
+    tr("Viewer"),
+    tr("Cannot load %1.").arg(fileName));
+    return;
+    }
+
+    //ui->onScreenImage->setBackgroundRole(QPalette::Base);
+    //ui->onScreenImage->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    //ui->onScreenImage->setScaledContents(true);
+    //ui->onScreenImage->setPixmap(QPixmap::fromImage(*targetImage));
+    QGraphicsScene *sc = new QGraphicsScene();
+    sc->addPixmap(QPixmap::fromImage(*targetImage));
+    ui->onScreenImage->setScene(sc);
+    Texture* texture = new Texture(targetImage);
+    if (ObjSelected!=NULL) ObjSelected->setTexture(texture);
+
+    // Why did you use a QImage if you require a QPixmap ultimately?
+    }
 }

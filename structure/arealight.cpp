@@ -68,8 +68,63 @@ void AreaLight::drawReferenceLight()
     }
 }
 
-Vec4 AreaLight::calculateColor(Vec4 pit, Vec4 n,Vec4 viewer, Material *m,Vec4 position)
+Vec4 AreaLight::calculateColor(Vec4 pit, Vec4 n,Vec4 viewer, Material *m,Vec4 position,Vec4 texColor,int mode_texture)
 {
+    if(mode_texture==TYPE_ONLY_TEXTURE){
+        Vec4 l = (position-pit)/(position-pit).module();
+        float fator = fmax((n*l)/(n.module()*l.module()),0);
+        Vec4 Diffuse;
+        Diffuse.x1 = (texColor.x() * diffuse_light->x1)*fator;
+        Diffuse.x2 = (texColor.y() * diffuse_light->x2)*fator;
+        Diffuse.x3 = (texColor.z() * diffuse_light->x3)*fator;
+
+        l = l.unitary();
+        Vec4 r = (n*((l*n)*2) - l);
+        Vec4 v = (viewer-pit)/(viewer-pit).module();
+        r = (r+v)/(r+v).module();
+
+        float fator2 = fmax(pow((r*n),m->shininess*128),0);
+        Vec4 especular;
+        especular.x1 = (texColor.x() * specular_light->x1)*fator2;
+        especular.x2 = (texColor.y() * specular_light->x2)*fator2;
+        especular.x3 = (texColor.z() * specular_light->x3)*fator2;
+
+        Vec4 ambiente;
+        ambiente.x1 = texColor.x() * ambient_light->x1;
+        ambiente.x2 = texColor.y() * ambient_light->x2;
+        ambiente.x3 = texColor.z() * ambient_light->x3;
+
+        Vec4 color = (Diffuse)*attenuation((position-viewer).module());
+        return color;
+
+    }else if(mode_texture==TYPE_REPLACE_TEXTURE){
+        Vec4 l = (position-pit)/(position-pit).module();
+        float fator = fmax((n*l)/(n.module()*l.module()),0);
+        Vec4 Diffuse;
+        Diffuse.x1 = (m->diffuse[0] * diffuse_light->x1)*fator;
+        Diffuse.x2 = (m->diffuse[1] * diffuse_light->x2)*fator;
+        Diffuse.x3 = (m->diffuse[2] * diffuse_light->x3)*fator;
+
+        //calculo da contribuicao especular
+        l = l.unitary();
+        Vec4 r = (n*((l*n)*2) - l);
+        Vec4 v = (viewer-pit)/(viewer-pit).module();
+        r = (r+v)/(r+v).module();
+
+        float fator2 = fmax(pow((r*n),m->shininess*128),0);
+        Vec4 especular;
+        especular.x1 = (m->specular[0] * specular_light->x1)*fator2;
+        especular.x2 = (m->specular[1] * specular_light->x2)*fator2;
+        especular.x3 = (m->specular[2] * specular_light->x3)*fator2;
+        //calculo da contribuição ambiente
+        Vec4 ambiente;
+        ambiente.x1 = m->ambient[0] * ambient_light->x1;
+        ambiente.x2 = m->ambient[1] * ambient_light->x2;
+        ambiente.x3 = m->ambient[2] * ambient_light->x3;
+
+        Vec4 color = texColor.mult((Diffuse+especular)*attenuation((position-viewer).module()));
+    return color;
+    }else{
         Vec4 l = (position-pit)/(position-pit).module();
         float fator = fmax((n*l)/(n.module()*l.module()),0);
         Vec4 Diffuse;
@@ -96,7 +151,7 @@ Vec4 AreaLight::calculateColor(Vec4 pit, Vec4 n,Vec4 viewer, Material *m,Vec4 po
 
         Vec4 color = ambiente+(Diffuse+especular)*attenuation((position-viewer).module());
     return color;
-
+    }
 }
 
 QString AreaLight::getName()

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'castingwidget.h'
 **
-** Created: Fri Jun 14 11:04:56 2013
+** Created: Sat Jun 15 06:16:55 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!

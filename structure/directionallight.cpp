@@ -59,7 +59,7 @@ void DirectionalLight::drawReferenceLight()
 
 }
 
-Vec4 DirectionalLight::calculateColor(Vec4 pit, Vec4 n,Vec4 viewer, Material *m,Vec4)
+Vec4 DirectionalLight::calculateColor(Vec4 pit, Vec4 n,Vec4 viewer, Material *m,Vec4,Vec4 texColor,int mode_texture)
 {
     Vec4 position(direction_light->x1,direction_light->x2,direction_light->x3);
     Vec4 l = (position);

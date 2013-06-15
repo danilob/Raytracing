@@ -58,6 +58,7 @@ public:
     Vec4      getMotion();
     bool      getEnabledTexture();
     void      setEnabledTexture(bool b);
+    void      setTexture(Texture *tex);
     void      addTexture(Texture* tex);
     void      removeTexture(Texture* tex);
     int       getLenTexture();

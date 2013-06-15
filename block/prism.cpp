@@ -389,6 +389,12 @@ void Prism::setEnabledTexture(bool b)
     this->enable_texture = b;
 }
 
+void Prism::setTexture(Texture *tex)
+{
+    this->textures.clear();
+    this->textures.push_back(tex);
+}
+
 void Prism::addTexture(Texture *tex)
 {
     this->textures.push_back(tex);
