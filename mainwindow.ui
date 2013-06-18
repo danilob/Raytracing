@@ -46,7 +46,7 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>-77</y>
+             <y>0</y>
              <width>248</width>
              <height>749</height>
             </rect>
@@ -536,7 +536,7 @@ QGroupBox{
                        <number>3</number>
                       </property>
                       <property name="minimum">
-                       <double>1.000000000000000</double>
+                       <double>0.000000000000000</double>
                       </property>
                       <property name="maximum">
                        <double>5.000000000000000</double>
@@ -1574,8 +1574,8 @@ QGroupBox{
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>230</width>
-                 <height>546</height>
+                 <width>98</width>
+                 <height>96</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -1592,8 +1592,8 @@ QGroupBox{
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>230</width>
-                 <height>546</height>
+                 <width>98</width>
+                 <height>96</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -1700,8 +1700,8 @@ QGroupBox{
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>230</width>
-                 <height>546</height>
+                 <width>98</width>
+                 <height>28</height>
                 </rect>
                </property>
                <attribute name="label">

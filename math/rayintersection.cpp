@@ -1,7 +1,7 @@
 #include "rayintersection.h"
 #include "block/object.h"
 #include "math/ray.h"
-#define APROXIMATE 0.001
+#define APROXIMATE 0
 bool teste = true;
 
 //calculo para interseção ray-plane limitado
@@ -13,7 +13,7 @@ bool tryInterceptionPointFace(Face face, Vec4 point)
             a.setVec4(face.vertexs.at(0)->x1,face.vertexs.at(0)->x2,face.vertexs.at(0)->x3);
             b.setVec4(face.vertexs.at(i+1)->x1,face.vertexs.at(i+1)->x2,face.vertexs.at(i+1)->x3);
             c.setVec4(face.vertexs.at(i+2)->x1,face.vertexs.at(i+2)->x2,face.vertexs.at(i+2)->x3);
-            if (Vec4::crossProduct((b-a),(point-a))*n > 0 && Vec4::crossProduct((c-b),(point-b))*n > 0 && Vec4::crossProduct((a-c),(point-c))*n > 0) return true;
+            if (Vec4::crossProduct((b-a),(point-a))*n >= 0 && Vec4::crossProduct((c-b),(point-b))*n >= 0 && Vec4::crossProduct((a-c),(point-c))*n >= 0) return true;
 
         }
         return false;
@@ -75,7 +75,10 @@ void RayIntersection::rayBoxIntersection(Mesh *mesh, Ray ray, Matrix4x4 transfor
                     this->normal = n.unitary();
                     this->material = mesh->material;
                     if (obj->getLenTexture()>0){
-                    this->mapping = mappingPlanar4(mesh->faces.at(i),ray.positionRay(t_),obj->getTexture(0));
+                        if(mesh->faces.at(i).vertexs.size()==4)
+                            this->mapping = mappingPlanar4(mesh->faces.at(i),ray.positionRay(t_),obj->getTexture(0));
+                        if(mesh->faces.at(i).vertexs.size()==3)
+                            this->mapping = mappingPlanar3(mesh->faces.at(i),ray.positionRay(t_),obj->getTexture(0));
                     }
                     this->obj = obj;
                 }
@@ -222,7 +225,10 @@ void RayIntersection::rayConeIntersection(Mesh *mesh, Matrix4x4 transform, Ray r
     pos = copy.positionRay(t_);
     n   = pos.unitary();
     }
-
+    Vec4 auxp = Vec4();
+    if(obj->getLenTexture()>0){
+        auxp = mappingCylinderLateral(pos,obj->getTexture(0));
+    }
     if(pos.y()<=0){
         n = Vec4(0,-1,0);
         float est = (n*Vec4(0,0,0) - copy.origin*n)/(n*(copy.direction));
@@ -231,6 +237,10 @@ void RayIntersection::rayConeIntersection(Mesh *mesh, Matrix4x4 transform, Ray r
         if (((posi.x()*posi.x() + posi.z()*posi.z())<=1)){
             t0 = est;
             pos = posi;
+
+            if(obj->getLenTexture()>0){
+                auxp = mappingCylinderCap(pos,obj->getTexture(0));
+            }
         }else{
             return;
         }
@@ -244,6 +254,7 @@ void RayIntersection::rayConeIntersection(Mesh *mesh, Matrix4x4 transform, Ray r
         this->normal = n.unitary();
         this->material = mesh->material;
         this->obj = obj;
+        if(obj->getLenTexture()>0) this->mapping = auxp;
     }
 
 }
@@ -315,15 +326,18 @@ void RayIntersection::rayHemiSphereIntersection(Mesh *mesh, Matrix4x4 transform,
 
     delta = b*b - 4*a*c;
     Vec4 pos,n;
+    Vec4 auxp = Vec4();
     if (delta<0.0){
        return;
 
     }else{
+
     t0 = (-b - sqrt(delta))/(2*a);
     t1 = (-b + sqrt(delta))/(2*a);
     t_ = fmin(t0,t1);
     pos = copy.positionRay(t_);
     n   = pos;
+    if(obj->getLenTexture()>0) auxp = mappingCylinderCap(pos,obj->getTexture(0));;
     if (pos.x2 <APROXIMATE){
         n = Vec4(0,-1,0);
         float est = (n*Vec4(0,0,0) - copy.origin*n)/(n*(copy.direction));
@@ -332,13 +346,12 @@ void RayIntersection::rayHemiSphereIntersection(Mesh *mesh, Matrix4x4 transform,
         if (((posi.x()*posi.x() + posi.z()*posi.z())<=1)){
             t_ = est;
             pos = posi;
+            if(obj->getLenTexture()>0) auxp = mappingCylinderCap(Vec4(pos.z(),pos.y(),pos.x()),obj->getTexture(0));
         }else{
             return;
         }
     }
     }
-
-
 
     pos = transform.transform_position_ray(transform,pos);
     n = transform.transform_normal_ray(transform,n);
@@ -348,6 +361,7 @@ void RayIntersection::rayHemiSphereIntersection(Mesh *mesh, Matrix4x4 transform,
         this->normal = n.unitary();
         this->material = mesh->material;
         this->obj = obj;
+        if(obj->getLenTexture()>0) this->mapping = auxp;
     }
 
 
@@ -378,7 +392,7 @@ Vec4 RayIntersection::mappingPlanar4(Face face, Vec4 pit,Texture* text)
     float du = (p0 - p1).module();
     float dv = (p0 - p3).module();
     float d  = (p0 - pit).module();
-    float cos = ((pit - p0)*(p1 - p0))/(d*du);
+    float cos = fabs(((pit - p0)*(p1 - p0))/(d*du));
     float sin = sqrt((1 - cos*cos));
     //float angle = (pit - p0)*(p1 - p0);
     float u,v;
@@ -403,6 +417,30 @@ Vec4 RayIntersection::mappingPlanar4(Face face, Vec4 pit,Texture* text)
 
 Vec4 RayIntersection::mappingPlanar3(Face face, Vec4 pit, Texture *text)
 {
+    if (text==NULL) return Vec4();
+
+    if (face.vertexs.size()!=3) return Vec4();
+    Vec4 p0 = Vec4(face.vertexs[0]->x(),face.vertexs[0]->y(),face.vertexs[0]->z());
+    Vec4 p1 = Vec4(face.vertexs[1]->x(),face.vertexs[1]->y(),face.vertexs[1]->z());
+    Vec4 p2 = Vec4(face.vertexs[2]->x(),face.vertexs[2]->y(),face.vertexs[2]->z());
+    float du = (p1 - p2).module();
+    float dv = (p0 - p1).module();
+    float d  = (p1 - pit).module();
+    float cos = fabs(((pit - p1)*(p2 - p1)))/(d*du);
+    float sin = sqrt((1 - cos*cos));
+    //float angle = (pit - p0)*(p1 - p0);
+    float u,v;
+    if(text->getTypeMapping()==MAP_TILING){
+    float x = ((d*cos)/(du/2) - floor((d*cos)/(du/2)))*(du/2);
+    float y = ((d*sin)/(dv/2) - floor((d*sin)/(dv/2)))*(dv/2);
+    u = (x)/(du/2);
+    v = (y)/(dv/2)*(0.5);
+    }else{
+        u = ((d*cos))/(du);
+        v = ((d*sin))/(dv)*(0.5);
+    }
+    return Vec4(u,v,0);
+
 }
 
 Vec4 RayIntersection::mappingSpheric(Vec4 pos, Texture *text)

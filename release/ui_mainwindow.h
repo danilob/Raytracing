@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Fri Jun 14 19:54:31 2013
+** Created: Mon Jun 17 19:35:54 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -353,7 +353,7 @@ public:
         scrollObject->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, -77, 248, 749));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 248, 749));
         verticalLayout_2 = new QVBoxLayout(scrollAreaWidgetContents);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -564,7 +564,7 @@ public:
         refraction = new QDoubleSpinBox(groupBox_4);
         refraction->setObjectName(QString::fromUtf8("refraction"));
         refraction->setDecimals(3);
-        refraction->setMinimum(1);
+        refraction->setMinimum(0);
         refraction->setMaximum(5);
         refraction->setSingleStep(0.25);
 
@@ -1231,7 +1231,7 @@ public:
         toolBox->setFrameShadow(QFrame::Sunken);
         page = new QWidget();
         page->setObjectName(QString::fromUtf8("page"));
-        page->setGeometry(QRect(0, 0, 230, 546));
+        page->setGeometry(QRect(0, 0, 98, 96));
         gridLayout_5 = new QGridLayout(page);
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -1244,7 +1244,7 @@ public:
         toolBox->addItem(page, QString::fromUtf8("Objects"));
         page_3 = new QWidget();
         page_3->setObjectName(QString::fromUtf8("page_3"));
-        page_3->setGeometry(QRect(0, 0, 230, 546));
+        page_3->setGeometry(QRect(0, 0, 98, 96));
         gridLayout_8 = new QGridLayout(page_3);
         gridLayout_8->setSpacing(6);
         gridLayout_8->setContentsMargins(11, 11, 11, 11);
@@ -1316,7 +1316,7 @@ public:
         toolBox->addItem(page_2, QString::fromUtf8("Scene"));
         page_4 = new QWidget();
         page_4->setObjectName(QString::fromUtf8("page_4"));
-        page_4->setGeometry(QRect(0, 0, 230, 546));
+        page_4->setGeometry(QRect(0, 0, 98, 28));
         layoutWidget = new QWidget(page_4);
         layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
         layoutWidget->setGeometry(QRect(0, 10, 221, 129));
