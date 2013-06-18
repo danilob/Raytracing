@@ -65,6 +65,22 @@ Ray Ray::rayRefract(Vec4 o, Vec4 v, Vec4 normal, float n1, float n2)
     return Ray(o,dir.unitary());
 }
 
+Ray Ray::rayReflectWitted(Vec4 o, Vec4 v, Vec4 normal)
+{
+    return Ray(o,(v+normal*2).unitary());
+}
+
+Ray Ray::rayRefractWitted(Vec4 o, Vec4 v, Vec4 normal, float n)
+{
+
+    v = v/fabs(v*normal);
+    float kf = 1.0/sqrt(n*n*(v*v) - (v+normal)*(v+normal));
+    Vec4 dir = (normal+v)*kf - normal;
+    return Ray(o,dir.unitary());
+
+
+}
+
 Ray Ray::rayReflectGlossy(Vec4 o, Vec4 v, Vec4 normal, float factor)
 {
 

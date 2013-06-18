@@ -75,7 +75,8 @@ Vec4 DirectionalLight::calculateColor(Vec4 pit, Vec4 n,Vec4 viewer, Material *m,
     Vec4 v = (viewer-pit)/(viewer-pit).module();
     r = (r+v)/(r+v).module();
 
-    float fator2 = fmax(pow((r*n),m->shininess*128),0);
+    float fator2 = fmax(pow((r*v),m->shininess*128),0);
+    if(r*n<0) fator2 = 0;
     Vec4 especular;
     especular.x1 = (m->specular[0] * specular_light->x1)*fator2;
     especular.x2 = (m->specular[1] * specular_light->x2)*fator2;

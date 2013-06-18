@@ -22,9 +22,9 @@ Vec4 AmbientLight::calculateColor(Vec4 pit, Vec4 n,Vec4 viewer, Material *m,Vec4
 {
     Vec4 ambiente;
     if(texColor!= Vec4()){
-        ambiente.x1 = texColor.x() * ambient_light->x1;
-        ambiente.x2 = texColor.y() * ambient_light->x2;
-        ambiente.x3 = texColor.z() * ambient_light->x3;
+        ambiente.x1 = texColor.x() * ambient_light->x1*0.5;
+        ambiente.x2 = texColor.y() * ambient_light->x2*0.5;
+        ambiente.x3 = texColor.z() * ambient_light->x3*0.5;
         return ambiente;
     }
     ambiente.x1 = m->ambient[0] * ambient_light->x1;

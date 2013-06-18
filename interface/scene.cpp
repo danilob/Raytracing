@@ -8,7 +8,7 @@ Scene::Scene()
     lights.clear();
     AmbientLight *ambient = new AmbientLight();
     lights.push_back(ambient);
-    background_color = Vec4(0,0,0,1.0);
+    background_color = Vec4(100/255.0,189/255.0,176/255.0,1.0);
     push_obj = true;
     focal = 0;
     radius = 0;

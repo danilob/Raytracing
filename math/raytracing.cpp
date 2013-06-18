@@ -17,6 +17,7 @@ static int notintersect =0;
 #include <stdlib.h> // RAND_MAX é definido em stdlib.h
 static int depth = 0;
 static bool in = false;
+float pshadow = 1;
 
 
 #define myrand ((float)(random())/(float)(RAND_MAX) )
@@ -31,7 +32,8 @@ RayTracing::RayTracing(Scene *sc,GLWidget *rcast,Vec4 color,bool otimized)
 {
     this->scene = sc;//
     this->widget = rcast;
-    this->backgroundcolor = color;//
+    //this->backgroundcolor = Vec4(100/255.0,189/255.0,176/255.0,1.0);//color whitted
+    this->backgroundcolor = Vec4();
     this->otimized = otimized;
     withhbb = false;
 }
@@ -243,10 +245,11 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
         int light_enable = 0;
         for (int i=1;i<scene->lights.size();i++){   
                 obj->setEnabled(false);
+                aux = Vec4();
                 Vec4 l = scene->lights.at(i)->randLight();
                 Vec4 v = (r.direction);
-                if((v*(normal*(-1)))<0.0) normal = normal*(-1);
 
+                if((v*(normal*(-1)))<0.0) normal = normal*(-1);
 
                 distLight = (l - intercept).module();
                 Ray raio = Ray(intercept,(l - intercept).unitary());
@@ -256,11 +259,16 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                     /* testar se a direção do ponto observado a luz está obstruido */
                     if ((testObstruction(raio)==Vec4())){
                         if(obj->getLenTexture()>0){
-                            aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l,obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*(1-material->reflection);
+                            if (obj->getTexture(0)->bump){
+                            aux = aux + scene->lights.at(i)->calculateColor(obj->getTexture(0)->getColorPointBump(normal,map,intercept),obj->getTexture(0)->getColorNormalBump(normal,map),scene->viewer[0],material,l)*pshadow;
+                            }else{
+                                aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l,obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*pshadow;
+                            }
                         }else{
-                            aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*(1-material->reflection);
+                            aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*pshadow;
                         }
                     }
+
 
 
                 if((material->reflection>0 || material->glossyreflection>0) && depth<max_depth){
@@ -268,22 +276,28 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                     if(material->glossyreflection>0)
                        aux = aux + (rayIntersection(Ray::rayReflectGlossy(intercept,r.direction,normal,1-material->getGlossyReflection())))*material->getReflection();
                     else
-                       aux = aux + (rayIntersection(Ray::rayReflect(intercept,r.direction,normal)))*material->getReflection();
+                        aux = aux + (rayIntersection(Ray::rayReflect(intercept,r.direction,normal)))*material->getReflection();
 
                 }
-                if(material->refraction>1 && depth<max_depth){
+                if(material->refraction>0 && depth<max_depth){
                     depth++;
                     float reflectance = Ray::reflectance(v,normal,1.0,material->getRefraction());
                     if (material->glossyrefraction>0){
                         aux = aux  + (rayIntersection(Ray::rayReflectGlossy(intercept,r.direction,normal,1-material->getGlossyRefraction())))*(reflectance);
-                        aux = aux  + (rayIntersection(Ray::rayRefractGlossy(intercept,r.direction,normal,1,material->getRefraction(),1-material->getGlossyRefraction())))*(1-reflectance);//*fabs(1-kr);
+                        aux = aux  + (rayIntersection(Ray::rayRefractGlossy(intercept,r.direction,normal,1.0,material->getRefraction(),1-material->getGlossyRefraction())))*(1-reflectance);//*fabs(1-kr);
                     }else{
                         aux = aux  + (rayIntersection(Ray::rayReflect(intercept,r.direction,normal)))*(reflectance);
-                        aux = aux  + (rayIntersection(Ray::rayRefract(intercept,r.direction,normal,1,material->getRefraction())))*(1-reflectance);//*fabs(1-kr);
+                        aux = aux  + (rayIntersection(Ray::rayRefract(intercept,r.direction,normal,1.0,material->getRefraction())))*(1-reflectance);//*fabs(1-kr);
                     }
                 }
+                //modelo de transparencia proposto por whitted, 1980
+//                else{
+//                if(material->refraction>0 && depth<max_depth){
+//                    depth++;
+//                    aux = aux  + (rayIntersection(Ray::rayRefractWitted(intercept,r.direction,normal,material->refraction)))*(0.85)*material->getRefraction();//*fabs(1-kr);
 
-
+//                }
+//                }
                 }
                 obj->setEnabled(true);
                 color = color + aux;
@@ -293,8 +307,9 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
 
         if (obj->getLenTexture()>0)
             color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4(),obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*0.5)/light_enable;
-        else
-            color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()));
+        else{
+            color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()))/light_enable;
+        }
         color.x1 = fmin(color.x1,1.0);
         color.x2 = fmin(color.x2,1.0);
         color.x3 = fmin(color.x3,1.0);
@@ -307,10 +322,16 @@ Vec4 RayTracing::testObstruction(Ray ray)
     RayIntersection *ray_intersection = new RayIntersection();
     ray_intersection->t = distLight;
     ray_intersection->tmin = 0.0009;
+    pshadow = 1;
     if (withhbb){
         bool hit  = hierachicalbb->HBBIntersection(ray_intersection,ray);
 
         if (hit && ray_intersection->t<distLight){
+            if (ray_intersection->obj->getMesh()->getRefraction()>0){
+                delete ray_intersection;
+                pshadow = 0.85;
+                return Vec4();
+            }
             Vec4 Pintercept = ray.positionRay(ray_intersection->t);
             delete ray_intersection;
             return Pintercept;
@@ -323,6 +344,11 @@ Vec4 RayTracing::testObstruction(Ray ray)
 
         }
         if (ray_intersection->t<distLight && ray_intersection->normal!=Vec4()){
+            if (ray_intersection->obj->getMesh()->getRefraction()>0){
+                delete ray_intersection;
+                pshadow = 0.85;
+                return Vec4();
+            }
             Vec4 Pintercept = ray.positionRay(ray_intersection->t);
             delete ray_intersection;
             return Pintercept;
