@@ -6,8 +6,8 @@
 #include "math/vec4.h"
 
 #define TYPE_ONLY_TEXTURE 0
-#define TYPE_REPLACE_TEXTURE 1
-#define TYPE_TEXTURE_BUMP 1
+#define TYPE_REPLACE_TEXTURE 2
+#define TYPE_TEXTURE_BUMP 3
 #define MAP_TILING 2
 #define MAP_DEFAULT 3
 #define PLANAR_MAPPING 4
@@ -31,6 +31,7 @@ public:
     Vec4 getColorNormalBump(Vec4 normal,Vec4 map);
     Vec4 getColorPointBump(Vec4 normal,Vec4 map,Vec4 pit);
     Vec4 getColor(float x, float y);
+    Vec4 sample(Vec4 val);
 
 };
 

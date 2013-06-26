@@ -260,7 +260,7 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                     if ((testObstruction(raio)==Vec4())){
                         if(obj->getLenTexture()>0){
                             if (obj->getTexture(0)->bump){
-                            aux = aux + scene->lights.at(i)->calculateColor(obj->getTexture(0)->getColorPointBump(normal,map,intercept),obj->getTexture(0)->getColorNormalBump(normal,map),scene->viewer[0],material,l)*pshadow;
+                                aux = aux + scene->lights.at(i)->calculateColor((intercept),obj->getTexture(0)->getColorNormalBump(normal,map),scene->viewer[0],material,l)*pshadow;
                             }else{
                                 aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l,obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*pshadow;
                             }
@@ -306,7 +306,10 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
         }
 
         if (obj->getLenTexture()>0)
-            color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4(),obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*0.5)/light_enable;
+            if (!obj->getTexture(0)->bump)
+                color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4(),obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*0.5)/light_enable;
+            else
+                color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()))/light_enable;
         else{
             color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()))/light_enable;
         }
