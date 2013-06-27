@@ -1,0 +1,13 @@
+#formato do arquivo
+#tipo: c - cubo; y - cilindro; p - prisma; h - hemisferio; s-esfera; t-plano; e - cone
+#luz : a - ambiente; s - spot; d - direcional; o - pontual; r - area
+
+radius focal_length 
+angle aspect near far
+eyex eyey eyez atx aty atz upx upy upz
+size objects
+tipo tx ty tz sx sy sz rx ry rz (id_material) ambx amby ambz diffx diffy diffz spex spey spez shine reflection refraction glossyreflect glossyrefract motionx motiony motionz enabled selected (nome)
+size lights
+luz  ar ag ab sr sg sb dr dg db posx posy posz dirx diry dirz attx atty attz vecax vecay vecaz vecbx becby vecbz angle angleinner expo enabled visible selected (nome)
+
+
