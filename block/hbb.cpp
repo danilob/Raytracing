@@ -344,3 +344,39 @@ void HBB::setTexture(Texture *tex)
 {
     return;
 }
+
+bool HBB::getEnabledBump()
+{
+    return false;
+}
+
+void HBB::setEnabledBump(bool b)
+{
+    return;
+}
+
+void HBB::setBump(Bump *bump)
+{
+    return;
+}
+
+void HBB::addBump(Bump *bump)
+{
+    return;
+}
+
+void HBB::removeBump(Bump *bump)
+{
+    return;
+
+}
+
+int HBB::getLenBump()
+{
+    return -1;
+}
+
+Bump *HBB::getBump(int i)
+{
+    return NULL;
+}

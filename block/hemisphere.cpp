@@ -2,7 +2,9 @@
 
 HemiSphere::HemiSphere()
 {
-motion = Vec4();
+    motion = Vec4();
+    enable_texture = false;
+    enable_bumping = false;
     float radius = 1.0;
     double alpha = M_PI / STACKS;
     double beta = 2*M_PI / SLICES;
@@ -400,3 +402,48 @@ Texture *HemiSphere::getTexture(int i)
 }
 
 
+bool HemiSphere::getEnabledBump()
+{
+    return enable_bumping;
+}
+
+void HemiSphere::setEnabledBump(bool b)
+{
+    this->enable_bumping = b;
+}
+
+void HemiSphere::setBump(Bump *bump)
+{
+    bumps.clear();
+    bumps.push_back(bump);
+}
+
+void HemiSphere::addBump(Bump *bump)
+{
+    bumps.push_back(bump);
+}
+
+void HemiSphere::removeBump(Bump *bump)
+{
+    std::vector<Bump*>::iterator iter;
+    iter = this->bumps.begin();
+    for(unsigned int i=0;i<bumps.size();i++){
+
+        if(bumps.at(i) == bump){
+            bumps.erase(iter);
+            break;
+        }
+        iter++;
+    }
+
+}
+
+int HemiSphere::getLenBump()
+{
+    return bumps.size();
+}
+
+Bump *HemiSphere::getBump(int i)
+{
+    return bumps.at(i);
+}

@@ -41,7 +41,8 @@ SOURCES += main.cpp\
     structure/directionallight.cpp \
     structure/spotlight.cpp \
     structure/arealight.cpp \
-    extra/texture.cpp
+    extra/texture.cpp \
+    extra/bump.cpp
 
 HEADERS  += mainwindow.h \
     block/sphere.h \
@@ -73,7 +74,8 @@ HEADERS  += mainwindow.h \
     structure/directionallight.h \
     structure/spotlight.h \
     structure/arealight.h \
-    extra/texture.h
+    extra/texture.h \
+    extra/bump.h
 
 FORMS    += mainwindow.ui
 

@@ -28,7 +28,10 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->speMaterial_2->setText("");
     //inits framework
     ui->groupBoxPropertiesObj->setVisible(false);
-
+    ui->onScreenImage->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->onScreenImage->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->onScreenImageBump->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    ui->onScreenImageBump->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
     ui->widgetOpenGL->setFocusPolicy(Qt::StrongFocus);
     //connects da camera
@@ -96,6 +99,9 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->widgetOpenGL,SIGNAL(showObjectSelected(Object*)),this,SLOT(infoObject(Object*)));
     connect(ui->selectedObj,SIGNAL(toggled(bool)),ui->groupBoxPropertiesObj,SLOT(setVisible(bool)));
     connect(ui->deleteObj,SIGNAL(clicked()),this,SLOT(delObtectSelected()));
+    connect(ui->enableBump,SIGNAL(clicked(bool)),this,SLOT(setPropertyObject()));
+    connect(ui->enableTexture,SIGNAL(clicked(bool)),this,SLOT(setPropertyObject()));
+    connect(ui->choiceTexture,SIGNAL(activated(int)),this,SLOT(setPropertyObject()));
 
 
     //connects das luzes
@@ -488,6 +494,63 @@ void MainWindow::infoObject(Object *obj)
     ui->xmotion->setValue(motion.x());
     ui->ymotion->setValue(motion.y());
     ui->zmotion->setValue(motion.z());
+    //informações de textura
+    ui->enableBump->setChecked(obj->getEnabledBump());
+    ui->enableTexture->setChecked(obj->getEnabledTexture());
+    if(obj->getLenTexture()>0){
+        ui->choiceTexture->setCurrentIndex(obj->getTexture(0)->getTypeTexture());
+    }else{
+        ui->choiceTexture->setCurrentIndex(0);
+    }
+    if(obj->getLenBump()>0){
+        QGraphicsScene *sc = new QGraphicsScene();
+        QPixmap *backgroundPixmap = new QPixmap(obj->getBump(0)->getPath());
+        QPixmap sized = backgroundPixmap->scaled(
+                QSize(ui->onScreenImageBump->width(),
+                      ui->onScreenImageBump->height()),
+                Qt::KeepAspectRatioByExpanding); // This scales the image too tall
+
+        QImage sizedImage = QImage(sized.toImage());
+        QImage sizedCroppedImage = QImage(sizedImage.copy(0,0,
+           (ui->onScreenImageBump->width() - 1.5),
+           (ui->onScreenImageBump->height() + 19)));
+        // so I try to crop using copy(), and I have to use these values
+        // and I am unsure why.
+
+        QGraphicsPixmapItem *sizedBackground = sc->addPixmap(
+            QPixmap::fromImage(sizedCroppedImage));
+        sizedBackground->setZValue(1);
+        ui->onScreenImageBump->setScene(sc);
+    }else{
+        QGraphicsScene *sc = new QGraphicsScene();
+        ui->onScreenImageBump->setScene(sc);
+
+    }
+    if(obj->getLenTexture()>0){
+                QGraphicsScene *sc = new QGraphicsScene();
+        QPixmap *backgroundPixmap = new QPixmap(obj->getTexture(0)->getPath());
+        QPixmap sized = backgroundPixmap->scaled(
+                QSize(ui->onScreenImage->width(),
+                      ui->onScreenImage->height()),
+                Qt::KeepAspectRatioByExpanding); // This scales the image too tall
+
+        QImage sizedImage = QImage(sized.toImage());
+        QImage sizedCroppedImage = QImage(sizedImage.copy(0,0,
+           (ui->onScreenImage->width() - 1.5),
+           (ui->onScreenImage->height() + 19)));
+        // so I try to crop using copy(), and I have to use these values
+        // and I am unsure why.
+
+        QGraphicsPixmapItem *sizedBackground = sc->addPixmap(
+            QPixmap::fromImage(sizedCroppedImage));
+        sizedBackground->setZValue(1);
+        ui->onScreenImage->setScene(sc);
+
+    }else{
+        QGraphicsScene *sc = new QGraphicsScene();
+        ui->onScreenImage->setScene(sc);
+    }
+    //fim de informações de textura
 
     info = false;
 }
@@ -496,75 +559,83 @@ void MainWindow::setPropertyObject()
 {
 
     if (!info){
-    Matrix4x4 matrix;
-    matrix.setIdentity();
-    matrix.scale(ui->scalex->value(),ui->scaley->value(),ui->scalez->value());
-    matrix.setRotationZ(ui->rotz->value());
-    matrix.setRotationY(ui->roty->value());
-    matrix.setRotationX(ui->rotx->value());
-    matrix.translate(ui->transx->value(),ui->transy->value(),ui->transz->value());
+        //propriedades de textura
+        ObjSelected->setEnabledBump(ui->enableBump->isChecked());
+        ObjSelected->setEnabledTexture(ui->enableTexture->isChecked());
+        if(ObjSelected->getLenTexture()>0){
+            ObjSelected->getTexture(0)->setTypeTexture(ui->choiceTexture->currentIndex());
+        }
+        //fim das propriedades de textura
+
+        Matrix4x4 matrix;
+        matrix.setIdentity();
+        matrix.scale(ui->scalex->value(),ui->scaley->value(),ui->scalez->value());
+        matrix.setRotationZ(ui->rotz->value());
+        matrix.setRotationY(ui->roty->value());
+        matrix.setRotationX(ui->rotx->value());
+        matrix.translate(ui->transx->value(),ui->transy->value(),ui->transz->value());
 
 
 
-    ui->widgetOpenGL->setTransformMatrixToObjectSelected(matrix);
+        ui->widgetOpenGL->setTransformMatrixToObjectSelected(matrix);
 
-    ui->widgetOpenGL->setIdMaterialToObjectSelected(ui->materialobject->currentIndex());
-    ui->widgetOpenGL->setEnabledObjectSelected(ui->enableObj->isChecked());
-    if (ObjSelected!=NULL) ObjSelected->setSelected(ui->selectedObj->isChecked());
-    Vec4 motion = Vec4(ui->xmotion->value(),ui->ymotion->value(),ui->zmotion->value());
-    ui->widgetOpenGL->setMotionObjectSelected(motion);
+        ui->widgetOpenGL->setIdMaterialToObjectSelected(ui->materialobject->currentIndex());
+        ui->widgetOpenGL->setEnabledObjectSelected(ui->enableObj->isChecked());
+        if (ObjSelected!=NULL) ObjSelected->setSelected(ui->selectedObj->isChecked());
+        Vec4 motion = Vec4(ui->xmotion->value(),ui->ymotion->value(),ui->zmotion->value());
+        ui->widgetOpenGL->setMotionObjectSelected(motion);
 
 
 
-    Material *mat = ObjSelected->getMesh()->getMaterialM();
-    QColor color = mat->getColorDiffuseMaterial();
-    if(color.isValid())
-    {
-        ui->diffMaterial->setPalette(QPalette(color));
-        ui->diffMaterial->setAutoFillBackground(true);
-    }
-    QString sd("background: #"
-              + QString(color.red() < 16? "0" : "") + QString::number(color.red(),16)
-              + QString(color.green() < 16? "0" : "") + QString::number(color.green(),16)
-              + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(),16) + ";"
-              +"  border-radius: 5px;");
-    ui->diffMaterial->setStyleSheet(sd);
-    ui->diffMaterial->update();
-    color = mat->getColorAmbienteMaterial();
-    if(color.isValid())
-    {
-        ui->ambMaterial->setPalette(QPalette(color));
-        ui->ambMaterial->setAutoFillBackground(true);
-    }
-    QString sa("background: #"
-              + QString(color.red() < 16? "0" : "") + QString::number(color.red(),16)
-              + QString(color.green() < 16? "0" : "") + QString::number(color.green(),16)
-              + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(),16) + ";"
-              +"  border-radius: 5px;");
-    ui->ambMaterial->setStyleSheet(sa);
-    ui->ambMaterial->update();
-    color = mat->getColorSpecularMaterial();
-    if(color.isValid())
-    {
-        ui->speMaterial->setPalette(QPalette(color));
-        ui->speMaterial->setAutoFillBackground(true);
-    }
-    QString ss("background: #"
-              + QString(color.red() < 16? "0" : "") + QString::number(color.red(),16)
-              + QString(color.green() < 16? "0" : "") + QString::number(color.green(),16)
-              + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(),16) + ";"
-              +"  border-radius: 5px;");
+        Material *mat = ObjSelected->getMesh()->getMaterialM();
+        QColor color = mat->getColorDiffuseMaterial();
+        if(color.isValid())
+        {
+            ui->diffMaterial->setPalette(QPalette(color));
+            ui->diffMaterial->setAutoFillBackground(true);
+        }
+        QString sd("background: #"
+                   + QString(color.red() < 16? "0" : "") + QString::number(color.red(),16)
+                   + QString(color.green() < 16? "0" : "") + QString::number(color.green(),16)
+                   + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(),16) + ";"
+                   +"  border-radius: 5px;");
+        ui->diffMaterial->setStyleSheet(sd);
+        ui->diffMaterial->update();
+        color = mat->getColorAmbienteMaterial();
+        if(color.isValid())
+        {
+            ui->ambMaterial->setPalette(QPalette(color));
+            ui->ambMaterial->setAutoFillBackground(true);
+        }
+        QString sa("background: #"
+                   + QString(color.red() < 16? "0" : "") + QString::number(color.red(),16)
+                   + QString(color.green() < 16? "0" : "") + QString::number(color.green(),16)
+                   + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(),16) + ";"
+                   +"  border-radius: 5px;");
+        ui->ambMaterial->setStyleSheet(sa);
+        ui->ambMaterial->update();
+        color = mat->getColorSpecularMaterial();
+        if(color.isValid())
+        {
+            ui->speMaterial->setPalette(QPalette(color));
+            ui->speMaterial->setAutoFillBackground(true);
+        }
+        QString ss("background: #"
+                   + QString(color.red() < 16? "0" : "") + QString::number(color.red(),16)
+                   + QString(color.green() < 16? "0" : "") + QString::number(color.green(),16)
+                   + QString(color.blue() < 16? "0" : "") + QString::number(color.blue(),16) + ";"
+                   +"  border-radius: 5px;");
 
-    //ui->shiniMaterial->setValue(mat->getShininess());
-    ui->speMaterial->setStyleSheet(ss);
-    ui->speMaterial->update();
+        //ui->shiniMaterial->setValue(mat->getShininess());
+        ui->speMaterial->setStyleSheet(ss);
+        ui->speMaterial->update();
 
-    mat->setShininess(ui->shiniMaterial->value());
-    ui->widgetOpenGL->update();
-    mat->setGlossyReflection(ui->glossyreflection->value());
-    mat->setGlossyRefraction(ui->glossyrefraction->value());
-    mat->setReflection(ui->reflection->value());
-    mat->setRefraction(ui->refraction->value());
+        mat->setShininess(ui->shiniMaterial->value());
+        ui->widgetOpenGL->update();
+        mat->setGlossyReflection(ui->glossyreflection->value());
+        mat->setGlossyRefraction(ui->glossyrefraction->value());
+        mat->setReflection(ui->reflection->value());
+        mat->setRefraction(ui->refraction->value());
 
 
     }
@@ -1447,9 +1518,85 @@ void MainWindow::on_loadTexture_clicked()
     QGraphicsScene *sc = new QGraphicsScene();
     sc->addPixmap(QPixmap::fromImage(*targetImage));
     ui->onScreenImage->setScene(sc);
-    Texture* texture = new Texture(targetImage);
+    Texture* texture = new Texture(targetImage,fileName);
     if (ObjSelected!=NULL) ObjSelected->setTexture(texture);
 
+    // the graphicsView still scrolls if the image is too large, but
+    // displays no scrollbars. I would like it not to scroll (I want to
+    // add a scrolling widget into the QGraphicsScene later, on top of
+    // the background image.)
+
+
+    QPixmap *backgroundPixmap = new QPixmap(fileName);
+    QPixmap sized = backgroundPixmap->scaled(
+            QSize(ui->onScreenImage->width(),
+                  ui->onScreenImage->height()),
+            Qt::KeepAspectRatioByExpanding); // This scales the image too tall
+
+    QImage sizedImage = QImage(sized.toImage());
+    QImage sizedCroppedImage = QImage(sizedImage.copy(0,0,
+       (ui->onScreenImage->width() - 1.5),
+       (ui->onScreenImage->height() + 19)));
+    // so I try to crop using copy(), and I have to use these values
+    // and I am unsure why.
+
+    QGraphicsPixmapItem *sizedBackground = sc->addPixmap(
+        QPixmap::fromImage(sizedCroppedImage));
+    sizedBackground->setZValue(1);
+    ui->onScreenImage->setScene(sc);
+
     // Why did you use a QImage if you require a QPixmap ultimately?
+    }
+}
+
+void MainWindow::on_loadBump_clicked()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "../texture/", tr("Image Files (*.png *.tga *.bmp *.rgb *.jpg)"));
+    // you could have a BMP or Targa file at this point
+    // Qt has no Targa format support out of the box
+    if (!fileName.isEmpty())
+    {
+        targetImage = new QImage(fileName);
+        // Not much good if the file is not a PNG
+        // You allocate memory you do not free: memory leak
+        // No need for this to be on the heap at all
+
+        if(targetImage->isNull())
+        {
+            QMessageBox::information(this,
+                                     tr("Viewer"),
+                                     tr("Cannot load %1.").arg(fileName));
+            return;
+        }
+
+        //ui->onScreenImage->setBackgroundRole(QPalette::Base);
+        //ui->onScreenImage->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+        //ui->onScreenImage->setScaledContents(true);
+        //ui->onScreenImage->setPixmap(QPixmap::fromImage(*targetImage));
+        QGraphicsScene *sc = new QGraphicsScene();
+        sc->addPixmap(QPixmap::fromImage(*targetImage));
+        ui->onScreenImageBump->setScene(sc);
+        Bump* bump = new Bump(targetImage,fileName);
+        if (ObjSelected!=NULL) ObjSelected->setBump(bump);
+
+        // Why did you use a QImage if you require a QPixmap ultimately?
+        QPixmap *backgroundPixmap = new QPixmap(fileName);
+        QPixmap sized = backgroundPixmap->scaled(
+                QSize(ui->onScreenImageBump->width(),
+                      ui->onScreenImageBump->height()),
+                Qt::KeepAspectRatioByExpanding); // This scales the image too tall
+
+        QImage sizedImage = QImage(sized.toImage());
+        QImage sizedCroppedImage = QImage(sizedImage.copy(0,0,
+           (ui->onScreenImageBump->width() - 1.5),
+           (ui->onScreenImageBump->height() + 19)));
+        // so I try to crop using copy(), and I have to use these values
+        // and I am unsure why.
+
+        QGraphicsPixmapItem *sizedBackground = sc->addPixmap(
+            QPixmap::fromImage(sizedCroppedImage));
+        sizedBackground->setZValue(1);
+        ui->onScreenImageBump->setScene(sc);
+
     }
 }

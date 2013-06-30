@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h> // RAND_MAX é definido em stdlib.h
 #include "extra/texture.h"
+#include "extra/bump.h"
 #define myrand ((float)(random())/(float)(RAND_MAX) )
 class Cube;
 
@@ -47,6 +48,16 @@ public:
     virtual void        removeTexture(Texture*) = 0;                //remove uma textura
     virtual int         getLenTexture() = 0;                        //retorna a quantidade de texturas do objeto
     virtual Texture*    getTexture(int) = 0;                        //retorna a textura de acordo com o indice
+
+    virtual bool        getEnabledBump() = 0;                      //habilita o uso da textura
+    virtual void        setEnabledBump(bool) = 0;                  //seta se a textura esta habilitada ou não
+    virtual void        setBump(Bump*) = 0;                        //esta função deleta as texturas anteriores e adiciona a textura do parametro
+    virtual void        addBump(Bump*) = 0;                        //adiciona a testura ao objeto
+    virtual void        removeBump(Bump*) = 0;                     //remove uma textura
+    virtual int         getLenBump() = 0;                          //retorna a quantidade de texturas do objeto
+    virtual Bump*       getBump(int) = 0;                          //retorna a textura de acordo com o indice
+
+
 
 
 };

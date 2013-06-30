@@ -46,9 +46,9 @@
            <property name="geometry">
             <rect>
              <x>0</x>
-             <y>0</y>
+             <y>-249</y>
              <width>248</width>
-             <height>749</height>
+             <height>949</height>
             </rect>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -106,6 +106,24 @@ QGroupBox{
                <property name="spacing">
                 <number>2</number>
                </property>
+               <item row="2" column="0" colspan="2">
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 <item>
+                  <widget class="QCheckBox" name="selectedObj">
+                   <property name="text">
+                    <string>Select</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <widget class="QCheckBox" name="enableObj">
+                   <property name="text">
+                    <string>Enable</string>
+                   </property>
+                  </widget>
+                 </item>
+                </layout>
+               </item>
                <item row="8" column="0" colspan="2">
                 <widget class="QFrame" name="frame">
                  <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -145,24 +163,6 @@ QGroupBox{
                <item row="1" column="0" colspan="2">
                 <widget class="QLineEdit" name="nomeObj"/>
                </item>
-               <item row="2" column="0" colspan="2">
-                <layout class="QHBoxLayout" name="horizontalLayout_2">
-                 <item>
-                  <widget class="QCheckBox" name="selectedObj">
-                   <property name="text">
-                    <string>Select</string>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <widget class="QCheckBox" name="enableObj">
-                   <property name="text">
-                    <string>Enable</string>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
-               </item>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_10">
                  <property name="text">
@@ -174,13 +174,6 @@ QGroupBox{
                 <widget class="QLabel" name="label_13">
                  <property name="text">
                   <string>Scale</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="12" column="0" colspan="2">
-                <widget class="QPushButton" name="loadTexture">
-                 <property name="text">
-                  <string>Add Texture</string>
                  </property>
                 </widget>
                </item>
@@ -420,6 +413,13 @@ QGroupBox{
                   </widget>
                  </item>
                 </layout>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>Rotate</string>
+                 </property>
+                </widget>
                </item>
                <item row="11" column="0" colspan="2">
                 <widget class="QGroupBox" name="groupBox_4">
@@ -721,13 +721,6 @@ QGroupBox{
                  </property>
                 </widget>
                </item>
-               <item row="5" column="0">
-                <widget class="QLabel" name="label_12">
-                 <property name="text">
-                  <string>Rotate</string>
-                 </property>
-                </widget>
-               </item>
                <item row="14" column="0" colspan="2">
                 <widget class="QPushButton" name="deleteObj">
                  <property name="text">
@@ -808,8 +801,80 @@ QGroupBox{
                  </item>
                 </layout>
                </item>
-               <item row="13" column="0" colspan="2">
-                <widget class="QGraphicsView" name="onScreenImage"/>
+               <item row="12" column="0" colspan="2">
+                <widget class="QGroupBox" name="groupBox_6">
+                 <property name="font">
+                  <font>
+                   <pointsize>9</pointsize>
+                   <weight>75</weight>
+                   <bold>true</bold>
+                  </font>
+                 </property>
+                 <property name="title">
+                  <string>Texture and Bump</string>
+                 </property>
+                 <layout class="QGridLayout" name="gridLayout_13">
+                  <property name="spacing">
+                   <number>1</number>
+                  </property>
+                  <item row="3" column="0">
+                   <widget class="QGraphicsView" name="onScreenImage"/>
+                  </item>
+                  <item row="4" column="0">
+                   <widget class="QPushButton" name="loadBump">
+                    <property name="text">
+                     <string>Add Bump</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="0" column="0">
+                   <widget class="QPushButton" name="loadTexture">
+                    <property name="text">
+                     <string>Add Texture</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QCheckBox" name="enableTexture">
+                    <property name="text">
+                     <string>Enable Texture</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="5" column="0">
+                   <widget class="QCheckBox" name="enableBump">
+                    <property name="text">
+                     <string>Enable Bump Mapping</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="6" column="0">
+                   <widget class="QGraphicsView" name="onScreenImageBump"/>
+                  </item>
+                  <item row="1" column="0">
+                   <widget class="QComboBox" name="choiceTexture">
+                    <item>
+                     <property name="text">
+                      <string>ONLY TEXTURE</string>
+                     </property>
+                    </item>
+                    <item>
+                     <property name="text">
+                      <string>REPLACE WITH TEXTURE</string>
+                     </property>
+                    </item>
+                   </widget>
+                  </item>
+                 </layout>
+                 <zorder>loadTexture</zorder>
+                 <zorder>loadTexture</zorder>
+                 <zorder>onScreenImage</zorder>
+                 <zorder>enableTexture</zorder>
+                 <zorder>loadBump</zorder>
+                 <zorder>enableBump</zorder>
+                 <zorder>onScreenImageBump</zorder>
+                 <zorder>choiceTexture</zorder>
+                </widget>
                </item>
               </layout>
              </widget>
@@ -1574,8 +1639,8 @@ QGroupBox{
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>96</height>
+                 <width>230</width>
+                 <height>546</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -1592,8 +1657,8 @@ QGroupBox{
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>96</height>
+                 <width>230</width>
+                 <height>546</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -1700,8 +1765,8 @@ QGroupBox{
                 <rect>
                  <x>0</x>
                  <y>0</y>
-                 <width>98</width>
-                 <height>28</height>
+                 <width>230</width>
+                 <height>546</height>
                 </rect>
                </property>
                <attribute name="label">

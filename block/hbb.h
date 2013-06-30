@@ -56,6 +56,13 @@ public:
      void      removeTexture(Texture* tex);
      int       getLenTexture();
      Texture*  getTexture(int i);
+     bool      getEnabledBump();
+     void      setEnabledBump(bool);
+     void      setBump(Bump*);
+     void      addBump(Bump*);
+     void      removeBump(Bump*);
+     int       getLenBump();
+     Bump*     getBump(int);
 };
 
 #endif // HBB_H

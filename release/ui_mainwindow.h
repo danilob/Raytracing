@@ -1,11 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-<<<<<<< HEAD
-** Created: Thu Jun 20 02:25:44 2013
-=======
-** Created: Mon Jun 17 19:35:54 2013
->>>>>>> 94a1fb96a2c7b21de884cd13ce7fb194c1d00b9d
+** Created: Sun Jun 30 03:11:42 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -79,23 +75,23 @@ public:
     QVBoxLayout *verticalLayout_2;
     QGroupBox *groupBoxPropertiesObj;
     QGridLayout *gridLayout_11;
+    QHBoxLayout *horizontalLayout_2;
+    QCheckBox *selectedObj;
+    QCheckBox *enableObj;
     QFrame *frame;
     QHBoxLayout *horizontalLayout_3;
     QPushButton *ambMaterial;
     QPushButton *diffMaterial;
     QPushButton *speMaterial;
     QLineEdit *nomeObj;
-    QHBoxLayout *horizontalLayout_2;
-    QCheckBox *selectedObj;
-    QCheckBox *enableObj;
     QLabel *label_10;
     QLabel *label_13;
-    QPushButton *loadTexture;
     QComboBox *materialobject;
     QVBoxLayout *verticalLayout_3;
     QDoubleSpinBox *transx;
     QDoubleSpinBox *transy;
     QDoubleSpinBox *transz;
+    QLabel *label_12;
     QGroupBox *groupBox_4;
     QGridLayout *gridLayout_10;
     QHBoxLayout *horizontalLayout_17;
@@ -127,13 +123,20 @@ public:
     QLabel *label_15;
     QLabel *label_17;
     QLabel *label_11;
-    QLabel *label_12;
     QPushButton *deleteObj;
     QVBoxLayout *verticalLayout_5;
     QDoubleSpinBox *scalex;
     QDoubleSpinBox *scaley;
     QDoubleSpinBox *scalez;
+    QGroupBox *groupBox_6;
+    QGridLayout *gridLayout_13;
     QGraphicsView *onScreenImage;
+    QPushButton *loadBump;
+    QPushButton *loadTexture;
+    QCheckBox *enableTexture;
+    QCheckBox *enableBump;
+    QGraphicsView *onScreenImageBump;
+    QComboBox *choiceTexture;
     QScrollArea *scrollLight;
     QWidget *scrollAreaWidgetContents_4;
     QFormLayout *formLayout;
@@ -357,7 +360,7 @@ public:
         scrollObject->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 248, 749));
+        scrollAreaWidgetContents->setGeometry(QRect(0, -249, 248, 949));
         verticalLayout_2 = new QVBoxLayout(scrollAreaWidgetContents);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -389,6 +392,22 @@ public:
         gridLayout_11->setContentsMargins(11, 11, 11, 11);
         gridLayout_11->setObjectName(QString::fromUtf8("gridLayout_11"));
         gridLayout_11->setContentsMargins(2, 5, 2, 2);
+        horizontalLayout_2 = new QHBoxLayout();
+        horizontalLayout_2->setSpacing(6);
+        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
+        selectedObj = new QCheckBox(groupBoxPropertiesObj);
+        selectedObj->setObjectName(QString::fromUtf8("selectedObj"));
+
+        horizontalLayout_2->addWidget(selectedObj);
+
+        enableObj = new QCheckBox(groupBoxPropertiesObj);
+        enableObj->setObjectName(QString::fromUtf8("enableObj"));
+
+        horizontalLayout_2->addWidget(enableObj);
+
+
+        gridLayout_11->addLayout(horizontalLayout_2, 2, 0, 1, 2);
+
         frame = new QFrame(groupBoxPropertiesObj);
         frame->setObjectName(QString::fromUtf8("frame"));
         horizontalLayout_3 = new QHBoxLayout(frame);
@@ -421,22 +440,6 @@ public:
 
         gridLayout_11->addWidget(nomeObj, 1, 0, 1, 2);
 
-        horizontalLayout_2 = new QHBoxLayout();
-        horizontalLayout_2->setSpacing(6);
-        horizontalLayout_2->setObjectName(QString::fromUtf8("horizontalLayout_2"));
-        selectedObj = new QCheckBox(groupBoxPropertiesObj);
-        selectedObj->setObjectName(QString::fromUtf8("selectedObj"));
-
-        horizontalLayout_2->addWidget(selectedObj);
-
-        enableObj = new QCheckBox(groupBoxPropertiesObj);
-        enableObj->setObjectName(QString::fromUtf8("enableObj"));
-
-        horizontalLayout_2->addWidget(enableObj);
-
-
-        gridLayout_11->addLayout(horizontalLayout_2, 2, 0, 1, 2);
-
         label_10 = new QLabel(groupBoxPropertiesObj);
         label_10->setObjectName(QString::fromUtf8("label_10"));
 
@@ -446,11 +449,6 @@ public:
         label_13->setObjectName(QString::fromUtf8("label_13"));
 
         gridLayout_11->addWidget(label_13, 5, 1, 1, 1);
-
-        loadTexture = new QPushButton(groupBoxPropertiesObj);
-        loadTexture->setObjectName(QString::fromUtf8("loadTexture"));
-
-        gridLayout_11->addWidget(loadTexture, 12, 0, 1, 2);
 
         materialobject = new QComboBox(groupBoxPropertiesObj);
         materialobject->setObjectName(QString::fromUtf8("materialobject"));
@@ -491,6 +489,11 @@ public:
 
 
         gridLayout_11->addLayout(verticalLayout_3, 4, 0, 1, 2);
+
+        label_12 = new QLabel(groupBoxPropertiesObj);
+        label_12->setObjectName(QString::fromUtf8("label_12"));
+
+        gridLayout_11->addWidget(label_12, 5, 0, 1, 1);
 
         groupBox_4 = new QGroupBox(groupBoxPropertiesObj);
         groupBox_4->setObjectName(QString::fromUtf8("groupBox_4"));
@@ -688,11 +691,6 @@ public:
 
         gridLayout_11->addWidget(label_11, 3, 0, 1, 1);
 
-        label_12 = new QLabel(groupBoxPropertiesObj);
-        label_12->setObjectName(QString::fromUtf8("label_12"));
-
-        gridLayout_11->addWidget(label_12, 5, 0, 1, 1);
-
         deleteObj = new QPushButton(groupBoxPropertiesObj);
         deleteObj->setObjectName(QString::fromUtf8("deleteObj"));
 
@@ -734,10 +732,58 @@ public:
 
         gridLayout_11->addLayout(verticalLayout_5, 6, 1, 1, 1);
 
-        onScreenImage = new QGraphicsView(groupBoxPropertiesObj);
+        groupBox_6 = new QGroupBox(groupBoxPropertiesObj);
+        groupBox_6->setObjectName(QString::fromUtf8("groupBox_6"));
+        groupBox_6->setFont(font);
+        gridLayout_13 = new QGridLayout(groupBox_6);
+        gridLayout_13->setSpacing(1);
+        gridLayout_13->setContentsMargins(11, 11, 11, 11);
+        gridLayout_13->setObjectName(QString::fromUtf8("gridLayout_13"));
+        onScreenImage = new QGraphicsView(groupBox_6);
         onScreenImage->setObjectName(QString::fromUtf8("onScreenImage"));
 
-        gridLayout_11->addWidget(onScreenImage, 13, 0, 1, 2);
+        gridLayout_13->addWidget(onScreenImage, 3, 0, 1, 1);
+
+        loadBump = new QPushButton(groupBox_6);
+        loadBump->setObjectName(QString::fromUtf8("loadBump"));
+
+        gridLayout_13->addWidget(loadBump, 4, 0, 1, 1);
+
+        loadTexture = new QPushButton(groupBox_6);
+        loadTexture->setObjectName(QString::fromUtf8("loadTexture"));
+
+        gridLayout_13->addWidget(loadTexture, 0, 0, 1, 1);
+
+        enableTexture = new QCheckBox(groupBox_6);
+        enableTexture->setObjectName(QString::fromUtf8("enableTexture"));
+
+        gridLayout_13->addWidget(enableTexture, 2, 0, 1, 1);
+
+        enableBump = new QCheckBox(groupBox_6);
+        enableBump->setObjectName(QString::fromUtf8("enableBump"));
+
+        gridLayout_13->addWidget(enableBump, 5, 0, 1, 1);
+
+        onScreenImageBump = new QGraphicsView(groupBox_6);
+        onScreenImageBump->setObjectName(QString::fromUtf8("onScreenImageBump"));
+
+        gridLayout_13->addWidget(onScreenImageBump, 6, 0, 1, 1);
+
+        choiceTexture = new QComboBox(groupBox_6);
+        choiceTexture->setObjectName(QString::fromUtf8("choiceTexture"));
+
+        gridLayout_13->addWidget(choiceTexture, 1, 0, 1, 1);
+
+        loadTexture->raise();
+        loadTexture->raise();
+        onScreenImage->raise();
+        enableTexture->raise();
+        loadBump->raise();
+        enableBump->raise();
+        onScreenImageBump->raise();
+        choiceTexture->raise();
+
+        gridLayout_11->addWidget(groupBox_6, 12, 0, 1, 2);
 
 
         verticalLayout_2->addWidget(groupBoxPropertiesObj);
@@ -1235,7 +1281,7 @@ public:
         toolBox->setFrameShadow(QFrame::Sunken);
         page = new QWidget();
         page->setObjectName(QString::fromUtf8("page"));
-        page->setGeometry(QRect(0, 0, 98, 96));
+        page->setGeometry(QRect(0, 0, 230, 546));
         gridLayout_5 = new QGridLayout(page);
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -1248,7 +1294,7 @@ public:
         toolBox->addItem(page, QString::fromUtf8("Objects"));
         page_3 = new QWidget();
         page_3->setObjectName(QString::fromUtf8("page_3"));
-        page_3->setGeometry(QRect(0, 0, 98, 96));
+        page_3->setGeometry(QRect(0, 0, 230, 546));
         gridLayout_8 = new QGridLayout(page_3);
         gridLayout_8->setSpacing(6);
         gridLayout_8->setContentsMargins(11, 11, 11, 11);
@@ -1320,7 +1366,7 @@ public:
         toolBox->addItem(page_2, QString::fromUtf8("Scene"));
         page_4 = new QWidget();
         page_4->setObjectName(QString::fromUtf8("page_4"));
-        page_4->setGeometry(QRect(0, 0, 98, 28));
+        page_4->setGeometry(QRect(0, 0, 230, 546));
         layoutWidget = new QWidget(page_4);
         layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
         layoutWidget->setGeometry(QRect(0, 10, 221, 129));
@@ -1663,14 +1709,13 @@ public:
         actionCone->setText(QApplication::translate("MainWindow", "Cone", 0, QApplication::UnicodeUTF8));
         actionCone->setShortcut(QApplication::translate("MainWindow", "Ctrl+E", 0, QApplication::UnicodeUTF8));
         groupBoxPropertiesObj->setTitle(QApplication::translate("MainWindow", "Properties Object", 0, QApplication::UnicodeUTF8));
+        selectedObj->setText(QApplication::translate("MainWindow", "Select", 0, QApplication::UnicodeUTF8));
+        enableObj->setText(QApplication::translate("MainWindow", "Enable", 0, QApplication::UnicodeUTF8));
         ambMaterial->setText(QApplication::translate("MainWindow", "amb", 0, QApplication::UnicodeUTF8));
         diffMaterial->setText(QApplication::translate("MainWindow", "diff", 0, QApplication::UnicodeUTF8));
         speMaterial->setText(QApplication::translate("MainWindow", "spe", 0, QApplication::UnicodeUTF8));
-        selectedObj->setText(QApplication::translate("MainWindow", "Select", 0, QApplication::UnicodeUTF8));
-        enableObj->setText(QApplication::translate("MainWindow", "Enable", 0, QApplication::UnicodeUTF8));
         label_10->setText(QApplication::translate("MainWindow", "Name", 0, QApplication::UnicodeUTF8));
         label_13->setText(QApplication::translate("MainWindow", "Scale", 0, QApplication::UnicodeUTF8));
-        loadTexture->setText(QApplication::translate("MainWindow", "Add Texture", 0, QApplication::UnicodeUTF8));
         materialobject->clear();
         materialobject->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "NO DEFINE", 0, QApplication::UnicodeUTF8)
@@ -1710,6 +1755,7 @@ public:
         transx->setSuffix(QString());
         transy->setPrefix(QApplication::translate("MainWindow", "y : ", 0, QApplication::UnicodeUTF8));
         transz->setPrefix(QApplication::translate("MainWindow", "z : ", 0, QApplication::UnicodeUTF8));
+        label_12->setText(QApplication::translate("MainWindow", "Rotate", 0, QApplication::UnicodeUTF8));
         groupBox_4->setTitle(QApplication::translate("MainWindow", "Effects", 0, QApplication::UnicodeUTF8));
         label_35->setText(QApplication::translate("MainWindow", "Glossy Reflection", 0, QApplication::UnicodeUTF8));
         label_34->setText(QApplication::translate("MainWindow", "Glossy Refraction", 0, QApplication::UnicodeUTF8));
@@ -1727,11 +1773,20 @@ public:
         label_15->setText(QApplication::translate("MainWindow", "Diffuse", 0, QApplication::UnicodeUTF8));
         label_17->setText(QApplication::translate("MainWindow", "Specular", 0, QApplication::UnicodeUTF8));
         label_11->setText(QApplication::translate("MainWindow", "Translate", 0, QApplication::UnicodeUTF8));
-        label_12->setText(QApplication::translate("MainWindow", "Rotate", 0, QApplication::UnicodeUTF8));
         deleteObj->setText(QApplication::translate("MainWindow", "Delete", 0, QApplication::UnicodeUTF8));
         scalex->setPrefix(QApplication::translate("MainWindow", "x : ", 0, QApplication::UnicodeUTF8));
         scaley->setPrefix(QApplication::translate("MainWindow", "y : ", 0, QApplication::UnicodeUTF8));
         scalez->setPrefix(QApplication::translate("MainWindow", "z : ", 0, QApplication::UnicodeUTF8));
+        groupBox_6->setTitle(QApplication::translate("MainWindow", "Texture and Bump", 0, QApplication::UnicodeUTF8));
+        loadBump->setText(QApplication::translate("MainWindow", "Add Bump", 0, QApplication::UnicodeUTF8));
+        loadTexture->setText(QApplication::translate("MainWindow", "Add Texture", 0, QApplication::UnicodeUTF8));
+        enableTexture->setText(QApplication::translate("MainWindow", "Enable Texture", 0, QApplication::UnicodeUTF8));
+        enableBump->setText(QApplication::translate("MainWindow", "Enable Bump Mapping", 0, QApplication::UnicodeUTF8));
+        choiceTexture->clear();
+        choiceTexture->insertItems(0, QStringList()
+         << QApplication::translate("MainWindow", "ONLY TEXTURE", 0, QApplication::UnicodeUTF8)
+         << QApplication::translate("MainWindow", "REPLACE WITH TEXTURE", 0, QApplication::UnicodeUTF8)
+        );
         groupBoxPropertieLight->setTitle(QApplication::translate("MainWindow", "Properties Light", 0, QApplication::UnicodeUTF8));
         label_20->setText(QApplication::translate("MainWindow", "Name", 0, QApplication::UnicodeUTF8));
         selectedLight->setText(QApplication::translate("MainWindow", "Select", 0, QApplication::UnicodeUTF8));

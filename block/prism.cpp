@@ -3,6 +3,8 @@
 Prism::Prism()
 {
     motion = Vec4();
+    enable_texture = false;
+    enable_bumping = false;
     //valores default do prisma de base triangular reto
     double cathetus = 1.0;
     double height   = 1.0;
@@ -424,4 +426,49 @@ Texture *Prism::getTexture(int i)
     return textures.at(i);
 }
 
+bool Prism::getEnabledBump()
+{
+    return enable_bumping;
+}
+
+void Prism::setEnabledBump(bool b)
+{
+    this->enable_bumping = b;
+}
+
+void Prism::setBump(Bump *bump)
+{
+    bumps.clear();
+    bumps.push_back(bump);
+}
+
+void Prism::addBump(Bump *bump)
+{
+    bumps.push_back(bump);
+}
+
+void Prism::removeBump(Bump *bump)
+{
+    std::vector<Bump*>::iterator iter;
+    iter = this->bumps.begin();
+    for(unsigned int i=0;i<bumps.size();i++){
+
+        if(bumps.at(i) == bump){
+            bumps.erase(iter);
+            break;
+        }
+        iter++;
+    }
+
+}
+
+int Prism::getLenBump()
+{
+    return bumps.size();
+}
+
+Bump *Prism::getBump(int i)
+{
+    return bumps.at(i);
+}
 

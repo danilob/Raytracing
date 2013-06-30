@@ -258,19 +258,24 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                     light_enable++;
                     /* testar se a direção do ponto observado a luz está obstruido */
                     if ((testObstruction(raio)==Vec4())){
-                        if(obj->getLenTexture()>0){
-                            if (obj->getTexture(0)->bump){
-<<<<<<< HEAD
-                                aux = aux + scene->lights.at(i)->calculateColor((intercept),obj->getTexture(0)->getColorNormalBump(normal,map),scene->viewer[0],material,l)*pshadow;
-=======
-                            aux = aux + scene->lights.at(i)->calculateColor(obj->getTexture(0)->getColorPointBump(normal,map,intercept),obj->getTexture(0)->getColorNormalBump(normal,map),scene->viewer[0],material,l)*pshadow;
->>>>>>> 94a1fb96a2c7b21de884cd13ce7fb194c1d00b9d
-                            }else{
+                        //tratamentos no caso de textura no objeto no caso estamos tratando o objeto com uma única
+                        //textura e um único bumping mapping
+                        if(obj->getLenTexture()>0 || obj->getLenBump()>0){
+                            //o objeto tem textura e bump mapping
+                            if ((obj->getLenTexture()>0 && obj->getEnabledTexture())&&(obj->getLenBump()>0 && obj->getEnabledBump()))
+                                aux = aux + scene->lights.at(i)->calculateColor(intercept,obj->getBump(0)->getColorNormalBump(normal,map),scene->viewer[0],material,l,obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*pshadow;
+                            //objeto só possui textura
+                            else if(obj->getLenTexture()>0 && obj->getEnabledTexture())
                                 aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l,obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*pshadow;
-                            }
-                        }else{
+                            //objeto só possui bump mapping
+                            else if(obj->getLenBump()>0 && obj->getEnabledBump())
+                                aux = aux + scene->lights.at(i)->calculateColor((intercept),obj->getBump(0)->getColorNormalBump(normal,map),scene->viewer[0],material,l)*pshadow;
+                            //objeto não possui nem textura nem bump mapping habilitados
+                            else
+                                aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*pshadow;
+                        }else
                             aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*pshadow;
-                        }
+
                     }
 
 
@@ -310,14 +315,10 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
         }
 
         if (obj->getLenTexture()>0)
-<<<<<<< HEAD
-            if (!obj->getTexture(0)->bump)
+            if (obj->getTexture(0)>0 && obj->getEnabledTexture())
                 color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4(),obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*0.5)/light_enable;
             else
                 color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()))/light_enable;
-=======
-            color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4(),obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*0.5)/light_enable;
->>>>>>> 94a1fb96a2c7b21de884cd13ce7fb194c1d00b9d
         else{
             color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()))/light_enable;
         }

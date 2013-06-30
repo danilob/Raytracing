@@ -5,6 +5,8 @@ double alpha = 2*M_PI / SEGMENTS;
 
 Cylinder::Cylinder()
 {
+    enable_texture = false;
+    enable_bumping = false;
     motion = Vec4();
     transform.setIdentity();
     for (int i = 0;i<SEGMENTS;i++){
@@ -388,3 +390,48 @@ Texture *Cylinder::getTexture(int i)
 }
 
 
+bool Cylinder::getEnabledBump()
+{
+    return enable_bumping;
+}
+
+void Cylinder::setEnabledBump(bool b)
+{
+    this->enable_bumping = b;
+}
+
+void Cylinder::setBump(Bump *bump)
+{
+    bumps.clear();
+    bumps.push_back(bump);
+}
+
+void Cylinder::addBump(Bump *bump)
+{
+    bumps.push_back(bump);
+}
+
+void Cylinder::removeBump(Bump *bump)
+{
+    std::vector<Bump*>::iterator iter;
+    iter = this->bumps.begin();
+    for(unsigned int i=0;i<bumps.size();i++){
+
+        if(bumps.at(i) == bump){
+            bumps.erase(iter);
+            break;
+        }
+        iter++;
+    }
+
+}
+
+int Cylinder::getLenBump()
+{
+    return bumps.size();
+}
+
+Bump *Cylinder::getBump(int i)
+{
+    return bumps.at(i);
+}

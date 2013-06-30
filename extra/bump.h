@@ -1,5 +1,6 @@
-#ifndef TEXTURE_H
-#define TEXTURE_H
+#ifndef BUMP_H
+#define BUMP_H
+/* Classe que define a textura do tipo bump mapping */
 #include <GL/glut.h>
 #include <string>
 #include <QImage>
@@ -12,27 +13,25 @@
 #define MAP_DEFAULT 4
 #define PLANAR_MAPPING 5
 
-class Texture
+class Bump
 {
+
 public:
     QImage *image;
-    int  	type;	//tipo de uso da textura
-    int     mapping; //informa o tipo de mapping se é tiling ou não
     QString path;
+    int     mapping; //informa o tipo de mapping se é tiling ou não
 public:
-    Texture();
-    Texture(QImage* img,QString path);
+    Bump();
+    Bump(QImage* img, QString path);
     void setTypeMapping(int t_mapping);
     int  getTypeMapping();
-    void setTypeTexture(int t_type);
-    int  getTypeTexture();
-    Vec4 getColorTexture(Vec4 map);
+    Vec4 getColorBump(Vec4 map);
+    Vec4 getColorNormalBump(Vec4 normal,Vec4 map);
+    Vec4 getColorPointBump(Vec4 normal,Vec4 map,Vec4 pit);
     Vec4 getColor(float x, float y);
     Vec4 sample(Vec4 val);
     QString getPath();
     void    setPath(QString path);
-
-
 };
 
-#endif // TEXTURE_H
+#endif // BUMP_H

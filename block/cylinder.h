@@ -22,6 +22,8 @@ private:
 
     //textura
     std::vector<Texture*> textures;
+    std::vector<Bump*>    bumps;
+    bool                  enable_bumping;
     bool                  enable_texture;
 public:
     Cylinder();
@@ -61,6 +63,13 @@ public:
     void      removeTexture(Texture* tex);
     int       getLenTexture();
     Texture*  getTexture(int i);
+    bool      getEnabledBump();
+    void      setEnabledBump(bool b);
+    void      setBump(Bump* bump);
+    void      addBump(Bump* bump);
+    void      removeBump(Bump* bump);
+    int       getLenBump();
+    Bump*     getBump(int i);
 };
 
 #endif // CYLINDER_H

@@ -22,7 +22,10 @@ private:
 
     //textura
     std::vector<Texture*> textures;
+    //bump mapping
+    std::vector<Bump*>    bumps;
     bool                  enable_texture;
+    bool                  enable_bumping;
 
 public:
     Cone();
@@ -62,6 +65,13 @@ public:
     void      removeTexture(Texture* tex);
     int       getLenTexture();
     Texture*  getTexture(int i);
+    bool      getEnabledBump();
+    void      setEnabledBump(bool b);
+    void      setBump(Bump* bump);
+    void      addBump(Bump* bump);
+    void      removeBump(Bump* bump);
+    int       getLenBump();
+    Bump*     getBump(int i);
 };
 
 

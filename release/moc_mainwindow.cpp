@@ -1,11 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'mainwindow.h'
 **
-<<<<<<< HEAD
-** Created: Thu Jun 20 02:26:37 2013
-=======
-** Created: Tue Jun 18 06:15:59 2013
->>>>>>> 94a1fb96a2c7b21de884cd13ce7fb194c1d00b9d
+** Created: Sun Jun 30 04:30:43 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -27,8 +23,8 @@ static const uint qt_meta_data_MainWindow[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      68,   14, // methods
-       6,  354, // properties
+      69,   14, // methods
+       6,  359, // properties
        0,    0, // enums/sets
        0,    0, // constructors
        0,       // flags
@@ -105,14 +101,15 @@ static const uint qt_meta_data_MainWindow[] = {
     1620,   11,   11,   11, 0x08,
     1659,   11,   11,   11, 0x08,
     1685,   11,   11,   11, 0x08,
+    1710,   11,   11,   11, 0x08,
 
  // properties: name, type, flags
-    1717, 1710, 0x43495001,
-    1723, 1710, 0x43495001,
-    1732, 1710, 0x43495001,
-    1741, 1710, 0x43495001,
-    1750, 1710, 0x43495001,
-    1763, 1710, 0x43495001,
+    1739, 1732, 0x43495001,
+    1745, 1732, 0x43495001,
+    1754, 1732, 0x43495001,
+    1763, 1732, 0x43495001,
+    1772, 1732, 0x43495001,
+    1785, 1732, 0x43495001,
 
  // properties: notify_signal_id
        0,
@@ -178,9 +175,9 @@ static const char qt_meta_stringdata_MainWindow[] = {
     "on_deleteLight_clicked()\0"
     "on_actionScreanShot_Render_triggered()\0"
     "on_actionCone_triggered()\0"
-    "on_loadTexture_clicked()\0QColor\0color\0"
-    "colorDif\0colorAmb\0colorSpe\0colorMatView\0"
-    "colorMatObj\0"
+    "on_loadTexture_clicked()\0on_loadBump_clicked()\0"
+    "QColor\0color\0colorDif\0colorAmb\0colorSpe\0"
+    "colorMatView\0colorMatObj\0"
 };
 
 void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -257,6 +254,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 65: _t->on_actionScreanShot_Render_triggered(); break;
         case 66: _t->on_actionCone_triggered(); break;
         case 67: _t->on_loadTexture_clicked(); break;
+        case 68: _t->on_loadBump_clicked(); break;
         default: ;
         }
     }
@@ -294,9 +292,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 68)
+        if (_id < 69)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 68;
+        _id -= 69;
     }
 #ifndef QT_NO_PROPERTIES
       else if (_c == QMetaObject::ReadProperty) {

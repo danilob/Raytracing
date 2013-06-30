@@ -3,20 +3,21 @@
 #include <stdlib.h>
 #include <string.h>
 #include <QRgb>
-#define DELTA 0.00001
+#define DELTA 0.001
 Texture::Texture()
 {
-    this->type = TYPE_TEXTURE_BUMP;
+    this->type = TYPE_ONLY_TEXTURE;
     this->mapping = MAP_DEFAULT;
-    bump = true;
+
 }
 
-Texture::Texture(QImage *img)
+Texture::Texture(QImage *img,QString path)
 {
     image = img;
-    this->type = TYPE_TEXTURE_BUMP;
+    this->path = path;
+    this->type = TYPE_ONLY_TEXTURE;
     this->mapping = MAP_DEFAULT;
-    bump = true;
+
 }
 
 void Texture::setTypeMapping(int t_mapping)
@@ -45,145 +46,6 @@ Vec4 Texture::getColorTexture(Vec4 map)
     return Vec4(qRed(color)/255.0,qGreen(color)/255.0,qBlue(color)/255.0);
 }
 
-Vec4 Texture::getColorNormalBump(Vec4 n, Vec4 map)
-{
-
-    if(!bump) return n;
-<<<<<<< HEAD
-    Vec4 normal = (Vec4(map.x(),0,0)^Vec4(0,map.y(),0));
-    Vec4 A = (normal ^ Vec4(1,0,0));
-    Vec4 B = (normal ^ A);
-
-//    QRgb color = image->pixel(map.x()*image->width(),map.y()*image->height());
-//    Vec4 bump1 =  Vec4(qRed(color)/255.0,qGreen(color)/255.0,qBlue(color)/255.0);
-//    Vec4 map2 = Vec4(1-map.x(),1-map.y());
-//    //map = Vec4(map.x(),0);
-
-//    //QRgb color = image->pixel(map.x()*image->width(),map.y()*image->height());
-//    //Vec4 bump2 =  Vec4(qRed(color)/255.0,qGreen(color)/255.0,qBlue(color)/255.0);
-//    //Vec4 bu = Vec4(bump1.x());
-//    //Vec4 bv = Vec4(0,bump1.y());
-//    Vec4 bu = (getColor(map2.x(),map.y()) - getColor(map.x(),map.y())+getColor(map2.x(),map2.y())-getColor(map.x(),map2.y()))/(2*((Vec4(map2.x())+Vec4(map.x())).module()));
-//    Vec4 bv = (getColor(map.x(),map2.y()) - getColor(map.x(),map.y())+getColor(map2.x(),map2.y())-getColor(map2.x(),map.y()))/(2*((Vec4(0,map2.y())+Vec4(0,map.y())).module()));
-//    //Vec4 D = (bu.mult(A) - bv.mult(B));
-//    Vec4 D = bv.mult((A^n)/n.module()) + bu.mult((n^B)/n.module());
-//    return (n + D);
-    float u = map.x(), v = map.y();
-        //Normalized distance between texels.
-    float tex_dist_u = 1.0/this->image->width();
-    float tex_dist_v = 1.0/this->image->height();
-    Vec4 du;
-    //Checking the boundary conditions. The gradient on the borders
-    //is the same point.
-    //if(u-tex_dist_u < DELTA)
-//      du = this->sample(Vec4(u,v)) -
-//        this->sample(Vec4(u + tex_dist_u, v));
-//    else //if(u+tex_dist_u > 1+DELTA)
-//      du = this->sample(Vec4(u - tex_dist_u,v)) -
-//        this->sample(Vec4(u, v));
-//    //If we are at any central point, then compute the gradient as usual.
-//    else
-      du = this->sample(Vec4(u - tex_dist_u,v)) -
-        this->sample(Vec4(u + tex_dist_u, v));
-
-    Vec4 dv;
-    //Checking the boundary conditions.
-    //if(v-tex_dist_v < DELTA)
-//      dv = this->sample(Vec4(u,v + tex_dist_v)) -
-//        this->sample(Vec4(u, v));
-//    else if(v+tex_dist_v > 1+DELTA)
-//      dv = this->sample(Vec4(u,v)) -
-//        this->sample(Vec4(u, v - tex_dist_v));
-//    else
-      dv = this->sample(Vec4(u,v + tex_dist_v)) -
-        this->sample(Vec4(u, v - tex_dist_v));
-
-    //Gray color of the gradient is normalized, i.e., average gray value.
-    float u_val = (du.x() + du.y() + du.z())/3.0;
-    float v_val = (dv.x() + dv.y() + dv.z())/3.0;
-
-    //The bump intensity, as well as the average of the difference
-    //(which was missing above).
-    u_val *= 0.5;
-    v_val *= 0.5;
-    Vec4 D = ((A^normal)/normal.module())*v_val + ((normal^B)/normal.module())*u_val;
-    //Vec4 D = ((A))*v_val*0.5 + ((B))*u_val*0.5;
-=======
-    //Vec4 normal = (Vec4(map.x(),0,0)^Vec4(0,map.y(),0));
-    Vec4 A = (n ^ Vec4(1,0,0)).unitary();
-    Vec4 B = (n ^ A).unitary();
-    QRgb color = image->pixel(map.x()*image->width(),map.y()*image->height());
-    Vec4 bump1 =  Vec4(qRed(color)/255.0,qGreen(color)/255.0,qBlue(color)/255.0);
-    Vec4 map2 = Vec4(1-map.x(),1-map.y());
-    //map = Vec4(map.x(),0);
-
-    //QRgb color = image->pixel(map.x()*image->width(),map.y()*image->height());
-    //Vec4 bump2 =  Vec4(qRed(color)/255.0,qGreen(color)/255.0,qBlue(color)/255.0);
-    //Vec4 bu = Vec4(bump1.x());
-    //Vec4 bv = Vec4(0,bump1.y());
-    Vec4 bu = (getColor(map2.x(),map.y()) - getColor(map.x(),map.y())+getColor(map2.x(),map2.y())-getColor(map.x(),map2.y()))/(2*((Vec4(map2.x())+Vec4(map.x())).module()));
-    Vec4 bv = (getColor(map.x(),map2.y()) - getColor(map.x(),map.y())+getColor(map2.x(),map2.y())-getColor(map2.x(),map.y()))/(2*((Vec4(0,map2.y())+Vec4(0,map.y())).module()));
-    //Vec4 D = (bu.mult(A) - bv.mult(B));
-    Vec4 D = bv.mult((A^n)/n.module()) + bu.mult((n^B)/n.module());
->>>>>>> 94a1fb96a2c7b21de884cd13ce7fb194c1d00b9d
-    return (n + D);
-
-}
-
-Vec4 Texture::getColorPointBump(Vec4 normal, Vec4 map, Vec4 pit)
-{
-<<<<<<< HEAD
-    normal = (Vec4(map.x(),0,0)^Vec4(0,map.y(),0));
-    Vec4 A = (normal ^ Vec4(1,0,0));
-    Vec4 B = (normal ^ A);
-    float u = map.x(), v = map.y();
-        //Normalized distance between texels.
-    float tex_dist_u = 1.0/this->image->width();
-    float tex_dist_v = 1.0/this->image->height();
-    Vec4 du;
-    //Checking the boundary conditions. The gradient on the borders
-    //is the same point.
-    if(u-tex_dist_u < DELTA)
-      du = this->sample(Vec4(u,v)) -
-        this->sample(Vec4(u + tex_dist_u, v));
-    else if(u+tex_dist_u > 1)
-      du = this->sample(Vec4(u - tex_dist_u,v)) -
-        this->sample(Vec4(u, v));
-    //If we are at any central point, then compute the gradient as usual.
-    else
-      du = this->sample(Vec4(u - tex_dist_u,v)) -
-        this->sample(Vec4(u + tex_dist_u, v));
-
-    Vec4 dv;
-    //Checking the boundary conditions.
-    if(v-tex_dist_v < DELTA)
-      dv = this->sample(Vec4(u,v + tex_dist_v)) -
-        this->sample(Vec4(u, v));
-    else if(v+tex_dist_v > 1)
-      dv = this->sample(Vec4(u,v)) -
-        this->sample(Vec4(u, v - tex_dist_v));
-    else
-      dv = this->sample(Vec4(u,v + tex_dist_v)) -
-        this->sample(Vec4(u, v - tex_dist_v));
-
-    //Gray color of the gradient is normalized, i.e., average gray value.
-    float u_val = (du.x() + du.y() + du.z())/3.0;
-    float v_val = (dv.x() + dv.y() + dv.z())/3.0;
-
-    //The bump intensity, as well as the average of the difference
-    //(which was missing above).
-    u_val *= 0.5;
-    v_val *= 0.5;
-    //QRgb color = image->pixel(map.x()*image->width(),map.y()*image->height());
-    //Vec4 bump1 =  Vec4(qRed(color)/255.0,qGreen(color)/255.0,qBlue(color)/255.0);
-    return pit + ((A^normal)/normal.module())*v_val + ((normal^B)/normal.module())*u_val;
-=======
-    QRgb color = image->pixel(map.x()*image->width(),map.y()*image->height());
-    Vec4 bump1 =  Vec4(qRed(color)/255.0,qGreen(color)/255.0,qBlue(color)/255.0);
-    return pit + (bump1.mult(normal))/normal.module();
->>>>>>> 94a1fb96a2c7b21de884cd13ce7fb194c1d00b9d
-
-}
 
 Vec4 Texture::getColor(float x, float y)
 {
@@ -191,12 +53,22 @@ Vec4 Texture::getColor(float x, float y)
     return  Vec4(qRed(color)/255.0,qGreen(color)/255.0,qBlue(color)/255.0);
 
 }
-<<<<<<< HEAD
+
 
 Vec4 Texture::sample(Vec4 val)
 {
     QRgb color = image->pixel(fmin(val.x()*image->width(),image->width()-1),fmin(val.y()*image->height(),image->height()-1));
     return  Vec4(qRed(color),qGreen(color),qBlue(color));
 }
-=======
->>>>>>> 94a1fb96a2c7b21de884cd13ce7fb194c1d00b9d
+
+QString Texture::getPath()
+{
+    return this->path;
+}
+
+void Texture::setPath(QString path)
+{
+    this->path = path;
+}
+
+

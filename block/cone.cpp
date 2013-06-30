@@ -4,6 +4,8 @@
 
 Cone::Cone()
 {
+    enable_texture = false;
+    enable_bumping = false;
     motion = Vec4();
     double height = 1.0;
     double radius = 1.0;
@@ -366,6 +368,52 @@ int Cone::getLenTexture()
 Texture *Cone::getTexture(int i)
 {
     return textures.at(i);
+}
+
+bool Cone::getEnabledBump()
+{
+    return enable_bumping;
+}
+
+void Cone::setEnabledBump(bool b)
+{
+    this->enable_bumping = b;
+}
+
+void Cone::setBump(Bump *bump)
+{
+    bumps.clear();
+    bumps.push_back(bump);
+}
+
+void Cone::addBump(Bump *bump)
+{
+    bumps.push_back(bump);
+}
+
+void Cone::removeBump(Bump *bump)
+{
+    std::vector<Bump*>::iterator iter;
+    iter = this->bumps.begin();
+    for(unsigned int i=0;i<bumps.size();i++){
+
+        if(bumps.at(i) == bump){
+            bumps.erase(iter);
+            break;
+        }
+        iter++;
+    }
+
+}
+
+int Cone::getLenBump()
+{
+    return bumps.size();
+}
+
+Bump *Cone::getBump(int i)
+{
+    return bumps.at(i);
 }
 
 

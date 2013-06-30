@@ -161,6 +161,8 @@ private slots:
 
     void on_loadTexture_clicked();
 
+    void on_loadBump_clicked();
+
 private:
     Ui::MainWindow *ui;
     QColor m_color;
