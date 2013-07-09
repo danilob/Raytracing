@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Sun Jun 30 03:11:42 2013
+** Created: Mon Jul 1 00:39:38 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -360,7 +360,7 @@ public:
         scrollObject->setWidgetResizable(true);
         scrollAreaWidgetContents = new QWidget();
         scrollAreaWidgetContents->setObjectName(QString::fromUtf8("scrollAreaWidgetContents"));
-        scrollAreaWidgetContents->setGeometry(QRect(0, -249, 248, 949));
+        scrollAreaWidgetContents->setGeometry(QRect(0, 0, 248, 949));
         verticalLayout_2 = new QVBoxLayout(scrollAreaWidgetContents);
         verticalLayout_2->setSpacing(6);
         verticalLayout_2->setContentsMargins(11, 11, 11, 11);
@@ -774,7 +774,6 @@ public:
 
         gridLayout_13->addWidget(choiceTexture, 1, 0, 1, 1);
 
-        loadTexture->raise();
         loadTexture->raise();
         onScreenImage->raise();
         enableTexture->raise();
@@ -1281,7 +1280,7 @@ public:
         toolBox->setFrameShadow(QFrame::Sunken);
         page = new QWidget();
         page->setObjectName(QString::fromUtf8("page"));
-        page->setGeometry(QRect(0, 0, 230, 546));
+        page->setGeometry(QRect(0, 0, 98, 96));
         gridLayout_5 = new QGridLayout(page);
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -1294,7 +1293,7 @@ public:
         toolBox->addItem(page, QString::fromUtf8("Objects"));
         page_3 = new QWidget();
         page_3->setObjectName(QString::fromUtf8("page_3"));
-        page_3->setGeometry(QRect(0, 0, 230, 546));
+        page_3->setGeometry(QRect(0, 0, 98, 96));
         gridLayout_8 = new QGridLayout(page_3);
         gridLayout_8->setSpacing(6);
         gridLayout_8->setContentsMargins(11, 11, 11, 11);
@@ -1386,7 +1385,7 @@ public:
         numSamples = new QSpinBox(layoutWidget);
         numSamples->setObjectName(QString::fromUtf8("numSamples"));
         numSamples->setMinimum(1);
-        numSamples->setMaximum(500);
+        numSamples->setMaximum(100000);
 
         horizontalLayout_5->addWidget(numSamples);
 
@@ -1661,7 +1660,7 @@ public:
         retranslateUi(MainWindow);
 
         tabWidget->setCurrentIndex(0);
-        toolBox->setCurrentIndex(2);
+        toolBox->setCurrentIndex(3);
         toolBox->layout()->setSpacing(6);
 
 

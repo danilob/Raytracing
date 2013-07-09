@@ -87,10 +87,10 @@ void RayTracing::rayTracing(QImage *pixels, int proportion,int samples)
           gettimeofday(&tempo_inicio,NULL);
     float alfa,beta;
 
-    omp_set_num_threads(8);
+    //omp_set_num_threads(8);
 
     //int c = samples*width*height/omp_get_num_threads();
-    int c =  (height / (8) * width) + (samples * (height/8) * width);
+    //int c =  (height / (8) * width) + (samples * (height/8) * width);
     Vec4 dir;
     Ray ray;
     QRgb value;
@@ -162,13 +162,8 @@ void RayTracing::rayTracing(QImage *pixels, int proportion,int samples)
         }
 
 
-//        for(j=0;j<height;j++)
-//            for(i=0;i<width;i++)
-//                sum.at(i+(j*width)) += matriz.at(i+(j*width));
-
-
     }
-    //printf("Espaços negros: %d",count);
+
     gettimeofday(&tempo_fim,NULL);
       tf = (double)tempo_fim.tv_usec + ((double)tempo_fim.tv_sec * (1000000.0));
       ti = (double)tempo_inicio.tv_usec + ((double)tempo_inicio.tv_sec * (1000000.0));
@@ -182,6 +177,68 @@ void RayTracing::rayTracing(QImage *pixels, int proportion,int samples)
             pixels->setPixel(i,height-(j+1),value);
         }
     widget->showSampleRender(pixels);
+
+    /*Teste pessoal com a parelização
+    Vec4 *c = new Vec4[width*height];
+    float znear = -scene->projection.x3;
+    //se por acaso um objeto tiver o efeito motion blur sera desconsiderado o uso do hierarquical bounding boxes
+    for (int i=0;i<scene->objects.size();i++)
+        if(scene->objects.at(i)->getMotion()!=Vec4()) withhbb = false;
+    Vec4 r;
+    float alfa,beta;
+    #pragma omp parallel for schedule(dynamic, 1) private(r) // OpenMP
+    for (int y=0; y<height; y++){ // Loop over image rows
+        fprintf(stderr,"\rRendering (%d spp) %5.2f%%",samples*4,100.*y/(height-1));
+        for (unsigned short x=0,Xi[3]={0,0,y*y}; x<width; x++) // Loop cols
+            for (int sy=0, i=(height-y-1)*width+x; sy<2; sy++) // 2x2 subpixel rows
+                for (int sx=0; sx<2; sx++, r=Vec4()){ // 2x2 subpixel cols
+                    for (int s=0; s<samples; s++){
+                        //double r1=2*erand48(Xi), dx=r1<1 ? sqrt(r1)-1: 1-sqrt(2-r1);
+                        //double r2=2*erand48(Xi), dy=r2<1 ? sqrt(r2)-1: 1-sqrt(2-r2);
+                        float alfa  = -w/2.0 + deltax*((float)erand48(Xi)) + x*deltax;
+                        float beta  = -h/2.0 + deltay*((float)erand48(Xi)) + y*deltay;
+
+
+//                        float alfa =( ( (sx+.5 + dx)/2 + x)/width - .5);
+//                        float beta = ( ( (sy+.5 + dy)/2 + y)/height - .5);
+                        Vec4 dir(alfa,beta,znear);
+                        //Ray ray;
+                        //dir.setVec4(alfa,beta,znear);
+                        //teste para verificar se o cenário tem o efeito de depth of field
+                        if (!(scene->radius>0 && scene->focal>0)){
+                            //ray.setOrigin(changetoviewer.transpose().vector(Vec4(0,0,0)));
+                            //ray.setDirection(changetoviewer.transpose().vector(dir));
+                            //ray.setDirection((ray.direction - ray.origin).unitary());
+                            r += rayIntersection(Ray(changetoviewer.transpose().vector(Vec4(0,0,0)),(changetoviewer.transpose().vector(dir) - changetoviewer.transpose().vector(Vec4(0,0,0))).unitary()));
+                        }else{
+//                            Ray dof = depthOfField(dir,scene->radius,scene->focal);
+//                            ray.setOrigin(changetoviewer.transpose().vector(dof.origin));
+//                            ray.setDirection(changetoviewer.transpose().vector(dof.direction));
+//                            ray.setDirection((ray.direction - ray.origin).unitary());
+                        }
+
+                        //r = r + rayIntersection(ray)*(1./samples);
+
+                        //r = r + radiance(Ray(cam.o+d*140,d.norm()),0,Xi)*(1./samps);
+                    } // Camera rays are pushed ^^^^^ forward to start in interior
+                    c[i] += Vec4(r.x(),r.y(),r.z());
+                }
+
+    }
+
+    for(int j=0;j<height;j++)
+        for(int i =0;i<width;i++){
+            //matriz.at(i+(j*width)) /= samples;
+            value = qRgb((c[height*j+i].x()*255),(c[height*j+i].y()*255),(c[height*j+i].z()*255));
+            pixels->setPixel(i,height-(j+1),value);
+        }
+    widget->showSampleRender(pixels);
+    FILE *f = fopen("image2.ppm", "w"); // Write image to PPM file.
+    fprintf(f, "P3\n%d %d\n%d\n", width, height, 255);
+    for (int i=0; i<width*height; i++)
+        fprintf(f,"%d %d %d ", toInt(c[i].x()/(4.0*samples)), toInt(c[i].y()/(4.0*samples)), toInt(c[i].z()/(4.0*samples)));
+
+        */
 
 
 }
