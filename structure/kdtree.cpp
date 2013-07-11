@@ -243,66 +243,83 @@ void KdTree::clearHeap()
 void KdTree::locatePhotons(KdTree* kd,Vec4 pos,int maxphotons,QList<Photon*> photons)
 {
     //float delta=0;
-    delta2 = Vec4::distSquared(kd->node->position,pos);
-    //printf("\Photons: %d",kd->nphotons);
-    //return;
-    if(kd->leftKdTree!=NULL && kd->rightKdTree!=NULL){
-    //if( kd->getHeapKdTree().size() < maxphotons) { //examine child nodes
-        //printf("\Photons: %d",kd->nphotons);
-        //Compute distance to plane (just a subtract)
-        Vec4 plane;
-        float signal;
-        if(kd->node->flag==0){
-            plane.setVec4(kd->node->position.x(),0,0);
-            signal = kd->node->position.x();
-        }else if(kd->node->flag==1){
-            plane.setVec4(0,kd->node->position.y(),0);
-            signal = kd->node->position.y();
-        }else{
-            plane.setVec4(0,0,kd->node->position.z());
-            signal = kd->node->position.z();
-        }
-        delta = Vec4::distPlane(pos,plane);
-        d2 = 50.0;//Vec4::distSquared(pos,kd->node->position);
-        printf("\ndelta: %3.2f, delta2: %3.2f",delta,delta2);
+//    delta2 = Vec4::distSquared(kd->node->position,pos);
+//    //printf("\Photons: %d",kd->nphotons);
+//    //return;
+//    if(kd->leftKdTree!=NULL && kd->rightKdTree!=NULL){
+//    //if( kd->getHeapKdTree().size() < maxphotons) { //examine child nodes
+//        //printf("\Photons: %d",kd->nphotons);
+//        //Compute distance to plane (just a subtract)
+//        Vec4 plane;
+//        float signal;
+//        if(kd->node->flag==0){
+//            plane.setVec4(kd->node->position.x(),0,0);
+//            signal = kd->node->position.x();
+//        }else if(kd->node->flag==1){
+//            plane.setVec4(0,kd->node->position.y(),0);
+//            signal = kd->node->position.y();
+//        }else{
+//            plane.setVec4(0,0,kd->node->position.z());
+//            signal = kd->node->position.z();
+//        }
+//        delta = Vec4::distPlane(pos,plane);
+//        d2 = 100.0;//Vec4::distSquared(pos,kd->node->position);
+//        if(delta2<100){
+//            photons.append(kd->node);
+//            maxHeap.append(kd->node);
+//            printf("\ndelta: %3.2f, delta2: %3.2f",delta,delta2);
+//        }
 
-        if (delta < 0) { //We are left of the plane - search left subtree first
-            //printf("\nHear!");
-            if(signal<0){
-                locatePhotons(kd->leftKdTree,pos,maxphotons,photons);
+//        if (delta > 0) { //We are left of the plane - search left subtree first
+//            //printf("\nHear!");
+//            if(signal>0){
+//                locatePhotons(kd->leftKdTree,pos,maxphotons,photons);
 //                if ( delta2 < d2 ){
 //                    locatePhotons(kd->rightKdTree,pos,maxphotons,photons); //check right subtree
-//                    photons.append(kd->node);
-//                    maxHeap.append(kd->node);
+
 //                }
-            }else{
-                locatePhotons(kd->rightKdTree,pos,maxphotons,photons);
+//            }else{
+//                locatePhotons(kd->rightKdTree,pos,maxphotons,photons);
 //                if ( delta2 < d2 ){
 //                    locatePhotons(kd->leftKdTree,pos,maxphotons,photons); //check right subtree
-//                    photons.append(kd->node);
-//                    maxHeap.append(kd->node);
 //                }
-            }
-        } else { //We are right of the plane - search right subtree first
-            //printf("\nHear2!");
-            if(signal<0){
-            locatePhotons(kd->rightKdTree,pos,maxphotons,photons);
+//            }
+//        } else { //We are right of the plane - search right subtree first
+//            //printf("\nHear2!");
+//            if(signal>0){
+//            locatePhotons(kd->rightKdTree,pos,maxphotons,photons);
 //            if ( delta2 < d2 )
 //                locatePhotons(kd->leftKdTree,pos,maxphotons,photons); //check left subtree
-            }else{
-                locatePhotons(kd->leftKdTree,pos,maxphotons,photons);
+//            }else{
+//                locatePhotons(kd->leftKdTree,pos,maxphotons,photons);
 //                if ( delta2 < d2 )
 //                    locatePhotons(kd->rightKdTree,pos,maxphotons,photons); //check left subtree
+//            }
+//        }
+//    }
+    QList<Photon*> macaco = kd->getHeapKdTree();
+    //printf("Size %d",kd->getHeapKdTree().size());
+    int maxSize = maxphotons;
+    int total   = macaco.size()-1;
+    int i = 1;
+    while(total){
+        if(kd->maxHeap.size()<i){
+            if(Vec4::dist(macaco.at(total)->getPosition(),pos)<1.0){
+                kd->maxHeap.append(macaco.at(total));
+                i++;
             }
+
+            if(i==maxSize) break;
         }
+        total--;
     }
-    if ( delta2 < d2 ) { //Check if the photon is close enough?
-        //QList<Photon*> photon;
-        photons.append(kd->node);
-        maxHeap.append(kd->node);
-        printf("\nIn!");
-        //d2 = Vec4::distSquared(pos,kd->node->position);
-    }
+//    if ( delta2 < d2 ) { //Check if the photon is close enough?
+//        //QList<Photon*> photon;
+//        photons.append(kd->node);
+//        maxHeap.append(kd->node);
+//        printf("\nIn!");
+//        //d2 = Vec4::distSquared(pos,kd->node->position);
+//    }
     //Compute true squared distance to photon
 
     //δ2 = squared distance from photon p to x

@@ -110,6 +110,11 @@ float Vec4::distSquared(Vec4 p1, Vec4 p2)
     return pow((p1.x()-p2.x()),2)+pow((p1.y()-p2.y()),2)+pow((p1.z()-p2.z()),2);
 }
 
+float Vec4::dist(Vec4 p1, Vec4 p2)
+{
+    return sqrt(pow((p1.x()-p2.x()),2)+pow((p1.y()-p2.y()),2)+pow((p1.z()-p2.z()),2));
+}
+
 float Vec4::distPlane(Vec4 p, Vec4 plane)
 {
     Vec4 n = plane.unitary();

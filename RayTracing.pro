@@ -79,7 +79,8 @@ HEADERS  += mainwindow.h \
     extra/texture.h \
     extra/bump.h \
     structure/photon.h \
-    structure/kdtree.h
+    structure/kdtree.h \
+    structure/photon.h
 
 FORMS    += mainwindow.ui
 
