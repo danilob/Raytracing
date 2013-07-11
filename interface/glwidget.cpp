@@ -167,6 +167,7 @@ GLWidget::GLWidget(QWidget *parent) :
     updateProjection(projection);
     showviewports = false;
     showhbb = false;
+    showphotons = false;
     //boundingboxes = new HBB();
 
 
@@ -219,6 +220,7 @@ void GLWidget::paintGL()
         scene->drawObjectsOpenGL();
         if (showhbb) boundingboxes->drawStructure();
             //boundingboxes->box.wireframe();
+        scene->drawPhotons(showphotons);
 
 
     //updateGL();
@@ -1207,4 +1209,20 @@ void GLWidget::setValueProgressRay(int value)
 void GLWidget::showSampleRender(QImage *img)
 {
     showSample(img);
+}
+
+void GLWidget::setVisiblePhoton(bool flag)
+{
+    showphotons = flag;
+    updateGL();
+}
+
+void GLWidget::setSizePhotons(int size)
+{
+    scene->setSizePhotons(size);
+}
+
+void GLWidget::setEnabledPhotonMap(bool b)
+{
+    scene->setEnablePhotonMap(b);
 }

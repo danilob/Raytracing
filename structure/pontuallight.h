@@ -44,6 +44,9 @@ public:
     Vec4       getVecA();
     void       setVecB(Vec4);
     Vec4       getVecB();
+    std::vector<Photon*>       emitPhotons(int i);
+    void       setPower(int pow){};
+    int        getPower(){};
     ~PontualLight();
 private:
     Vec4*      position_light;

@@ -1,5 +1,5 @@
 #include "spotlight.h"
-
+#include "photon.h"
 float SpotLight::attenuation(float distance){
     return 1.0/(factor_attenuation->x()+distance*factor_attenuation->y()+distance*distance*factor_attenuation->z());
 }

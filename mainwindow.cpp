@@ -133,6 +133,10 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->exponentSpotLight,SIGNAL(valueChanged(int)),this,SLOT(setPropertiesLights()));
     connect(ui->widgetOpenGL,SIGNAL(showSample(QImage*)),this,SLOT(showSampleRender(QImage*)));
 
+    //connects do photon mapping
+    connect(ui->sizePhotons,SIGNAL(valueChanged(int)),ui->widgetOpenGL,SLOT(setSizePhotons(int)));
+    connect(ui->visiblePhotonMap,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(setVisiblePhoton(bool)));
+    connect(ui->enablePhotonMap,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(setEnabledPhotonMap(bool)));
 
     //connects de render
     connect(ui->showHBB,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(showHBB(bool)));
@@ -140,6 +144,7 @@ MainWindow::MainWindow(QWidget *parent) :
     updateListObjects();
     updateListLights();
     selectedProperties(-1);
+
 }
 
 MainWindow::~MainWindow()

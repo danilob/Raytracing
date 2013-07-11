@@ -105,6 +105,17 @@ float Vec4::module(){
     return sqrt(pow(x1,2)+pow(x2,2)+pow(x3,2));
 }
 
+float Vec4::distSquared(Vec4 p1, Vec4 p2)
+{
+    return pow((p1.x()-p2.x()),2)+pow((p1.y()-p2.y()),2)+pow((p1.z()-p2.z()),2);
+}
+
+float Vec4::distPlane(Vec4 p, Vec4 plane)
+{
+    Vec4 n = plane.unitary();
+    return (p-plane)*n;
+}
+
 Vec4 Vec4::unitary(){
     return *this/this->module();
 }

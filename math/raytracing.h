@@ -19,12 +19,12 @@ public:
     bool           otimized;
     HBB*           hierachicalbb;
     bool           withhbb;
+    //bool           withphotonmap;
 
 public:
     RayTracing();
     RayTracing(Scene* scene,GLWidget *rcast,Vec4 color,bool otimized=true);
     ~RayTracing();
-
     void           rayTracing(QImage *pixels, int proportion, int samples);                               //retorna a imagem gerada pelo ray tracing
     void           setScene(Scene* scene);                                                                //adiciona o cenário para o calculo do ray tracing
     Vec4           rayIntersection(Ray ray);                                                              //retorna a cor do pixel final a partir do raio lançado de forma otimizada

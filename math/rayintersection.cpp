@@ -1,7 +1,7 @@
 #include "rayintersection.h"
 #include "block/object.h"
 #include "math/ray.h"
-#define APROXIMATE 0
+#define APROXIMATE 0.0001
 bool teste = true;
 
 //calculo para interseção ray-plane limitado

@@ -12,6 +12,8 @@ Scene::Scene()
     push_obj = true;
     focal = 0;
     radius = 0;
+    enablephoton = false;
+    //kdtree = new KdTree();
 }
 
 void Scene::pushObjects(Object *obj){
@@ -829,6 +831,54 @@ float Scene::getRadiusDOF()
 float Scene::getFocalDOF()
 {
     return focal;
+}
+
+void Scene::drawPhotons(bool flag)
+{
+    if (!flag){
+        glEnable(GL_LIGHTING);
+        return;
+    }
+    if (photonMap.photons.size()==0){
+        std::vector<Photon*> photons;
+        std::vector<Photon*> totalphotons;
+        for(unsigned int i=1;i<lights.size();i++){
+            photons = lights.at(i)->emitPhotons(sizePhotons);
+            for(unsigned int j=0;j<photons.size();j++) totalphotons.push_back(photons.at(j));
+        }
+        photonMap.setScene(this);
+        photonMap.constructPhotonMap(totalphotons);
+        //kdtree = new KdTree(photonMap.photons);
+    }
+    photonMap.drawPhotonMap();
+
+    //kdtree->showHeap();
+    if (flag) glDisable(GL_LIGHTING);
+}
+
+void Scene::generatePhotons()
+{
+    photonMap.photons.clear();
+    std::vector<Photon*> photons;
+    std::vector<Photon*> totalphotons;
+    for(unsigned int i=1;i<lights.size();i++){
+        photons = lights.at(i)->emitPhotons(sizePhotons);
+        for(unsigned int j=0;j<photons.size();j++) totalphotons.push_back(photons.at(j));
+    }
+    photonMap.setScene(this);
+    photonMap.constructPhotonMap(totalphotons);
+    //kdtree = new KdTree(photonMap.photons);
+}
+
+void Scene::setSizePhotons(int value)
+{
+    sizePhotons = value;
+    photonMap.photons.clear();
+}
+
+void Scene::setEnablePhotonMap(bool b)
+{
+    enablephoton = b;
 }
 
 Scene::~Scene()

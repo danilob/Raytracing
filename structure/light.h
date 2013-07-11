@@ -4,12 +4,14 @@
 #include "extra/material.h"
 #include "draw/draw.h"
 #include "extra/texture.h"
+#include <vector>
+
 #define LIGHT_AMBIENT     0
 #define LIGHT_DIRECTIONAL 1
 #define LIGHT_PONTUAL     2
 #define LIGHT_SPOT        3
 #define LIGHT_AREA        4
-
+class Photon;
 
 class Light
 {
@@ -51,6 +53,11 @@ public:
     virtual Vec4       getVecA() = 0;
     virtual void       setVecB(Vec4) = 0;
     virtual Vec4       getVecB() = 0;
+    virtual std::vector<Photon*> emitPhotons(int) = 0;
+    virtual void       setPower(int pow) = 0;
+    virtual int        getPower() = 0;
+
+
 
 };
 

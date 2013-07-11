@@ -44,6 +44,9 @@ public:
     Vec4       getVecA();
     void       setVecB(Vec4);
     Vec4       getVecB();
+    std::vector<Photon*>       emitPhotons(int){};
+    void       setPower(int pow){};
+    int        getPower(){};
 private:
     Vec4*      diffuse_light;
     Vec4*      specular_light;

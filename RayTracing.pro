@@ -42,7 +42,9 @@ SOURCES += main.cpp\
     structure/spotlight.cpp \
     structure/arealight.cpp \
     extra/texture.cpp \
-    extra/bump.cpp
+    extra/bump.cpp \
+    structure/photon.cpp \
+    structure/kdtree.cpp
 
 HEADERS  += mainwindow.h \
     block/sphere.h \
@@ -75,7 +77,9 @@ HEADERS  += mainwindow.h \
     structure/spotlight.h \
     structure/arealight.h \
     extra/texture.h \
-    extra/bump.h
+    extra/bump.h \
+    structure/photon.h \
+    structure/kdtree.h
 
 FORMS    += mainwindow.ui
 

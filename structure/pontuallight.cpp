@@ -1,5 +1,5 @@
 #include "pontuallight.h"
-
+#include "photon.h"
 float PontualLight::attenuation(float distance){
     return 1.0/(factor_attenuation->x()+distance*factor_attenuation->y()+distance*distance*factor_attenuation->z());
 }
@@ -358,4 +358,27 @@ void PontualLight::setVecB(Vec4 b)
 Vec4 PontualLight::getVecB()
 {
     return Vec4();
+}
+
+std::vector<Photon*> PontualLight::emitPhotons(int ne)
+{
+    std::vector<Photon*> photons;
+    //emite a quantidade inicial de photons
+    int n = 1; //number of emitted photons
+    while (n<=ne){
+        float x,y,z;
+        do{
+            x = 2*myrand - 1; //ξ1 ∈ [0,1] is a random number
+            y = 2*myrand - 1; //ξ2 ∈ [0,1] is a random number
+            z = 2*myrand - 1; //ξ3 ∈ [0,1] is a random number
+        } while (x*x + y*y + z*z > 1);
+        Vec4 d(x,y,z);
+        Vec4 p = getPosition();
+        Photon* photon =  new Photon(p,d);
+        photon->setPower(Vec4(1,1,1));
+        n++;
+        photons.push_back(photon);
+    }
+    return photons;
+
 }

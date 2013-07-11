@@ -15,6 +15,8 @@
 #include "structure/directionallight.h"
 #include "structure/spotlight.h"
 #include "structure/arealight.h"
+#include "structure/photon.h"
+#include "structure/kdtree.h"
 
 #define BLOCK_CUBE        0
 #define BLOCK_CYLINDER    1
@@ -48,6 +50,10 @@ public:
     void setDOF(float radius,float focal);
     float getRadiusDOF();
     float getFocalDOF();
+    void drawPhotons(bool flag=true);
+    void generatePhotons();
+    void setSizePhotons(int value);
+    void setEnablePhotonMap(bool b);
     ~Scene();
 
 public:
@@ -55,6 +61,10 @@ public:
     std::vector<Object*>::iterator iter;
     std::vector<Light*> lights;   //luzes da cena
     std::vector<Light*>::iterator iterl;
+    PhotonMap photonMap;
+    //KdTree *kdtree;
+    bool enablephoton;
+    int sizePhotons;
     Vec4 background_color;              //cor de fundo
     Vec4 viewer[3];               //posicão do observador
     Vec4 projection;              //valores de projeção: angle, aspect, near,far

@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'glwidget.h'
 **
-** Created: Sun Jun 30 04:30:45 2013
+** Created: Thu Jul 11 00:20:18 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_GLWidget[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      60,   14, // methods
+      63,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -93,6 +93,9 @@ static const uint qt_meta_data_GLWidget[] = {
     1605,    9, 1434,    9, 0x0a,
     1618,  304,    9,    9, 0x0a,
     1643,    9,    9,    9, 0x0a,
+    1674, 1669,    9,    9, 0x0a,
+    1702, 1697,    9,    9, 0x0a,
+    1722,  385,    9,    9, 0x0a,
 
        0        // eod
 };
@@ -147,7 +150,9 @@ static const char qt_meta_stringdata_GLWidget[] = {
     "qw,percent,samples\0"
     "renderScene(QGraphicsView*,int,int)\0"
     "numberRays()\0setValueProgressRay(int)\0"
-    "showSampleRender(QImage*)\0"
+    "showSampleRender(QImage*)\0flag\0"
+    "setVisiblePhoton(bool)\0size\0"
+    "setSizePhotons(int)\0setEnabledPhotonMap(bool)\0"
 };
 
 void GLWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -221,6 +226,9 @@ void GLWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
         case 58: _t->setValueProgressRay((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 59: _t->showSampleRender((*reinterpret_cast< QImage*(*)>(_a[1]))); break;
+        case 60: _t->setVisiblePhoton((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 61: _t->setSizePhotons((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 62: _t->setEnabledPhotonMap((*reinterpret_cast< bool(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -258,9 +266,9 @@ int GLWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 60)
+        if (_id < 63)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 60;
+        _id -= 63;
     }
     return _id;
 }

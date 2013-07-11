@@ -52,6 +52,9 @@ public:
 
 
     QString    saveLight();
+    std::vector<Photon*>       emitPhotons(int){};
+    void       setPower(int pow){};
+    int        getPower(){};
 
 
 private:

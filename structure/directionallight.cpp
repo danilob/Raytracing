@@ -1,5 +1,5 @@
 #include "directionallight.h"
-
+#include "photon.h"
 DirectionalLight::DirectionalLight(){
 
     direction_light = new Vec4(1.0,1.0,1.0,0.0);

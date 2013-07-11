@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Mon Jul 1 00:39:38 2013
+** Created: Thu Jul 11 00:18:17 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -240,6 +240,13 @@ public:
     QHBoxLayout *horizontalLayout_20;
     QLabel *label_38;
     QDoubleSpinBox *focalDOF;
+    QGroupBox *groupBox_7;
+    QGridLayout *gridLayout_14;
+    QHBoxLayout *horizontalLayout_22;
+    QLabel *label_39;
+    QSpinBox *sizePhotons;
+    QCheckBox *enablePhotonMap;
+    QCheckBox *visiblePhotonMap;
     QWidget *page_4;
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_6;
@@ -1280,7 +1287,7 @@ public:
         toolBox->setFrameShadow(QFrame::Sunken);
         page = new QWidget();
         page->setObjectName(QString::fromUtf8("page"));
-        page->setGeometry(QRect(0, 0, 98, 96));
+        page->setGeometry(QRect(0, 0, 230, 546));
         gridLayout_5 = new QGridLayout(page);
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -1293,7 +1300,7 @@ public:
         toolBox->addItem(page, QString::fromUtf8("Objects"));
         page_3 = new QWidget();
         page_3->setObjectName(QString::fromUtf8("page_3"));
-        page_3->setGeometry(QRect(0, 0, 98, 96));
+        page_3->setGeometry(QRect(0, 0, 230, 546));
         gridLayout_8 = new QGridLayout(page_3);
         gridLayout_8->setSpacing(6);
         gridLayout_8->setContentsMargins(11, 11, 11, 11);
@@ -1361,6 +1368,53 @@ public:
 
 
         gridLayout_12->addLayout(horizontalLayout_20, 1, 0, 1, 1);
+
+        groupBox_7 = new QGroupBox(page_2);
+        groupBox_7->setObjectName(QString::fromUtf8("groupBox_7"));
+        groupBox_7->setGeometry(QRect(0, 150, 221, 111));
+        groupBox_7->setFont(font);
+        groupBox_7->setStyleSheet(QString::fromUtf8("QGroupBox::title { \n"
+"   \n"
+"     subcontrol-position: top left; /* position at the top left*/ \n"
+"  padding: 2px 13px;\n"
+"   margin-top: -5px;\n"
+"    \n"
+" }\n"
+"\n"
+"QGroupBox{\n"
+"   border: 1px solid rgb(182, 181, 179);\n"
+"  border-radius: 5px;\n"
+"}"));
+        gridLayout_14 = new QGridLayout(groupBox_7);
+        gridLayout_14->setSpacing(6);
+        gridLayout_14->setContentsMargins(11, 11, 11, 11);
+        gridLayout_14->setObjectName(QString::fromUtf8("gridLayout_14"));
+        horizontalLayout_22 = new QHBoxLayout();
+        horizontalLayout_22->setSpacing(6);
+        horizontalLayout_22->setObjectName(QString::fromUtf8("horizontalLayout_22"));
+        label_39 = new QLabel(groupBox_7);
+        label_39->setObjectName(QString::fromUtf8("label_39"));
+
+        horizontalLayout_22->addWidget(label_39);
+
+        sizePhotons = new QSpinBox(groupBox_7);
+        sizePhotons->setObjectName(QString::fromUtf8("sizePhotons"));
+        sizePhotons->setMaximum(100000000);
+
+        horizontalLayout_22->addWidget(sizePhotons);
+
+
+        gridLayout_14->addLayout(horizontalLayout_22, 0, 0, 1, 1);
+
+        enablePhotonMap = new QCheckBox(groupBox_7);
+        enablePhotonMap->setObjectName(QString::fromUtf8("enablePhotonMap"));
+
+        gridLayout_14->addWidget(enablePhotonMap, 1, 0, 1, 1);
+
+        visiblePhotonMap = new QCheckBox(groupBox_7);
+        visiblePhotonMap->setObjectName(QString::fromUtf8("visiblePhotonMap"));
+
+        gridLayout_14->addWidget(visiblePhotonMap, 2, 0, 1, 1);
 
         toolBox->addItem(page_2, QString::fromUtf8("Scene"));
         page_4 = new QWidget();
@@ -1432,7 +1486,7 @@ public:
 
         toolBox->addItem(page_4, QString::fromUtf8("Render Options"));
 
-        gridLayout_4->addWidget(toolBox, 0, 0, 1, 1);
+        gridLayout_4->addWidget(toolBox, 0, 1, 1, 1);
 
         scrollArea_3->setWidget(scrollAreaWidgetContents_3);
 
@@ -1660,7 +1714,7 @@ public:
         retranslateUi(MainWindow);
 
         tabWidget->setCurrentIndex(0);
-        toolBox->setCurrentIndex(3);
+        toolBox->setCurrentIndex(2);
         toolBox->layout()->setSpacing(6);
 
 
@@ -1829,6 +1883,10 @@ public:
         groupBox_5->setTitle(QApplication::translate("MainWindow", "Effect Depth of Field", 0, QApplication::UnicodeUTF8));
         label_37->setText(QApplication::translate("MainWindow", "Radius", 0, QApplication::UnicodeUTF8));
         label_38->setText(QApplication::translate("MainWindow", "Focal Length", 0, QApplication::UnicodeUTF8));
+        groupBox_7->setTitle(QApplication::translate("MainWindow", "Photon Mapping", 0, QApplication::UnicodeUTF8));
+        label_39->setText(QApplication::translate("MainWindow", "Size Photons", 0, QApplication::UnicodeUTF8));
+        enablePhotonMap->setText(QApplication::translate("MainWindow", "Enable", 0, QApplication::UnicodeUTF8));
+        visiblePhotonMap->setText(QApplication::translate("MainWindow", "Visible", 0, QApplication::UnicodeUTF8));
         toolBox->setItemText(toolBox->indexOf(page_2), QApplication::translate("MainWindow", "Scene", 0, QApplication::UnicodeUTF8));
         label_18->setText(QApplication::translate("MainWindow", "Samples", 0, QApplication::UnicodeUTF8));
         label_19->setText(QApplication::translate("MainWindow", "Out Proportion", 0, QApplication::UnicodeUTF8));

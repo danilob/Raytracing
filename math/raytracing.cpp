@@ -19,7 +19,6 @@ static int depth = 0;
 static bool in = false;
 float pshadow = 1;
 
-
 #define myrand ((float)(random())/(float)(RAND_MAX) )
 
 RayTracing::RayTracing()
@@ -47,6 +46,7 @@ void RayTracing::rayTracing(QImage *pixels, int proportion,int samples)
 {
 
     srandom(time(NULL));
+    if (scene->enablephoton) scene->generatePhotons();
     Matrix4x4 changetoviewer;
     changetoviewer.setIdentity();
     Vec4 kv,iv,jv,kvl,ivl,jvl;
@@ -305,18 +305,16 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                 aux = Vec4();
                 Vec4 l = scene->lights.at(i)->randLight();
                 Vec4 v = (r.direction);
-
                 if((v*(normal*(-1)))<0.0) normal = normal*(-1);
-
                 distLight = (l - intercept).module();
                 Ray raio = Ray(intercept,(l - intercept).unitary());
-
                 if (scene->lights.at(i)->isEnabled()){
                     light_enable++;
                     /* testar se a direção do ponto observado a luz está obstruido */
                     if ((testObstruction(raio)==Vec4())){
                         //tratamentos no caso de textura no objeto no caso estamos tratando o objeto com uma única
                         //textura e um único bumping mapping
+                        if(!scene->enablephoton){
                         if(obj->getLenTexture()>0 || obj->getLenBump()>0){
                             //o objeto tem textura e bump mapping
                             if ((obj->getLenTexture()>0 && obj->getEnabledTexture())&&(obj->getLenBump()>0 && obj->getEnabledBump()))
@@ -332,6 +330,10 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                                 aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*pshadow;
                         }else
                             aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*pshadow;
+                        }
+                        else{ //utilizando o photonMapping
+                            aux = aux + scene->photonMap.radiance(intercept,r.direction,normal,material);
+                        }
 
                     }
 
