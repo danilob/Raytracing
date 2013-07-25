@@ -1157,6 +1157,29 @@ QGroupBox{
                 </widget>
                </item>
                <item>
+                <widget class="QFrame" name="energyFrame">
+                 <layout class="QHBoxLayout" name="energyLayout">
+                  <item>
+                   <widget class="QLabel" name="label_44">
+                    <property name="text">
+                     <string>Energy</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QSpinBox" name="energyLight">
+                    <property name="maximum">
+                     <number>10000000</number>
+                    </property>
+                    <property name="singleStep">
+                     <number>50</number>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
                 <widget class="QFrame" name="vectorsLayoutLight">
                  <layout class="QVBoxLayout" name="vectorsLayout">
                   <property name="spacing">
@@ -1167,29 +1190,6 @@ QGroupBox{
                   </property>
                   <item>
                    <layout class="QVBoxLayout" name="verticalLayout_9">
-                    <item>
-                     <widget class="QFrame" name="energyFrame">
-                      <layout class="QHBoxLayout" name="energyLayout">
-                       <item>
-                        <widget class="QLabel" name="label_44">
-                         <property name="text">
-                          <string>Energy</string>
-                         </property>
-                        </widget>
-                       </item>
-                       <item>
-                        <widget class="QSpinBox" name="energyLight">
-                         <property name="maximum">
-                          <number>10000000</number>
-                         </property>
-                         <property name="singleStep">
-                          <number>50</number>
-                         </property>
-                        </widget>
-                       </item>
-                      </layout>
-                     </widget>
-                    </item>
                     <item>
                      <widget class="QLabel" name="label_24">
                       <property name="text">

@@ -1077,6 +1077,14 @@ void GLWidget::setLightSelectedVecB(Vec4 b)
     updateGL();
 }
 
+void GLWidget::setEnergyLight(int energy)
+{
+    for (int i=0;i<scene->lights.size();i++){
+        if(scene->lights.at(i)->isSelected()) scene->lights.at(i)->setPower(energy);
+    }
+    updateGL();
+}
+
 std::vector<Light *> GLWidget::getLightsScene()
 {
     return scene->lights;

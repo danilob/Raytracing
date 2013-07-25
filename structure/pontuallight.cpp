@@ -363,6 +363,7 @@ Vec4 PontualLight::getVecB()
 std::vector<Photon*> PontualLight::emitPhotons(int ne,int pow,Object* obj)
 {
     std::vector<Photon*> photons;
+    if (pow==0) return photons;
     //emite a quantidade inicial de photons
     int n = 1; //number of emitted photons
     if(obj==NULL){
@@ -421,3 +422,14 @@ std::vector<Photon*> PontualLight::emitPhotons(int ne,int pow,Object* obj)
     return photons;
 
 }
+
+void PontualLight::setPower(int pow)
+{
+    this->power = pow;
+}
+
+int PontualLight::getPower()
+{
+    return power;
+}
+

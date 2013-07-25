@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'glwidget.h'
 **
-** Created: Thu Jul 25 06:44:12 2013
+** Created: Thu Jul 25 14:44:28 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_GLWidget[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      67,   14, // methods
+      68,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -77,29 +77,30 @@ static const uint qt_meta_data_GLWidget[] = {
     1126,  454,    9,    9, 0x0a,
     1158, 1156,    9,    9, 0x0a,
     1185,  385,    9,    9, 0x0a,
-    1212,  385,    9,    9, 0x0a,
-    1242,  385,    9,    9, 0x0a,
-    1285, 1272,    9,    9, 0x0a,
-    1305,  385,    9,    9, 0x0a,
-    1336,  454,    9,    9, 0x0a,
-    1367,    9,    9,    9, 0x0a,
-    1393, 1389,    9,    9, 0x0a,
-    1407,  215,    9,    9, 0x0a,
-    1438,    9, 1434,    9, 0x0a,
-    1463,    9, 1456,    9, 0x0a,
-    1495,    9, 1474,    9, 0x0a,
-    1533,    9, 1513,    9, 0x0a,
-    1569, 1550,    9,    9, 0x0a,
-    1605,    9, 1434,    9, 0x0a,
-    1618,  304,    9,    9, 0x0a,
-    1643,    9,    9,    9, 0x0a,
-    1674, 1669,    9,    9, 0x0a,
-    1694, 1669,    9,    9, 0x0a,
-    1721, 1389,    9,    9, 0x0a,
-    1745, 1389,    9,    9, 0x0a,
-    1770, 1389,    9,    9, 0x0a,
-    1796, 1791,    9,    9, 0x0a,
-    1819,  385,    9,    9, 0x0a,
+    1219, 1212,    9,    9, 0x0a,
+    1239,  385,    9,    9, 0x0a,
+    1269,  385,    9,    9, 0x0a,
+    1312, 1299,    9,    9, 0x0a,
+    1332,  385,    9,    9, 0x0a,
+    1363,  454,    9,    9, 0x0a,
+    1394,    9,    9,    9, 0x0a,
+    1420, 1416,    9,    9, 0x0a,
+    1434,  215,    9,    9, 0x0a,
+    1465,    9, 1461,    9, 0x0a,
+    1490,    9, 1483,    9, 0x0a,
+    1522,    9, 1501,    9, 0x0a,
+    1560,    9, 1540,    9, 0x0a,
+    1596, 1577,    9,    9, 0x0a,
+    1632,    9, 1461,    9, 0x0a,
+    1645,  304,    9,    9, 0x0a,
+    1670,    9,    9,    9, 0x0a,
+    1701, 1696,    9,    9, 0x0a,
+    1721, 1696,    9,    9, 0x0a,
+    1748, 1416,    9,    9, 0x0a,
+    1772, 1416,    9,    9, 0x0a,
+    1797, 1416,    9,    9, 0x0a,
+    1823, 1818,    9,    9, 0x0a,
+    1846,  385,    9,    9, 0x0a,
 
        0        // eod
 };
@@ -140,8 +141,8 @@ static const char qt_meta_stringdata_GLWidget[] = {
     "setLightSelectedExponent(int)\0"
     "setLightSelectedName(QString)\0a\0"
     "setLightSelectedVecA(Vec4)\0"
-    "setLightSelectedVecB(Vec4)\0"
-    "setEnabledLightSelected(bool)\0"
+    "setLightSelectedVecB(Vec4)\0energy\0"
+    "setEnergyLight(int)\0setEnabledLightSelected(bool)\0"
     "setVisibleLightSelected(bool)\0"
     "radius,focal\0setDOF(float,float)\0"
     "setEnabledObjectSelected(bool)\0"
@@ -212,34 +213,35 @@ void GLWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
         case 41: _t->setLightSelectedName((*reinterpret_cast< QString(*)>(_a[1]))); break;
         case 42: _t->setLightSelectedVecA((*reinterpret_cast< Vec4(*)>(_a[1]))); break;
         case 43: _t->setLightSelectedVecB((*reinterpret_cast< Vec4(*)>(_a[1]))); break;
-        case 44: _t->setEnabledLightSelected((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 45: _t->setVisibleLightSelected((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 46: _t->setDOF((*reinterpret_cast< float(*)>(_a[1])),(*reinterpret_cast< float(*)>(_a[2]))); break;
-        case 47: _t->setEnabledObjectSelected((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 48: _t->setNameObjectSelected((*reinterpret_cast< QString(*)>(_a[1]))); break;
-        case 49: _t->removeLightSelected(); break;
-        case 50: _t->addLight((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 51: _t->setSelectedObject((*reinterpret_cast< Object*(*)>(_a[1]))); break;
-        case 52: { int _r = _t->getItemSelected();
+        case 44: _t->setEnergyLight((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 45: _t->setEnabledLightSelected((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 46: _t->setVisibleLightSelected((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 47: _t->setDOF((*reinterpret_cast< float(*)>(_a[1])),(*reinterpret_cast< float(*)>(_a[2]))); break;
+        case 48: _t->setEnabledObjectSelected((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 49: _t->setNameObjectSelected((*reinterpret_cast< QString(*)>(_a[1]))); break;
+        case 50: _t->removeLightSelected(); break;
+        case 51: _t->addLight((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 52: _t->setSelectedObject((*reinterpret_cast< Object*(*)>(_a[1]))); break;
+        case 53: { int _r = _t->getItemSelected();
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
-        case 53: { Scene* _r = _t->getScene();
+        case 54: { Scene* _r = _t->getScene();
             if (_a[0]) *reinterpret_cast< Scene**>(_a[0]) = _r; }  break;
-        case 54: { std::vector<Object*> _r = _t->getObjectsScene();
+        case 55: { std::vector<Object*> _r = _t->getObjectsScene();
             if (_a[0]) *reinterpret_cast< std::vector<Object*>*>(_a[0]) = _r; }  break;
-        case 55: { std::vector<Light*> _r = _t->getLightsScene();
+        case 56: { std::vector<Light*> _r = _t->getLightsScene();
             if (_a[0]) *reinterpret_cast< std::vector<Light*>*>(_a[0]) = _r; }  break;
-        case 56: _t->renderScene((*reinterpret_cast< QGraphicsView*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
-        case 57: { int _r = _t->numberRays();
+        case 57: _t->renderScene((*reinterpret_cast< QGraphicsView*(*)>(_a[1])),(*reinterpret_cast< int(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3]))); break;
+        case 58: { int _r = _t->numberRays();
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
-        case 58: _t->setValueProgressRay((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 59: _t->showSampleRender((*reinterpret_cast< QImage*(*)>(_a[1]))); break;
-        case 60: _t->setSizePhotons((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 61: _t->setSizePhotonsCaustic((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 62: _t->setRadiusGlobal((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 63: _t->setRadiusCaustic((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 64: _t->setDepthPhotons((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 65: _t->setVisiblePhoton((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 66: _t->setEnabledPhotonMap((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 59: _t->setValueProgressRay((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 60: _t->showSampleRender((*reinterpret_cast< QImage*(*)>(_a[1]))); break;
+        case 61: _t->setSizePhotons((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 62: _t->setSizePhotonsCaustic((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 63: _t->setRadiusGlobal((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 64: _t->setRadiusCaustic((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 65: _t->setDepthPhotons((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 66: _t->setVisiblePhoton((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 67: _t->setEnabledPhotonMap((*reinterpret_cast< bool(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -277,9 +279,9 @@ int GLWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 67)
+        if (_id < 68)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 67;
+        _id -= 68;
     }
     return _id;
 }

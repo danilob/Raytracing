@@ -882,19 +882,31 @@ void Scene::generatePhotons()
         if(objects.at(i)->getMesh()->getRefraction()!=0)
             objectsRefracted.push_back(objects.at(i));
     }
-    int energy = 100000;
+    int energy = 0; //energia total do sistema
+    for(unsigned int i=1;i<lights.size();i++){
+        energy += lights.at(i)->getPower();
+    }
+    int energyCaustic,energyGlobal;
+    if (objectsRefracted.size()!=0){
+        energyCaustic = energy/3.0;
+        energyGlobal = 2*energy/3.0;
+    }else{
+        energyGlobal = energy;
+    }
+
     //photons caustica
-    if (sizePhotonsCaustic!=0)
-        for(unsigned int i=1;i<lights.size();i++){
-            for(unsigned int k=0;k<objectsRefracted.size();k++){
-                photons = lights.at(i)->emitPhotons(sizePhotonsCaustic,energy/3,objectsRefracted.at(k));
-                for(unsigned int j=0;j<photons.size();j++) totalphotons.push_back(photons.at(j));
+    if(objectsRefracted.size()!=0)
+        if (sizePhotonsCaustic!=0)
+            for(unsigned int i=1;i<lights.size();i++){
+                for(unsigned int k=0;k<objectsRefracted.size();k++){
+                    photons = lights.at(i)->emitPhotons(sizePhotonsCaustic,energyCaustic/(lights.size()-1),objectsRefracted.at(k));
+                    for(unsigned int j=0;j<photons.size();j++) totalphotons.push_back(photons.at(j));
+                }
             }
-        }
     //photons globais
     if (sizePhotons!=0)
         for(unsigned int i=1;i<lights.size();i++){
-            photons = lights.at(i)->emitPhotons(sizePhotons,2*energy/3);
+            photons = lights.at(i)->emitPhotons(sizePhotons,energyGlobal/(lights.size()-1));
             for(unsigned int j=0;j<photons.size();j++) totalphotons.push_back(photons.at(j));
         }
     photonMap.setScene(this);

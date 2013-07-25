@@ -63,6 +63,7 @@ public slots:
     void setLightSelectedName(QString s);
     void setLightSelectedVecA(Vec4 a);
     void setLightSelectedVecB(Vec4 b);
+    void setEnergyLight(int energy);
 
     void setEnabledLightSelected(bool b);
     void setVisibleLightSelected(bool b);

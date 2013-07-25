@@ -131,6 +131,7 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->anglespotLight,SIGNAL(valueChanged(int)),this,SLOT(setPropertiesLights()));
     connect(ui->anglespotinnerLight,SIGNAL(valueChanged(int)),this,SLOT(setPropertiesLights()));
     connect(ui->exponentSpotLight,SIGNAL(valueChanged(int)),this,SLOT(setPropertiesLights()));
+    connect(ui->energyLight,SIGNAL(valueChanged(int)),this,SLOT(setPropertiesLights()));
     connect(ui->widgetOpenGL,SIGNAL(showSample(QImage*)),this,SLOT(showSampleRender(QImage*)));
 
     //connects do photon mapping
@@ -1074,6 +1075,7 @@ void MainWindow::setPropertiesLights()
             ui->widgetOpenGL->setLightSelectedPosition(position);
             Vec4 attenuation(ui->attenuationcLight->value(),ui->attenuationlLight->value(),ui->attenuationqLight->value());
             ui->widgetOpenGL->setLightSelectedAttenuation(attenuation);
+            ui->widgetOpenGL->setEnergyLight(ui->energyLight->value());
             break;
         }
         case (LIGHT_SPOT):{
@@ -1111,6 +1113,7 @@ void MainWindow::setPropertiesLights()
             ui->widgetOpenGL->setLightSelectedVecA(veca);
             Vec4 vecb(ui->vecBx->value(),ui->vecBy->value(),ui->vecBz->value());
             ui->widgetOpenGL->setLightSelectedVecB(vecb);
+            ui->widgetOpenGL->setEnergyLight(ui->energyLight->value());
             break;
         }
         }

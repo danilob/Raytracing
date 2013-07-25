@@ -45,8 +45,8 @@ public:
     void       setVecB(Vec4);
     Vec4       getVecB();
     std::vector<Photon*>  emitPhotons(int ne,int pow,Object *obj=NULL);
-    void       setPower(int pow){};
-    int        getPower(){};
+    void       setPower(int pow);
+    int        getPower();
     ~PontualLight();
 private:
     Vec4*      position_light;
@@ -58,6 +58,7 @@ private:
     bool       visible;
     bool       selected;
     QString    name;
+    int        power;
 };
 
 

@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Jul 25 06:44:01 2013
+** Created: Thu Jul 25 14:46:30 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -164,13 +164,13 @@ public:
     QDoubleSpinBox *directionxLight;
     QDoubleSpinBox *directionyLight;
     QDoubleSpinBox *directionzLight;
-    QFrame *vectorsLayoutLight;
-    QVBoxLayout *vectorsLayout;
-    QVBoxLayout *verticalLayout_9;
     QFrame *energyFrame;
     QHBoxLayout *energyLayout;
     QLabel *label_44;
     QSpinBox *energyLight;
+    QFrame *vectorsLayoutLight;
+    QVBoxLayout *vectorsLayout;
+    QVBoxLayout *verticalLayout_9;
     QLabel *label_24;
     QHBoxLayout *horizontalLayout_10;
     QDoubleSpinBox *vecAx;
@@ -971,16 +971,7 @@ public:
 
         verticalLayout_8->addWidget(orientationLight);
 
-        vectorsLayoutLight = new QFrame(groupBoxPropertieLight);
-        vectorsLayoutLight->setObjectName(QString::fromUtf8("vectorsLayoutLight"));
-        vectorsLayout = new QVBoxLayout(vectorsLayoutLight);
-        vectorsLayout->setSpacing(1);
-        vectorsLayout->setContentsMargins(0, 0, 0, 0);
-        vectorsLayout->setObjectName(QString::fromUtf8("vectorsLayout"));
-        verticalLayout_9 = new QVBoxLayout();
-        verticalLayout_9->setSpacing(6);
-        verticalLayout_9->setObjectName(QString::fromUtf8("verticalLayout_9"));
-        energyFrame = new QFrame(vectorsLayoutLight);
+        energyFrame = new QFrame(groupBoxPropertieLight);
         energyFrame->setObjectName(QString::fromUtf8("energyFrame"));
         energyLayout = new QHBoxLayout(energyFrame);
         energyLayout->setSpacing(6);
@@ -999,8 +990,17 @@ public:
         energyLayout->addWidget(energyLight);
 
 
-        verticalLayout_9->addWidget(energyFrame);
+        verticalLayout_8->addWidget(energyFrame);
 
+        vectorsLayoutLight = new QFrame(groupBoxPropertieLight);
+        vectorsLayoutLight->setObjectName(QString::fromUtf8("vectorsLayoutLight"));
+        vectorsLayout = new QVBoxLayout(vectorsLayoutLight);
+        vectorsLayout->setSpacing(1);
+        vectorsLayout->setContentsMargins(0, 0, 0, 0);
+        vectorsLayout->setObjectName(QString::fromUtf8("vectorsLayout"));
+        verticalLayout_9 = new QVBoxLayout();
+        verticalLayout_9->setSpacing(6);
+        verticalLayout_9->setObjectName(QString::fromUtf8("verticalLayout_9"));
         label_24 = new QLabel(vectorsLayoutLight);
         label_24->setObjectName(QString::fromUtf8("label_24"));
 
