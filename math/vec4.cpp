@@ -107,7 +107,10 @@ float Vec4::module(){
 
 float Vec4::distSquared(Vec4 p1, Vec4 p2)
 {
-    return pow((p1.x()-p2.x()),2)+pow((p1.y()-p2.y()),2)+pow((p1.z()-p2.z()),2);
+    double distance = pow((p1.x()-p2.x()),2)+pow((p1.y()-p2.y()),2)+pow((p1.z()-p2.z()),2);
+    if (dist(p1,p2)<1)
+        distance = pow(dist(p1,p2),0.5);
+    return distance;
 }
 
 float Vec4::dist(Vec4 p1, Vec4 p2)
@@ -115,10 +118,11 @@ float Vec4::dist(Vec4 p1, Vec4 p2)
     return sqrt(pow((p1.x()-p2.x()),2)+pow((p1.y()-p2.y()),2)+pow((p1.z()-p2.z()),2));
 }
 
-float Vec4::distPlane(Vec4 p, Vec4 plane)
+float Vec4::distPlane(Vec4 p, Vec4 plane,Vec4 ponto, float s)
 {
     Vec4 n = plane.unitary();
-    return (p-plane)*n;
+    if (s<0) n = n*(-1);
+    return (p-ponto)*n;
 }
 
 Vec4 Vec4::unitary(){

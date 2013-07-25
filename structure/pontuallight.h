@@ -44,7 +44,7 @@ public:
     Vec4       getVecA();
     void       setVecB(Vec4);
     Vec4       getVecB();
-    std::vector<Photon*>       emitPhotons(int i);
+    std::vector<Photon*>  emitPhotons(int ne,int pow,Object *obj=NULL);
     void       setPower(int pow){};
     int        getPower(){};
     ~PontualLight();

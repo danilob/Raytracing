@@ -30,7 +30,7 @@ public:
     float module();                              //retorna o modulo do vetor
     static float distSquared(Vec4 p1,Vec4 p2);   //retorna a distância entre dois pontos ao quadrado
     static float dist(Vec4 p1,Vec4 p2);   //retorna a distância entre dois pontos ao quadrado
-    static float distPlane(Vec4 p,Vec4 plane);   //retorna a distância entre dois pontos ao quadrado
+    static float distPlane(Vec4 p,Vec4 plane,Vec4 ponto,float s);   //retorna a distância entre dois pontos ao quadrado
     Vec4 unitary();                              //verifica se o vetor é unitário
     void showVec4();                             //imprime os valores do vetor
     static Vec4 crossProduct(Vec4 a, Vec4 b);    //retorna o resultado do produto vetorial entre dois vetores

@@ -53,7 +53,11 @@ public:
     void drawPhotons(bool flag=true);
     void generatePhotons();
     void setSizePhotons(int value);
+    void setSizePhotonsCaustic(int value);
     void setEnablePhotonMap(bool b);
+    void setRadiusGlobal(float val);
+    void setRadiusCaustic(float val);
+    void setDepthPhotons(int val);
     ~Scene();
 
 public:
@@ -65,6 +69,7 @@ public:
     //KdTree *kdtree;
     bool enablephoton;
     int sizePhotons;
+    int sizePhotonsCaustic;
     Vec4 background_color;              //cor de fundo
     Vec4 viewer[3];               //posicão do observador
     Vec4 projection;              //valores de projeção: angle, aspect, near,far

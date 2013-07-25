@@ -44,7 +44,7 @@ public:
     Vec4       getVecA();
     void       setVecB(Vec4);
     Vec4       getVecB();
-    std::vector<Photon*>       emitPhotons(int){};
+    std::vector<Photon*>       emitPhotons(int,int,Object*){};
     void       setPower(int pow){};
     int        getPower(){};
 private:

@@ -1222,6 +1222,26 @@ void GLWidget::setSizePhotons(int size)
     scene->setSizePhotons(size);
 }
 
+void GLWidget::setSizePhotonsCaustic(int size)
+{
+    scene->setSizePhotonsCaustic(size);
+}
+
+void GLWidget::setRadiusGlobal(double val)
+{
+    scene->setRadiusGlobal(val);
+}
+
+void GLWidget::setRadiusCaustic(double val)
+{
+    scene->setRadiusCaustic(val);
+}
+
+void GLWidget::setDepthPhotons(int val)
+{
+    scene->setDepthPhotons(val);
+}
+
 void GLWidget::setEnabledPhotonMap(bool b)
 {
     scene->setEnablePhotonMap(b);

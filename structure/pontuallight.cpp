@@ -360,24 +360,63 @@ Vec4 PontualLight::getVecB()
     return Vec4();
 }
 
-std::vector<Photon*> PontualLight::emitPhotons(int ne)
+std::vector<Photon*> PontualLight::emitPhotons(int ne,int pow,Object* obj)
 {
     std::vector<Photon*> photons;
     //emite a quantidade inicial de photons
     int n = 1; //number of emitted photons
-    while (n<=ne){
-        float x,y,z;
-        do{
-            x = 2*myrand - 1; //ξ1 ∈ [0,1] is a random number
-            y = 2*myrand - 1; //ξ2 ∈ [0,1] is a random number
-            z = 2*myrand - 1; //ξ3 ∈ [0,1] is a random number
-        } while (x*x + y*y + z*z > 1);
-        Vec4 d(x,y,z);
-        Vec4 p = getPosition();
-        Photon* photon =  new Photon(p,d);
-        photon->setPower(Vec4(1,1,1));
-        n++;
-        photons.push_back(photon);
+    if(obj==NULL){
+        while (n<=ne){
+            float x,y,z;
+            do{
+                x = 2*myrand - 1; //ξ1 ∈ [0,1] is a random number
+                y = 2*myrand - 1; //ξ2 ∈ [0,1] is a random number
+                z = 2*myrand - 1; //ξ3 ∈ [0,1] is a random number
+            } while (x*x + y*y + z*z > 1);
+            Vec4 d(x,y,z);
+            Vec4 p = getPosition();
+            Photon* photon =  new Photon(p,d);
+            photon->setPower(Vec4((1.*pow)/ne,(1.*pow)/ne,(1.*pow)/ne));
+            if((photon->power.module())>1){
+                photon->setPower(photon->power.unitary());
+            }
+            n++;
+            photons.push_back(photon);
+        }
+    }
+    else{
+        Vec4 max = obj->getMax();
+        Vec4 min = obj->getMin();
+        Vec4 d,p;
+        bool hit;
+        while (n<=ne){
+            float x,y,z;
+            do{
+                x = (max.x()-min.x())*myrand + min.x(); //ξ1 ∈ [0,1] is a random number
+                y = (max.y()-min.y())*myrand + min.y(); //ξ2 ∈ [0,1] is a random number
+                z = (max.z()-min.z())*myrand + min.z(); //ξ3 ∈ [0,1] is a random number
+                p = getPosition();
+                d = (Vec4(x,y,z)-p).unitary();
+                Ray ray(p,d);
+                RayIntersection *inter = new RayIntersection();
+                inter->t = 120000;
+                inter->tmin = 0;
+                obj->tryIntersection(inter,ray);
+                if(inter->normal==Vec4()) hit = false;
+                else hit = true;
+                delete inter;
+            } while (((x<min.x())||(x>max.x()))||((y<min.y())||(y>max.y()))||((z<min.z())||(z>max.z()))||(!hit));
+
+
+            Photon* photon =  new Photon(p,d);
+            photon->setPower(Vec4((1.*pow)/ne,(1.*pow)/ne,(1.*pow)/ne));
+            photon->setType(CAUSTIC);
+            if((photon->power.module())>1){
+                photon->setPower(photon->power.unitary());
+            }
+            n++;
+            photons.push_back(photon);
+        }
     }
     return photons;
 

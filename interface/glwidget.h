@@ -84,8 +84,15 @@ public slots:
     void setValueProgressRay(int value);
     void showSampleRender(QImage*);
     //photon map
-    void setVisiblePhoton(bool flag);
     void setSizePhotons(int size);
+    void setSizePhotonsCaustic(int size);
+
+    void setRadiusGlobal(double val);
+    void setRadiusCaustic(double val);
+    void setDepthPhotons(int val);
+
+    void setVisiblePhoton(bool flag);
+
     void setEnabledPhotonMap(bool b);
 
 

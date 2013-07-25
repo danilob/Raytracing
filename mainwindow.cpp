@@ -135,6 +135,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //connects do photon mapping
     connect(ui->sizePhotons,SIGNAL(valueChanged(int)),ui->widgetOpenGL,SLOT(setSizePhotons(int)));
+    connect(ui->sizePhotonsCaustic,SIGNAL(valueChanged(int)),ui->widgetOpenGL,SLOT(setSizePhotonsCaustic(int)));
+    connect(ui->radiusCaustic,SIGNAL(valueChanged(double)),ui->widgetOpenGL,SLOT(setRadiusCaustic(double)));
+    connect(ui->radiusGlobal,SIGNAL(valueChanged(double)),ui->widgetOpenGL,SLOT(setRadiusGlobal(double)));
+    connect(ui->depthPhoton,SIGNAL(valueChanged(int)),ui->widgetOpenGL,SLOT(setDepthPhotons(int)));
     connect(ui->visiblePhotonMap,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(setVisiblePhoton(bool)));
     connect(ui->enablePhotonMap,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(setEnabledPhotonMap(bool)));
 
@@ -762,6 +766,8 @@ void MainWindow::infoLight(Light *light)
         ui->enableLight->setEnabled(false);
         ui->visibleLight->setEnabled(false);
         ui->nameLight->setText(light->getName());
+        ui->energyFrame->setVisible(false);
+
         break;
     }
     case (LIGHT_SPOT):{
@@ -825,7 +831,7 @@ void MainWindow::infoLight(Light *light)
         ui->enableLight->setChecked(light->isEnabled());
         ui->visibleLight->setChecked(light->isVisible());
 
-
+        ui->energyFrame->setVisible(false);
         ui->orientationLight->setVisible(true);
         ui->positionLayoutLight->setVisible(true);
         ui->directionLayoutLight->setVisible(true);
@@ -881,6 +887,7 @@ void MainWindow::infoLight(Light *light)
                   +"  border-radius: 5px;");
 
         //ui->shiniMaterial->setValue(mat->getShininess());
+        ui->energyFrame->setVisible(false);
         ui->speMaterial_2->setStyleSheet(ss);
         ui->speMaterial_2->update();
         ui->nameLight->setText(light->getName());
@@ -944,6 +951,7 @@ void MainWindow::infoLight(Light *light)
                   +"  border-radius: 5px;");
 
         //ui->shiniMaterial->setValue(mat->getShininess());
+        ui->energyFrame->setVisible(true);
         ui->speMaterial_2->setStyleSheet(ss);
         ui->speMaterial_2->update();
         ui->visibleLight->setChecked(light->isVisible());
@@ -1013,6 +1021,7 @@ void MainWindow::infoLight(Light *light)
                   +"  border-radius: 5px;");
 
         //ui->shiniMaterial->setValue(mat->getShininess());
+        ui->energyFrame->setVisible(true);
         ui->speMaterial_2->setStyleSheet(ss);
         ui->speMaterial_2->update();
         ui->visibleLight->setChecked(light->isVisible());

@@ -371,23 +371,23 @@ Vec4 AreaLight::getVecB()
     return Vec4(vecB->x(),vecB->y(),vecB->z());
 }
 
-std::vector<Photon*> AreaLight::emitPhotons(int ne)
-{
-    std::vector<Photon*> photons;
-    int n = 1; //number of emitted photons
-    while (n<=ne){
-        float x,y,z;
-        do{
-            x = 2*myrand - 1; //ξ1 ∈ [0,1] is a random number
-            y = 2*myrand - 1; //ξ2 ∈ [0,1] is a random number
-            z = 2*myrand - 1; //ξ3 ∈ [0,1] is a random number
-        } while (x*x + y*y + z*z > 1);
-        Vec4 d(x,y,z);
-        Vec4 p = randLight();
-        Photon* photon =  new Photon(p,d);
-        photon->setPower(Vec4(1.0/ne,1.0/ne,1.0/ne));
-        n++;
-        photons.push_back(photon);
-    }
+//std::vector<Photon*> AreaLight::emitPhotons(int ne)
+//{
+//    std::vector<Photon*> photons;
+//    int n = 1; //number of emitted photons
+//    while (n<=ne){
+//        float x,y,z;
+//        do{
+//            x = 2*myrand - 1; //ξ1 ∈ [0,1] is a random number
+//            y = 2*myrand - 1; //ξ2 ∈ [0,1] is a random number
+//            z = 2*myrand - 1; //ξ3 ∈ [0,1] is a random number
+//        } while (x*x + y*y + z*z > 1);
+//        Vec4 d(x,y,z);
+//        Vec4 p = randLight();
+//        Photon* photon =  new Photon(p,d);
+//        photon->setPower(Vec4(1.0/ne,1.0/ne,1.0/ne));
+//        n++;
+//        photons.push_back(photon);
+//    }
 
-}
+//}

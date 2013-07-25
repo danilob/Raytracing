@@ -4,6 +4,7 @@
 #include "extra/material.h"
 #include "draw/draw.h"
 #include "extra/texture.h"
+#include "block/object.h"
 #include <vector>
 
 #define LIGHT_AMBIENT     0
@@ -53,7 +54,7 @@ public:
     virtual Vec4       getVecA() = 0;
     virtual void       setVecB(Vec4) = 0;
     virtual Vec4       getVecB() = 0;
-    virtual std::vector<Photon*> emitPhotons(int) = 0;
+    virtual std::vector<Photon*> emitPhotons(int,int,Object* obj=NULL) = 0;
     virtual void       setPower(int pow) = 0;
     virtual int        getPower() = 0;
 

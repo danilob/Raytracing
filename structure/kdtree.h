@@ -2,32 +2,31 @@
 #define KDTREE_H
 #include <vector>
 #include <QList>
+#include <string>
 #include "math/vec4.h"
 class Photon;
 
 class KdTree
 {
 public:
-    Photon *node;
-    KdTree *leftKdTree;
-    KdTree *rightKdTree;
+
     QList<Photon*> maxHeap;
-    //static int nphotons;
+    std::vector<Photon*> photons;
 
+    KdTree();
+    void addPhoton(Photon* p){photons.push_back(p);}
+    void createHeap();
+    void balance(std::vector<Photon*>* photons,int begin,int end, int index);
+    int getLargestDimCube(std::vector<Photon*> *photons, int begin, int end); //retorna o eixo onde o cubo é maior
+    void quickSort(int flag,int left,int right,std::vector<Photon *> *list);
+    void locatePhotons(int p,Vec4 pos,int maxphotons,float radius);
+    void swap(std::vector<Photon *> *list, unsigned int _i, unsigned int _j);
+    int particion(int flag,int left,int right, std::vector<Photon*> *list);
+    void clearHeap(); //heap que guarda os photons proximos
+    void maxHeapify(QList<Photon*> photons,int i,Vec4 pos);
+    void buildingMaxHeap(QList<Photon*> photons,Vec4 pos);
+    void imprimeKdtree(std::string s = "",int i=0);
 
-    KdTree(std::vector<Photon*> photons);
-    KdTree* balance(std::vector<Photon*> photons);
-    void setNumPhotons(int num);
-    int getLargestDimCube(std::vector<Photon*> photons); //retorna o eixo onde o cubo é maior
-    QList<Photon*> getPhotonsList(std::vector<Photon*> photons);
-    std::vector<Photon*> getPhotonsVector(QList<Photon*> photons);
-    QList<Photon*> mergeSort(int flag,int begin,int end, QList<Photon*> Photons);
-    QList<Photon*> getHeapKdTree();
-    QList<Photon*> quickSort(int flag,int left,int right, QList<Photon*> Photons);
-    void locatePhotons(KdTree* n,Vec4 pos,int maxphotons,QList<Photon*> photon);
-    int particion(int flag,int left,int right, QList<Photon*> Photons);
-    void showHeap();
-    void clearHeap();
 };
 
 #endif // KDTREE_H

@@ -7,7 +7,7 @@
 #include "block/hbb.h"
 #define ERROR 0.001
 #include "interface/glwidget.h"
-#include <omp.h>
+//#include <omp.h>
 int max_depth = 5;
 static float distLight = 0;
 static int intersect =0;
@@ -18,6 +18,8 @@ static int notintersect =0;
 static int depth = 0;
 static bool in = false;
 float pshadow = 1;
+inline float clamp(double x){ return x<0 ? 0 : x>1 ? 1 : x; }
+inline int toInt(double x){ return int(pow(clamp(x),1/2.2)*255+.5); }
 
 #define myrand ((float)(random())/(float)(RAND_MAX) )
 
@@ -42,11 +44,30 @@ void RayTracing::setScene(Scene *scene)
     this->scene = scene;
 }
 
+void setValue(Vec4* c,int i,Vec4 val){
+    c[i] += val;
+}
+
 void RayTracing::rayTracing(QImage *pixels, int proportion,int samples)
 {
 
     srandom(time(NULL));
+    double ti,tf,tempo; // ti = tempo inicial // tf = tempo final
+      ti = tf = tempo = 0;
+      timeval tempo_inicio,tempo_fim;
+      gettimeofday(&tempo_inicio,NULL);
+
+
     if (scene->enablephoton) scene->generatePhotons();
+    gettimeofday(&tempo_fim,NULL);
+      tf = (double)tempo_fim.tv_usec + ((double)tempo_fim.tv_sec * (1000000.0));
+      ti = (double)tempo_inicio.tv_usec + ((double)tempo_inicio.tv_sec * (1000000.0));
+      tempo = (tf - ti)/1000000;
+      printf("Tempo gasto em segundos gerar photons: %.3f\n",tempo);
+
+      gettimeofday(&tempo_inicio,NULL);
+      ti = tf = tempo = 0;
+
     Matrix4x4 changetoviewer;
     changetoviewer.setIdentity();
     Vec4 kv,iv,jv,kvl,ivl,jvl;
@@ -81,16 +102,9 @@ void RayTracing::rayTracing(QImage *pixels, int proportion,int samples)
     notintersect = 0;
     intersect = 0;
     int count = 0;
-        double ti,tf,tempo; // ti = tempo inicial // tf = tempo final
-          ti = tf = tempo = 0;
-          timeval tempo_inicio,tempo_fim;
-          gettimeofday(&tempo_inicio,NULL);
+
     float alfa,beta;
 
-    //omp_set_num_threads(8);
-
-    //int c = samples*width*height/omp_get_num_threads();
-    //int c =  (height / (8) * width) + (samples * (height/8) * width);
     Vec4 dir;
     Ray ray;
     QRgb value;
@@ -179,66 +193,38 @@ void RayTracing::rayTracing(QImage *pixels, int proportion,int samples)
     widget->showSampleRender(pixels);
 
     /*Teste pessoal com a parelização
+    omp_set_num_threads(8);
+
+    //int c1 = samples*width*height/omp_get_num_threads();
+    int c1 =  (height / (8) * width) + (samples * (height/8) * width);
+
     Vec4 *c = new Vec4[width*height];
-    float znear = -scene->projection.x3;
-    //se por acaso um objeto tiver o efeito motion blur sera desconsiderado o uso do hierarquical bounding boxes
     for (int i=0;i<scene->objects.size();i++)
         if(scene->objects.at(i)->getMotion()!=Vec4()) withhbb = false;
-    Vec4 r;
-    float alfa,beta;
-    #pragma omp parallel for schedule(dynamic, 1) private(r) // OpenMP
+
+    #pragma omp parallel for schedule(dynamic, c1) private(i)// OpenMP
     for (int y=0; y<height; y++){ // Loop over image rows
         fprintf(stderr,"\rRendering (%d spp) %5.2f%%",samples*4,100.*y/(height-1));
-        for (unsigned short x=0,Xi[3]={0,0,y*y}; x<width; x++) // Loop cols
-            for (int sy=0, i=(height-y-1)*width+x; sy<2; sy++) // 2x2 subpixel rows
-                for (int sx=0; sx<2; sx++, r=Vec4()){ // 2x2 subpixel cols
-                    for (int s=0; s<samples; s++){
-                        //double r1=2*erand48(Xi), dx=r1<1 ? sqrt(r1)-1: 1-sqrt(2-r1);
-                        //double r2=2*erand48(Xi), dy=r2<1 ? sqrt(r2)-1: 1-sqrt(2-r2);
-                        float alfa  = -w/2.0 + deltax*((float)erand48(Xi)) + x*deltax;
-                        float beta  = -h/2.0 + deltay*((float)erand48(Xi)) + y*deltay;
-
-
-//                        float alfa =( ( (sx+.5 + dx)/2 + x)/width - .5);
-//                        float beta = ( ( (sy+.5 + dy)/2 + y)/height - .5);
-                        Vec4 dir(alfa,beta,znear);
-                        //Ray ray;
-                        //dir.setVec4(alfa,beta,znear);
-                        //teste para verificar se o cenário tem o efeito de depth of field
-                        if (!(scene->radius>0 && scene->focal>0)){
-                            //ray.setOrigin(changetoviewer.transpose().vector(Vec4(0,0,0)));
-                            //ray.setDirection(changetoviewer.transpose().vector(dir));
-                            //ray.setDirection((ray.direction - ray.origin).unitary());
-                            r += rayIntersection(Ray(changetoviewer.transpose().vector(Vec4(0,0,0)),(changetoviewer.transpose().vector(dir) - changetoviewer.transpose().vector(Vec4(0,0,0))).unitary()));
-                        }else{
-//                            Ray dof = depthOfField(dir,scene->radius,scene->focal);
-//                            ray.setOrigin(changetoviewer.transpose().vector(dof.origin));
-//                            ray.setDirection(changetoviewer.transpose().vector(dof.direction));
-//                            ray.setDirection((ray.direction - ray.origin).unitary());
-                        }
-
-                        //r = r + rayIntersection(ray)*(1./samples);
-
-                        //r = r + radiance(Ray(cam.o+d*140,d.norm()),0,Xi)*(1./samps);
-                    } // Camera rays are pushed ^^^^^ forward to start in interior
-                    c[i] += Vec4(r.x(),r.y(),r.z());
-                }
-
+        for (int x=0; x<width; x++) // Loop cols
+            for (int s=0,i=((height-y-1)*width+x); s<samples; s++){
+                float alfa  = -w/2.0 + deltax*myrand  + x*deltax;
+                float beta  = -h/2.0 + deltay*myrand + y*deltay;
+                Vec4 dir(alfa,beta,znear);
+                    setValue(c,i,rayIntersection(Ray(changetoviewer.transpose().vector(Vec4(0,0,0)),(changetoviewer.transpose().vector(dir) - changetoviewer.transpose().vector(Vec4(0,0,0))).unitary())));
+            }
     }
-
     for(int j=0;j<height;j++)
         for(int i =0;i<width;i++){
-            //matriz.at(i+(j*width)) /= samples;
-            value = qRgb((c[height*j+i].x()*255),(c[height*j+i].y()*255),(c[height*j+i].z()*255));
+            int ind = ((height-j-1)*width+i);
+            value = qRgb(toInt(c[ind].x()/(samples)),toInt(c[ind].y()/(samples)),toInt(c[ind].z()/(samples)));
             pixels->setPixel(i,height-(j+1),value);
         }
     widget->showSampleRender(pixels);
-    FILE *f = fopen("image2.ppm", "w"); // Write image to PPM file.
+    FILE *f = fopen("image-teste2.ppm", "w"); // Write image to PPM file.
     fprintf(f, "P3\n%d %d\n%d\n", width, height, 255);
     for (int i=0; i<width*height; i++)
-        fprintf(f,"%d %d %d ", toInt(c[i].x()/(4.0*samples)), toInt(c[i].y()/(4.0*samples)), toInt(c[i].z()/(4.0*samples)));
-
-        */
+        fprintf(f,"%d %d %d ", toInt(c[i].x()/(samples)), toInt(c[i].y()/(samples)), toInt(c[i].z()/(samples)));
+    */
 
 
 }
@@ -332,9 +318,11 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                             aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*pshadow;
                         }
                         else{ //utilizando o photonMapping
-                            aux = aux + scene->photonMap.radiance(intercept,r.direction,normal,material);
+                            aux = aux + scene->photonMap.radiance(intercept,r.direction,normal,material) + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*pshadow;
                         }
 
+                    }else{
+                        if(scene->enablephoton)aux = aux + scene->photonMap.radiance(intercept,r.direction,normal,material);
                     }
 
 
@@ -372,15 +360,19 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
 
 
         }
-
-        if (obj->getLenTexture()>0)
-            if (obj->getTexture(0)>0 && obj->getEnabledTexture())
-                color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4(),obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*0.5)/light_enable;
-            else
+        if(!scene->enablephoton)
+            if (obj->getLenTexture()>0)
+                if (obj->getTexture(0)>0 && obj->getEnabledTexture())
+                    color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4(),obj->getTexture(0)->getColorTexture(map),obj->getTexture(0)->getTypeTexture())*0.5)/light_enable;
+                else
+                    color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()))/light_enable;
+            else{
                 color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()))/light_enable;
+            }
         else{
-            color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()))/light_enable;
+            color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()))*0.8/light_enable;
         }
+
         color.x1 = fmin(color.x1,1.0);
         color.x2 = fmin(color.x2,1.0);
         color.x3 = fmin(color.x3,1.0);
