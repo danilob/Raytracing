@@ -140,8 +140,14 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->radiusCaustic,SIGNAL(valueChanged(double)),ui->widgetOpenGL,SLOT(setRadiusCaustic(double)));
     connect(ui->radiusGlobal,SIGNAL(valueChanged(double)),ui->widgetOpenGL,SLOT(setRadiusGlobal(double)));
     connect(ui->depthPhoton,SIGNAL(valueChanged(int)),ui->widgetOpenGL,SLOT(setDepthPhotons(int)));
+    connect(ui->renderGlobal,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(setRenderGlobal(bool)));
+    connect(ui->renderCaustics,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(setRenderCaustic(bool)));
     connect(ui->visiblePhotonMap,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(setVisiblePhoton(bool)));
+    connect(ui->visiblePhotonMapCaustics,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(setVisiblePhotonCaustic(bool)));
     connect(ui->enablePhotonMap,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(setEnabledPhotonMap(bool)));
+    connect(ui->nearsGlobal,SIGNAL(valueChanged(int)),ui->widgetOpenGL,SLOT(setPhotonsNearsGlobal(int)));
+    connect(ui->nearsCaustics,SIGNAL(valueChanged(int)),ui->widgetOpenGL,SLOT(setPhotonsNearsCaustics(int)));
+    connect(ui->useFilter,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(setFilterPhotonMap(bool)));
 
     //connects de render
     connect(ui->showHBB,SIGNAL(clicked(bool)),ui->widgetOpenGL,SLOT(showHBB(bool)));

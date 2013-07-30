@@ -1,5 +1,9 @@
 #include "pontuallight.h"
 #include "photon.h"
+#include <stdio.h>
+#include <stdlib.h> // RAND_MAX é definido em stdlib.h
+
+#define myrand ((float)(rand())/(float)(RAND_MAX) )
 float PontualLight::attenuation(float distance){
     return 1.0/(factor_attenuation->x()+distance*factor_attenuation->y()+distance*distance*factor_attenuation->z());
 }
@@ -309,10 +313,7 @@ QString PontualLight::saveLight()
     lig += this->name+"\n";
     return lig;
 }
-#include <stdio.h>
-#include <stdlib.h> // RAND_MAX é definido em stdlib.h
 
-#define myrand ((float)(random())/(float)(RAND_MAX) )
 
 Vec4 PontualLight::randLight()
 {
@@ -369,18 +370,23 @@ std::vector<Photon*> PontualLight::emitPhotons(int ne,int pow,Object* obj)
     if(obj==NULL){
         while (n<=ne){
             float x,y,z;
-            do{
-                x = 2*myrand - 1; //ξ1 ∈ [0,1] is a random number
-                y = 2*myrand - 1; //ξ2 ∈ [0,1] is a random number
-                z = 2*myrand - 1; //ξ3 ∈ [0,1] is a random number
-            } while (x*x + y*y + z*z > 1);
+            float theta,phi;
+            float signal = 1;
+            if (myrand>0.5) signal = -1;
+            theta = acos(myrand*signal);
+            phi = 2*M_PI*myrand;
+            x = sin(theta)*cos(phi);
+            y = sin(theta)*sin(phi);
+            z = cos(theta);
+//            do{
+//                x = 2*myrand - 1; //ξ1 ∈ [0,1] is a random number
+//                y = 2*myrand - 1; //ξ2 ∈ [0,1] is a random number
+//                z = 2*myrand - 1; //ξ3 ∈ [0,1] is a random number
+//            } while (x*x + y*y + z*z > 1);
             Vec4 d(x,y,z);
             Vec4 p = getPosition();
             Photon* photon =  new Photon(p,d);
-            photon->setPower(Vec4((1.*pow)/ne,(1.*pow)/ne,(1.*pow)/ne));
-            if((photon->power.module())>1){
-                photon->setPower(photon->power.unitary());
-            }
+            photon->setPower(Vec4((1.)/ne,(1.)/ne,(1./ne)));
             n++;
             photons.push_back(photon);
         }
@@ -409,12 +415,9 @@ std::vector<Photon*> PontualLight::emitPhotons(int ne,int pow,Object* obj)
             } while (((x<min.x())||(x>max.x()))||((y<min.y())||(y>max.y()))||((z<min.z())||(z>max.z()))||(!hit));
 
 
-            Photon* photon =  new Photon(p,d);
-            photon->setPower(Vec4((1.*pow)/ne,(1.*pow)/ne,(1.*pow)/ne));
+            Photon* photon =  new Photon(p,d.unitary());
+            photon->setPower(Vec4((1.)/ne,(1.)/ne,(1.)/ne));
             photon->setType(CAUSTIC);
-            if((photon->power.module())>1){
-                photon->setPower(photon->power.unitary());
-            }
             n++;
             photons.push_back(photon);
         }

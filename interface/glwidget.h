@@ -85,6 +85,14 @@ public slots:
     void setValueProgressRay(int value);
     void showSampleRender(QImage*);
     //photon map
+    void setPhotonsNearsCaustics(int val);
+    void setPhotonsNearsGlobal(int val);
+
+    void setFilterPhotonMap(bool b);
+    void setRenderGlobal(bool b);
+    void setRenderCaustic(bool b);
+    void setVisiblePhotonCaustic(bool flag);
+
     void setSizePhotons(int size);
     void setSizePhotonsCaustic(int size);
 
@@ -113,6 +121,7 @@ public:
     bool               showviewports;
     bool               showhbb;
     bool               showphotons;
+    bool               showphotonscaustic;
     HBB*               boundingboxes;
 
 

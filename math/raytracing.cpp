@@ -21,7 +21,7 @@ float pshadow = 1;
 inline float clamp(double x){ return x<0 ? 0 : x>1 ? 1 : x; }
 inline int toInt(double x){ return int(pow(clamp(x),1/2.2)*255+.5); }
 
-#define myrand ((float)(random())/(float)(RAND_MAX) )
+#define myrand ((float)(rand())/(float)(RAND_MAX) )
 
 RayTracing::RayTracing()
 {
@@ -51,7 +51,7 @@ void setValue(Vec4* c,int i,Vec4 val){
 void RayTracing::rayTracing(QImage *pixels, int proportion,int samples)
 {
 
-    srandom(time(NULL));
+    srand(time(0));
     double ti,tf,tempo; // ti = tempo inicial // tf = tempo final
       ti = tf = tempo = 0;
       timeval tempo_inicio,tempo_fim;
@@ -318,11 +318,15 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                             aux = aux + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*pshadow;
                         }
                         else{ //utilizando o photonMapping
-                            aux = aux + scene->photonMap.radiance(intercept,r.direction,normal,material) + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*pshadow;
+                            if(!scene->photonMap.renderCaustic && !scene->photonMap.renderGlobal)
+                                aux = aux + scene->photonMap.radiance(intercept,r.direction,normal,material) + scene->lights.at(i)->calculateColor(intercept,normal,scene->viewer[0],material,l)*pshadow;
+                            else
+                                aux = aux + scene->photonMap.radiance(intercept,r.direction,normal,material);
                         }
 
                     }else{
-                        if(scene->enablephoton)aux = aux + scene->photonMap.radiance(intercept,r.direction,normal,material);
+                        if(scene->enablephoton)
+                            aux = aux + scene->photonMap.radiance(intercept,r.direction,normal,material);
                     }
 
 
@@ -370,7 +374,8 @@ Vec4 RayTracing::calculatePixelColor(Object *obj,Vec4 normal, Material *material
                 color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()))/light_enable;
             }
         else{
-            color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()))*0.8/light_enable;
+            if(!scene->photonMap.renderCaustic && !scene->photonMap.renderGlobal)
+                color = (color + scene->lights.at(0)->calculateColor(intercept,normal,scene->viewer[0],material,Vec4()))*0.8/light_enable;
         }
 
         color.x1 = fmin(color.x1,1.0);
@@ -391,9 +396,13 @@ Vec4 RayTracing::testObstruction(Ray ray)
 
         if (hit && ray_intersection->t<distLight){
             if (ray_intersection->obj->getMesh()->getRefraction()>0){
+                //delete ray_intersection;
+                //pshadow = 0.85;
+                //return Pintercept;
+                //return Vec4();
+                Vec4 Pintercept = ray.positionRay(ray_intersection->t);
                 delete ray_intersection;
-                pshadow = 0.85;
-                return Vec4();
+                return Pintercept;
             }
             Vec4 Pintercept = ray.positionRay(ray_intersection->t);
             delete ray_intersection;
@@ -408,9 +417,12 @@ Vec4 RayTracing::testObstruction(Ray ray)
         }
         if (ray_intersection->t<distLight && ray_intersection->normal!=Vec4()){
             if (ray_intersection->obj->getMesh()->getRefraction()>0){
+                //delete ray_intersection;
+                //pshadow = 0.85;
+                //return Vec4();
+                Vec4 Pintercept = ray.positionRay(ray_intersection->t);
                 delete ray_intersection;
-                pshadow = 0.85;
-                return Vec4();
+                return Pintercept;
             }
             Vec4 Pintercept = ray.positionRay(ray_intersection->t);
             delete ray_intersection;

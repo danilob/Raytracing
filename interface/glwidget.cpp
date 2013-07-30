@@ -168,6 +168,7 @@ GLWidget::GLWidget(QWidget *parent) :
     showviewports = false;
     showhbb = false;
     showphotons = false;
+    showphotonscaustic = false;
     //boundingboxes = new HBB();
 
 
@@ -221,6 +222,7 @@ void GLWidget::paintGL()
         if (showhbb) boundingboxes->drawStructure();
             //boundingboxes->box.wireframe();
         scene->drawPhotons(showphotons);
+        scene->drawPhotonsCaustic(showphotonscaustic);
 
 
     //updateGL();
@@ -1217,6 +1219,37 @@ void GLWidget::setValueProgressRay(int value)
 void GLWidget::showSampleRender(QImage *img)
 {
     showSample(img);
+}
+
+void GLWidget::setPhotonsNearsCaustics(int val)
+{
+    scene->setPhotonsNearsCaustics(val);
+}
+
+void GLWidget::setPhotonsNearsGlobal(int val)
+{
+    scene->setPhotonsNearsGlobal(val);
+}
+
+void GLWidget::setFilterPhotonMap(bool b)
+{
+    scene->setFilterPhoton(b);
+}
+
+void GLWidget::setRenderGlobal(bool b)
+{
+    scene->renderGlobalRadiance(b);
+}
+
+void GLWidget::setRenderCaustic(bool b)
+{
+    scene->renderCausticRadiance(b);
+}
+
+void GLWidget::setVisiblePhotonCaustic(bool flag)
+{
+    showphotonscaustic = flag;
+    updateGL();
 }
 
 void GLWidget::setVisiblePhoton(bool flag)

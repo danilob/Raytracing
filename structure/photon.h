@@ -22,6 +22,7 @@ public:
     //float phi,theta;  //direção de onde a luz incidiu
     int flag;         //valor utilizado na kd-tree
     int status; //tipo de photon
+    int index;
     int type;
 
     Photon();
@@ -41,6 +42,8 @@ public:
     int getStatus();
     void setType(int type);
     int getType();
+    void setIndex(int id);
+    int getIndex();
 
 
 };
@@ -55,9 +58,14 @@ public:
     int causticPhotons;
     HBB* hbb;
     int depthMax;
+    int nearsGlobal;
+    int nearsCaustics;
     float radiusGlobal;
     float radiusCaustic;
     float fat;
+    bool renderCaustic;
+    bool renderGlobal;
+    bool filter;
 
 
 public:
@@ -69,10 +77,15 @@ public:
     void constructKdTree();
     Vec4 radiance(Vec4 position,Vec4 dir,Vec4 n,Material *mat);
     void drawPhotonMap();
+    void drawPhotonMapCaustics();
+
+    void setNearsPhotonsGlobal(int val);
+    void setNearsPhotonsCaustics(int val);
     void setDepth(int depthM);
     void setRadiusGlogal(float rglobal);
     void setRadiusCaustic(float rcaustic);
     void setFatorScalarPhoton(float factor);
+    void setFilter(bool b);
 
 
 

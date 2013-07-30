@@ -46,9 +46,9 @@ public:
     Vec4       getVecA();
     void       setVecB(Vec4 b);
     Vec4       getVecB();
-    std::vector<Photon*>       emitPhotons(int,int,Object*){};
-    void       setPower(int pow){};
-    int        getPower(){};
+    std::vector<Photon*>       emitPhotons(int,int,Object*);
+    void       setPower(int pow);
+    int        getPower();
     ~AreaLight();
 private:
     Vec4*      position_light;
@@ -62,6 +62,7 @@ private:
     bool       visible;
     bool       selected;
     QString    name;
+    int        power;
 };
 
 

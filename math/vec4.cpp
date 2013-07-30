@@ -83,6 +83,14 @@ float Vec4::operator * (Vec4 v){
     return this->x1*v.x1+this->x2*v.x2+this->x3*v.x3;
 }
 
+void Vec4::normalize()
+{
+    float mod = this->module();
+    this->x1 = this->x()/mod;
+    this->x2 = this->y()/mod;
+    this->x3 = this->z()/mod;
+}
+
 Vec4 Vec4::mult(Vec4 v)
 {
     return Vec4(this->x1*v.x1,this->x2*v.x2,this->x3*v.x3);
@@ -108,8 +116,8 @@ float Vec4::module(){
 float Vec4::distSquared(Vec4 p1, Vec4 p2)
 {
     double distance = pow((p1.x()-p2.x()),2)+pow((p1.y()-p2.y()),2)+pow((p1.z()-p2.z()),2);
-    if (dist(p1,p2)<1)
-        distance = pow(dist(p1,p2),0.5);
+//    if (dist(p1,p2)<1)
+//        distance = pow(dist(p1,p2),0.5);
     return distance;
 }
 

@@ -26,6 +26,7 @@ public:
     void maxHeapify(QList<Photon*> photons,int i,Vec4 pos);
     void buildingMaxHeap(QList<Photon*> photons,Vec4 pos);
     void imprimeKdtree(std::string s = "",int i=0);
+    void clearMemory();
 
 };
 

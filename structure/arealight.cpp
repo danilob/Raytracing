@@ -1,5 +1,10 @@
 #include "arealight.h"
 #include "photon.h"
+#include <stdio.h>
+#include <stdlib.h> // RAND_MAX é definido em stdlib.h
+
+#define myrand ((float)rand() / float(RAND_MAX))
+
 float AreaLight::attenuation(float distance){
     return 1.0/(factor_attenuation->x()+distance*factor_attenuation->y()+distance*distance*factor_attenuation->z());
 }
@@ -152,7 +157,7 @@ Vec4 AreaLight::calculateColor(Vec4 pit, Vec4 n,Vec4 viewer, Material *m,Vec4 po
         ambiente.x2 = m->ambient[1] * ambient_light->x2;
         ambiente.x3 = m->ambient[2] * ambient_light->x3;
 
-        Vec4 color = ambiente+(Diffuse+especular)*attenuation((position-viewer).module());
+        Vec4 color = (Diffuse+especular)*attenuation((position-viewer).module());
     return color;
     }
 }
@@ -318,10 +323,7 @@ QString AreaLight::saveLight()
     lig += this->name+"\n";
     return lig;
 }
-#include <stdio.h>
-#include <stdlib.h> // RAND_MAX é definido em stdlib.h
 
-#define myrand ((float)(random())/(float)(RAND_MAX) )
 
 Vec4 AreaLight::randLight()
 {
@@ -369,6 +371,73 @@ void AreaLight::setVecB(Vec4 b)
 Vec4 AreaLight::getVecB()
 {
     return Vec4(vecB->x(),vecB->y(),vecB->z());
+}
+
+std::vector<Photon*> AreaLight::emitPhotons(int ne, int pow, Object *obj)
+{
+    srand(time(0));
+    std::vector<Photon*> photons;
+    if (pow==0) return photons;
+    //emite a quantidade inicial de photons
+    int n = 1; //number of emitted photons
+    if(obj==NULL){
+        while (n<=ne){
+            Vec4 normal;
+            if(myrand<0.5)
+               normal = (*vecA) ^ (*vecB);
+            else
+                normal = (*vecB) ^ (*vecA);
+            normal.normalize();
+            float du = -(1-myrand)/2.0 + myrand*(1-myrand);
+            float dv = -(1-myrand)/2.0 + myrand*(1-myrand);
+            Vec4 d = normal + (*vecA).unitary()*du + (*vecB).unitary()*dv;
+            Vec4 p = randLight();
+            Photon* photon =  new Photon(p,d.unitary());
+            photon->setPower(Vec4((1.)/ne,(1.)/ne,(1./ne)));
+            n++;
+            photons.push_back(photon);
+        }
+    }
+    else{
+        Vec4 max = obj->getMax();
+        Vec4 min = obj->getMin();
+        Vec4 d,p;
+        bool hit;
+        while (n<=ne){
+            float x,y,z;
+            do{
+                x = (max.x()-min.x())*myrand + min.x(); //ξ1 ∈ [0,1] is a random number
+                y = (max.y()-min.y())*myrand + min.y(); //ξ2 ∈ [0,1] is a random number
+                z = (max.z()-min.z())*myrand + min.z(); //ξ3 ∈ [0,1] is a random number
+                p = randLight();
+                d = (Vec4(x,y,z)-p).unitary();
+                Ray ray(p,d);
+                RayIntersection *inter = new RayIntersection();
+                inter->t = 120000;
+                inter->tmin = 0;
+                obj->tryIntersection(inter,ray);
+                if(inter->normal==Vec4()) hit = false;
+                else hit = true;
+                delete inter;
+            } while (((x<min.x())||(x>max.x()))||((y<min.y())||(y>max.y()))||((z<min.z())||(z>max.z()))||(!hit));
+            Photon* photon =  new Photon(p,d.unitary());
+            photon->setPower(Vec4((1.)/ne,(1.)/ne,(1.)/ne));
+            photon->setType(CAUSTIC);
+            n++;
+            photons.push_back(photon);
+        }
+    }
+    return photons;
+}
+
+void AreaLight::setPower(int pow)
+{
+    this->power = pow;
+}
+
+int AreaLight::getPower()
+{
+    return this->power;
 }
 
 //std::vector<Photon*> AreaLight::emitPhotons(int ne)

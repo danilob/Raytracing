@@ -4,10 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
-
-
-
-
+bool flag;
 
 
 KdTree::KdTree()
@@ -131,13 +128,14 @@ void KdTree::quickSort(int flag,int left, int right,std::vector<Photon *>* list)
 void KdTree::clearHeap()
 {
     maxHeap.clear();
+    flag = false;
+
 }
 
 
 
 void KdTree::maxHeapify(QList<Photon *> photons, int i,Vec4 pos)
 {
-    Photon* tmp = NULL;
     Vec4 root = this->maxHeap[i-1]->position;
     Vec4 left=root,right=root;
 
@@ -180,16 +178,19 @@ void KdTree::imprimeKdtree(std::string s, int i)
         imprimeKdtree(s+"   ",2*i+2);
 }
 
+void KdTree::clearMemory()
+{
+    std::vector<Photon *>::iterator iter = photons.begin();
+     for (iter = photons.begin(); iter != photons.end(); ++iter)
+     {
+         delete *iter;
+     }
+     photons.clear();
+
+}
+
 void KdTree::locatePhotons(int p,Vec4 pos,int maxphotons, float radius)
 {
-    double d2 = radius*radius;
-    if(radius<1)
-        d2 = pow(radius,0.5);
-    else{
-        if (!(maxHeap.size()<maxphotons))
-           d2 = Vec4::distSquared(maxHeap[0]->position,pos);
-    }
-
 
     if( (2*p+2) < photons.size()) { //examine child nodes
         //Compute distance to plane (just a subtract)
@@ -202,6 +203,9 @@ void KdTree::locatePhotons(int p,Vec4 pos,int maxphotons, float radius)
             delta = pos.z()-photons[p]->position.z();
         }
 
+        double d2 = radius*radius;
+        if (flag) d2 = Vec4::distSquared(maxHeap[0]->position,pos);
+
         if (delta>0.0) { //We are left of the plane - search left subtree first
             locatePhotons( (2*p+2),pos,maxphotons,radius);
             if ( delta*delta < d2 )
@@ -213,22 +217,25 @@ void KdTree::locatePhotons(int p,Vec4 pos,int maxphotons, float radius)
         }
     }
     double delta2 = Vec4::distSquared(photons[p]->position,pos);
-    if ( delta2 < d2 ) { //Check if the photon is close enough?
-        if ((maxHeap.size()<maxphotons)){
+    double d2 = radius*radius;
+    if (flag) d2 = Vec4::distSquared(maxHeap[0]->position,pos);
+    int ind = (p+1)/2 - 1;
+    if ((delta2 < d2) && (!flag) && maxHeap.size()>0)
+        if(Vec4::distSquared(photons[((int)fmax(ind,0))]->position,pos) > radius*radius) flag = true;
+
+    if((maxHeap.size()<maxphotons)){
+        if(delta2 < d2){
             maxHeap.append(photons[p]);
             buildingMaxHeap(maxHeap,pos);
         }
-        else{
-            if(delta2<Vec4::distSquared(maxHeap[0]->position,pos)){
-                maxHeap.pop_front();
-                maxHeap.append(photons[p]);
-                buildingMaxHeap(maxHeap,pos);
-
-            }
-
+    }else{
+        if(delta2 < Vec4::distSquared(maxHeap[0]->position,pos)){
+            maxHeap.pop_front();
+            maxHeap.append(photons[p]);
+            buildingMaxHeap(maxHeap,pos);
         }
-        //
     }
+
     //Compute true squared distance to photon
 }
 

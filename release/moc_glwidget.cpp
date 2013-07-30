@@ -1,7 +1,7 @@
 /****************************************************************************
 ** Meta object code from reading C++ file 'glwidget.h'
 **
-** Created: Thu Jul 25 14:44:28 2013
+** Created: Tue Jul 30 07:41:07 2013
 **      by: The Qt Meta Object Compiler version 63 (Qt 4.8.1)
 **
 ** WARNING! All changes made in this file will be lost!
@@ -23,7 +23,7 @@ static const uint qt_meta_data_GLWidget[] = {
        6,       // revision
        0,       // classname
        0,    0, // classinfo
-      68,   14, // methods
+      74,   14, // methods
        0,    0, // properties
        0,    0, // enums/sets
        0,    0, // constructors
@@ -94,13 +94,19 @@ static const uint qt_meta_data_GLWidget[] = {
     1632,    9, 1461,    9, 0x0a,
     1645,  304,    9,    9, 0x0a,
     1670,    9,    9,    9, 0x0a,
-    1701, 1696,    9,    9, 0x0a,
-    1721, 1696,    9,    9, 0x0a,
-    1748, 1416,    9,    9, 0x0a,
-    1772, 1416,    9,    9, 0x0a,
-    1797, 1416,    9,    9, 0x0a,
-    1823, 1818,    9,    9, 0x0a,
-    1846,  385,    9,    9, 0x0a,
+    1696, 1416,    9,    9, 0x0a,
+    1725, 1416,    9,    9, 0x0a,
+    1752,  385,    9,    9, 0x0a,
+    1777,  385,    9,    9, 0x0a,
+    1799,  385,    9,    9, 0x0a,
+    1827, 1822,    9,    9, 0x0a,
+    1862, 1857,    9,    9, 0x0a,
+    1882, 1857,    9,    9, 0x0a,
+    1909, 1416,    9,    9, 0x0a,
+    1933, 1416,    9,    9, 0x0a,
+    1958, 1416,    9,    9, 0x0a,
+    1979, 1822,    9,    9, 0x0a,
+    2002,  385,    9,    9, 0x0a,
 
        0        // eod
 };
@@ -155,12 +161,16 @@ static const char qt_meta_stringdata_GLWidget[] = {
     "qw,percent,samples\0"
     "renderScene(QGraphicsView*,int,int)\0"
     "numberRays()\0setValueProgressRay(int)\0"
-    "showSampleRender(QImage*)\0size\0"
+    "showSampleRender(QImage*)\0"
+    "setPhotonsNearsCaustics(int)\0"
+    "setPhotonsNearsGlobal(int)\0"
+    "setFilterPhotonMap(bool)\0setRenderGlobal(bool)\0"
+    "setRenderCaustic(bool)\0flag\0"
+    "setVisiblePhotonCaustic(bool)\0size\0"
     "setSizePhotons(int)\0setSizePhotonsCaustic(int)\0"
     "setRadiusGlobal(double)\0"
     "setRadiusCaustic(double)\0setDepthPhotons(int)\0"
-    "flag\0setVisiblePhoton(bool)\0"
-    "setEnabledPhotonMap(bool)\0"
+    "setVisiblePhoton(bool)\0setEnabledPhotonMap(bool)\0"
 };
 
 void GLWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, void **_a)
@@ -235,13 +245,19 @@ void GLWidget::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, vo
             if (_a[0]) *reinterpret_cast< int*>(_a[0]) = _r; }  break;
         case 59: _t->setValueProgressRay((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 60: _t->showSampleRender((*reinterpret_cast< QImage*(*)>(_a[1]))); break;
-        case 61: _t->setSizePhotons((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 62: _t->setSizePhotonsCaustic((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 63: _t->setRadiusGlobal((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 64: _t->setRadiusCaustic((*reinterpret_cast< double(*)>(_a[1]))); break;
-        case 65: _t->setDepthPhotons((*reinterpret_cast< int(*)>(_a[1]))); break;
-        case 66: _t->setVisiblePhoton((*reinterpret_cast< bool(*)>(_a[1]))); break;
-        case 67: _t->setEnabledPhotonMap((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 61: _t->setPhotonsNearsCaustics((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 62: _t->setPhotonsNearsGlobal((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 63: _t->setFilterPhotonMap((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 64: _t->setRenderGlobal((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 65: _t->setRenderCaustic((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 66: _t->setVisiblePhotonCaustic((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 67: _t->setSizePhotons((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 68: _t->setSizePhotonsCaustic((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 69: _t->setRadiusGlobal((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 70: _t->setRadiusCaustic((*reinterpret_cast< double(*)>(_a[1]))); break;
+        case 71: _t->setDepthPhotons((*reinterpret_cast< int(*)>(_a[1]))); break;
+        case 72: _t->setVisiblePhoton((*reinterpret_cast< bool(*)>(_a[1]))); break;
+        case 73: _t->setEnabledPhotonMap((*reinterpret_cast< bool(*)>(_a[1]))); break;
         default: ;
         }
     }
@@ -279,9 +295,9 @@ int GLWidget::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
     if (_id < 0)
         return _id;
     if (_c == QMetaObject::InvokeMetaMethod) {
-        if (_id < 68)
+        if (_id < 74)
             qt_static_metacall(this, _c, _id, _a);
-        _id -= 68;
+        _id -= 74;
     }
     return _id;
 }

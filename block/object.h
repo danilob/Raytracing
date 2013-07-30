@@ -11,7 +11,9 @@
 #include <stdlib.h> // RAND_MAX é definido em stdlib.h
 #include "extra/texture.h"
 #include "extra/bump.h"
-#define myrand ((float)(random())/(float)(RAND_MAX) )
+
+#define myrand ((float)(rand())/(float)(RAND_MAX) )
+
 class Cube;
 
 class Object

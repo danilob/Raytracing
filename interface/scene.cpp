@@ -15,6 +15,8 @@ Scene::Scene()
     enablephoton = false;
     sizePhotons = 0;
     sizePhotonsCaustic = 0;
+    photonMap.kdtree->photons.clear();
+    photonMap.caustic->photons.clear();
     //kdtree = new KdTree();
 }
 
@@ -840,48 +842,50 @@ void Scene::drawPhotons(bool flag)
     if (!flag){
         glEnable(GL_LIGHTING);
         return;
-    }
-    if (photonMap.kdtree->photons.size()==0){
-        std::vector<Photon*> photons;
-        std::vector<Photon*> totalphotons;
-        std::vector<Object*> objectsRefracted;
-        for(unsigned int i=0;i<objects.size();i++){
-            if(objects.at(i)->getMesh()->getRefraction()!=0)
-                objectsRefracted.push_back(objects.at(i));
+    }else{
+        if(!photonMap.kdtree->photons.empty()){
+            photonMap.drawPhotonMap();
+            if (flag) glDisable(GL_LIGHTING);
+            return;
         }
-        int energy = 30000;
-        //photons caustica
-        for(unsigned int i=1;i<lights.size();i++){
-            for(unsigned int k=0;k<objectsRefracted.size();k++){
-                photons = lights.at(i)->emitPhotons(sizePhotonsCaustic,energy/3,objectsRefracted.at(k));
-                for(unsigned int j=0;j<photons.size();j++) totalphotons.push_back(photons.at(j));
-            }
-        }
-        //photons globais
-        for(unsigned int i=1;i<lights.size();i++){
-            photons = lights.at(i)->emitPhotons(sizePhotons,2*energy/3);
-            for(unsigned int j=0;j<photons.size();j++) totalphotons.push_back(photons.at(j));
-        }
-        photonMap.setScene(this);
-        photonMap.constructPhotonMap(totalphotons);
-        //kdtree = new KdTree(photonMap.photons);
+        generatePhotons();
     }
     photonMap.drawPhotonMap();
+    if (flag) glDisable(GL_LIGHTING);
+}
 
-    //kdtree->showHeap();
+void Scene::drawPhotonsCaustic(bool flag)
+{
+    if (!flag){
+        glEnable(GL_LIGHTING);
+        return;
+    }else{
+        if(!photonMap.caustic->photons.empty()){
+            photonMap.drawPhotonMapCaustics();
+            if (flag) glDisable(GL_LIGHTING);
+            return;
+        }
+        generatePhotons();
+    }
+    photonMap.drawPhotonMapCaustics();
     if (flag) glDisable(GL_LIGHTING);
 }
 
 void Scene::generatePhotons()
 {
-    photonMap.kdtree->photons.clear();
     std::vector<Photon*> photons;
     std::vector<Photon*> totalphotons;
     std::vector<Object*> objectsRefracted;
+    if(sizePhotonsCaustic==0) photonMap.caustic->photons.clear();
     for(unsigned int i=0;i<objects.size();i++){
-        if(objects.at(i)->getMesh()->getRefraction()!=0)
-            objectsRefracted.push_back(objects.at(i));
+        if (objects.at(i)->isEnabled())
+            if(objects.at(i)->getMesh()->getRefraction()!=0)
+                objectsRefracted.push_back(objects.at(i));
     }
+    if(!objectsRefracted.empty())
+        if(!photonMap.caustic->photons.empty() && !photonMap.kdtree->photons.empty()) return;
+        else
+            if(!photonMap.kdtree->photons.empty()) return;
     int energy = 0; //energia total do sistema
     for(unsigned int i=1;i<lights.size();i++){
         energy += lights.at(i)->getPower();
@@ -909,7 +913,12 @@ void Scene::generatePhotons()
             photons = lights.at(i)->emitPhotons(sizePhotons,energyGlobal/(lights.size()-1));
             for(unsigned int j=0;j<photons.size();j++) totalphotons.push_back(photons.at(j));
         }
+
+
     photonMap.setScene(this);
+    int size = totalphotons.size();
+    for(unsigned int i=0;i<size;i++)
+        totalphotons.at(i)->setPower(Vec4((float)energy/size,(float)energy/size,(float)energy/size));
     photonMap.constructPhotonMap(totalphotons);
     //kdtree = new KdTree(photonMap.photons);
 }
@@ -917,14 +926,33 @@ void Scene::generatePhotons()
 void Scene::setSizePhotons(int value)
 {
     sizePhotons = value;
-    if(!photonMap.kdtree->photons.empty())
-        photonMap.kdtree->photons.clear();
+    photonMap.kdtree->photons.clear();
 }
 
 void Scene::setSizePhotonsCaustic(int value)
 {
     sizePhotonsCaustic = value;
     photonMap.caustic->photons.clear();
+}
+
+void Scene::renderGlobalRadiance(bool b)
+{
+    photonMap.renderGlobal = b;
+}
+
+void Scene::renderCausticRadiance(bool b)
+{
+    photonMap.renderCaustic = b;
+}
+
+void Scene::setPhotonsNearsCaustics(int val)
+{
+    photonMap.setNearsPhotonsCaustics(val);
+}
+
+void Scene::setPhotonsNearsGlobal(int val)
+{
+    photonMap.setNearsPhotonsGlobal(val);
 }
 
 void Scene::setEnablePhotonMap(bool b)
@@ -946,6 +974,11 @@ void Scene::setRadiusCaustic(float val)
 void Scene::setDepthPhotons(int val)
 {
     photonMap.setDepth(val);
+}
+
+void Scene::setFilterPhoton(bool b)
+{
+    photonMap.setFilter(b);
 }
 
 Scene::~Scene()

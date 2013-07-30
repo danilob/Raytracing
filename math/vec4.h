@@ -25,6 +25,7 @@ public:
     Vec4 operator / (float k);                   //divisão das componentes do vetor por um numero real
     Vec4 operator * (float k);                   //produto das componentes do vetor por um numero real
     float operator * (Vec4 v);                   //produto escalar entre dois vetores (dot)
+    void normalize();
     Vec4 mult(Vec4 v);
     float dot(Vec4 v);
     float module();                              //retorna o modulo do vetor

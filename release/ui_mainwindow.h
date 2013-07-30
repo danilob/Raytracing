@@ -1,7 +1,7 @@
 /********************************************************************************
 ** Form generated from reading UI file 'mainwindow.ui'
 **
-** Created: Thu Jul 25 14:46:30 2013
+** Created: Tue Jul 30 10:47:19 2013
 **      by: Qt User Interface Compiler version 4.8.1
 **
 ** WARNING! All changes made in this file will be lost when recompiling UI file!
@@ -244,25 +244,40 @@ public:
     QHBoxLayout *horizontalLayout_20;
     QLabel *label_38;
     QDoubleSpinBox *focalDOF;
-    QGroupBox *groupBox_7;
-    QGridLayout *gridLayout_14;
-    QCheckBox *enablePhotonMap;
+    QWidget *page_5;
+    QGridLayout *gridLayout_15;
+    QVBoxLayout *verticalLayout_14;
+    QFormLayout *formLayout_3;
+    QLabel *label_39;
+    QSpinBox *sizePhotons;
     QHBoxLayout *horizontalLayout_23;
     QLabel *label_40;
     QDoubleSpinBox *radiusGlobal;
-    QHBoxLayout *horizontalLayout_24;
-    QLabel *label_41;
-    QDoubleSpinBox *radiusCaustic;
-    QHBoxLayout *horizontalLayout_22;
-    QLabel *label_39;
-    QSpinBox *sizePhotons;
+    QHBoxLayout *horizontalLayout_28;
+    QLabel *label_46;
+    QSpinBox *nearsGlobal;
     QHBoxLayout *horizontalLayout_25;
     QLabel *label_42;
     QSpinBox *sizePhotonsCaustic;
-    QCheckBox *visiblePhotonMap;
+    QHBoxLayout *horizontalLayout_24;
+    QLabel *label_41;
+    QDoubleSpinBox *radiusCaustic;
+    QHBoxLayout *horizontalLayout_27;
+    QLabel *label_45;
+    QSpinBox *nearsCaustics;
     QHBoxLayout *horizontalLayout_26;
     QLabel *label_43;
     QSpinBox *depthPhoton;
+    QGroupBox *groupBox_7;
+    QGridLayout *gridLayout_16;
+    QCheckBox *enablePhotonMap;
+    QCheckBox *visiblePhotonMap;
+    QCheckBox *visiblePhotonMapCaustics;
+    QGroupBox *groupBox_8;
+    QGridLayout *gridLayout_14;
+    QCheckBox *useFilter;
+    QCheckBox *renderCaustics;
+    QCheckBox *renderGlobal;
     QWidget *page_4;
     QWidget *layoutWidget;
     QVBoxLayout *verticalLayout_6;
@@ -1325,7 +1340,7 @@ public:
         toolBox->setFrameShadow(QFrame::Sunken);
         page = new QWidget();
         page->setObjectName(QString::fromUtf8("page"));
-        page->setGeometry(QRect(0, 0, 230, 546));
+        page->setGeometry(QRect(0, 0, 230, 515));
         gridLayout_5 = new QGridLayout(page);
         gridLayout_5->setSpacing(6);
         gridLayout_5->setContentsMargins(11, 11, 11, 11);
@@ -1338,7 +1353,7 @@ public:
         toolBox->addItem(page, QString::fromUtf8("Objects"));
         page_3 = new QWidget();
         page_3->setObjectName(QString::fromUtf8("page_3"));
-        page_3->setGeometry(QRect(0, 0, 230, 546));
+        page_3->setGeometry(QRect(0, 0, 230, 515));
         gridLayout_8 = new QGridLayout(page_3);
         gridLayout_8->setSpacing(6);
         gridLayout_8->setContentsMargins(11, 11, 11, 11);
@@ -1351,13 +1366,13 @@ public:
         toolBox->addItem(page_3, QString::fromUtf8("Lights"));
         page_2 = new QWidget();
         page_2->setObjectName(QString::fromUtf8("page_2"));
-        page_2->setGeometry(QRect(0, 0, 230, 546));
+        page_2->setGeometry(QRect(0, 0, 230, 515));
         showHBB = new QCheckBox(page_2);
         showHBB->setObjectName(QString::fromUtf8("showHBB"));
-        showHBB->setGeometry(QRect(0, 10, 219, 22));
+        showHBB->setGeometry(QRect(0, 0, 219, 22));
         groupBox_5 = new QGroupBox(page_2);
         groupBox_5->setObjectName(QString::fromUtf8("groupBox_5"));
-        groupBox_5->setGeometry(QRect(0, 50, 221, 84));
+        groupBox_5->setGeometry(QRect(0, 20, 221, 84));
         groupBox_5->setFont(font);
         groupBox_5->setStyleSheet(QString::fromUtf8("QGroupBox::title { \n"
 "   \n"
@@ -1407,9 +1422,147 @@ public:
 
         gridLayout_12->addLayout(horizontalLayout_20, 1, 0, 1, 1);
 
-        groupBox_7 = new QGroupBox(page_2);
+        toolBox->addItem(page_2, QString::fromUtf8("Scene"));
+        page_5 = new QWidget();
+        page_5->setObjectName(QString::fromUtf8("page_5"));
+        page_5->setGeometry(QRect(0, 0, 230, 515));
+        gridLayout_15 = new QGridLayout(page_5);
+        gridLayout_15->setSpacing(6);
+        gridLayout_15->setContentsMargins(11, 11, 11, 11);
+        gridLayout_15->setObjectName(QString::fromUtf8("gridLayout_15"));
+        verticalLayout_14 = new QVBoxLayout();
+        verticalLayout_14->setSpacing(2);
+        verticalLayout_14->setObjectName(QString::fromUtf8("verticalLayout_14"));
+        formLayout_3 = new QFormLayout();
+        formLayout_3->setSpacing(6);
+        formLayout_3->setObjectName(QString::fromUtf8("formLayout_3"));
+        label_39 = new QLabel(page_5);
+        label_39->setObjectName(QString::fromUtf8("label_39"));
+
+        formLayout_3->setWidget(0, QFormLayout::LabelRole, label_39);
+
+        sizePhotons = new QSpinBox(page_5);
+        sizePhotons->setObjectName(QString::fromUtf8("sizePhotons"));
+        sizePhotons->setMaximum(1000000);
+
+        formLayout_3->setWidget(0, QFormLayout::FieldRole, sizePhotons);
+
+
+        verticalLayout_14->addLayout(formLayout_3);
+
+        horizontalLayout_23 = new QHBoxLayout();
+        horizontalLayout_23->setSpacing(6);
+        horizontalLayout_23->setObjectName(QString::fromUtf8("horizontalLayout_23"));
+        label_40 = new QLabel(page_5);
+        label_40->setObjectName(QString::fromUtf8("label_40"));
+
+        horizontalLayout_23->addWidget(label_40);
+
+        radiusGlobal = new QDoubleSpinBox(page_5);
+        radiusGlobal->setObjectName(QString::fromUtf8("radiusGlobal"));
+        radiusGlobal->setDecimals(3);
+        radiusGlobal->setMaximum(30);
+        radiusGlobal->setValue(0.75);
+
+        horizontalLayout_23->addWidget(radiusGlobal);
+
+
+        verticalLayout_14->addLayout(horizontalLayout_23);
+
+        horizontalLayout_28 = new QHBoxLayout();
+        horizontalLayout_28->setSpacing(6);
+        horizontalLayout_28->setObjectName(QString::fromUtf8("horizontalLayout_28"));
+        label_46 = new QLabel(page_5);
+        label_46->setObjectName(QString::fromUtf8("label_46"));
+
+        horizontalLayout_28->addWidget(label_46);
+
+        nearsGlobal = new QSpinBox(page_5);
+        nearsGlobal->setObjectName(QString::fromUtf8("nearsGlobal"));
+        nearsGlobal->setMaximum(2000);
+        nearsGlobal->setValue(100);
+
+        horizontalLayout_28->addWidget(nearsGlobal);
+
+
+        verticalLayout_14->addLayout(horizontalLayout_28);
+
+        horizontalLayout_25 = new QHBoxLayout();
+        horizontalLayout_25->setSpacing(6);
+        horizontalLayout_25->setObjectName(QString::fromUtf8("horizontalLayout_25"));
+        label_42 = new QLabel(page_5);
+        label_42->setObjectName(QString::fromUtf8("label_42"));
+
+        horizontalLayout_25->addWidget(label_42);
+
+        sizePhotonsCaustic = new QSpinBox(page_5);
+        sizePhotonsCaustic->setObjectName(QString::fromUtf8("sizePhotonsCaustic"));
+        sizePhotonsCaustic->setMaximum(1000000);
+
+        horizontalLayout_25->addWidget(sizePhotonsCaustic);
+
+
+        verticalLayout_14->addLayout(horizontalLayout_25);
+
+        horizontalLayout_24 = new QHBoxLayout();
+        horizontalLayout_24->setSpacing(6);
+        horizontalLayout_24->setObjectName(QString::fromUtf8("horizontalLayout_24"));
+        label_41 = new QLabel(page_5);
+        label_41->setObjectName(QString::fromUtf8("label_41"));
+
+        horizontalLayout_24->addWidget(label_41);
+
+        radiusCaustic = new QDoubleSpinBox(page_5);
+        radiusCaustic->setObjectName(QString::fromUtf8("radiusCaustic"));
+        radiusCaustic->setDecimals(3);
+        radiusCaustic->setMaximum(30);
+        radiusCaustic->setValue(0.15);
+
+        horizontalLayout_24->addWidget(radiusCaustic);
+
+
+        verticalLayout_14->addLayout(horizontalLayout_24);
+
+        horizontalLayout_27 = new QHBoxLayout();
+        horizontalLayout_27->setSpacing(6);
+        horizontalLayout_27->setObjectName(QString::fromUtf8("horizontalLayout_27"));
+        label_45 = new QLabel(page_5);
+        label_45->setObjectName(QString::fromUtf8("label_45"));
+
+        horizontalLayout_27->addWidget(label_45);
+
+        nearsCaustics = new QSpinBox(page_5);
+        nearsCaustics->setObjectName(QString::fromUtf8("nearsCaustics"));
+        nearsCaustics->setMaximum(2000);
+        nearsCaustics->setValue(60);
+
+        horizontalLayout_27->addWidget(nearsCaustics);
+
+
+        verticalLayout_14->addLayout(horizontalLayout_27);
+
+        horizontalLayout_26 = new QHBoxLayout();
+        horizontalLayout_26->setSpacing(6);
+        horizontalLayout_26->setObjectName(QString::fromUtf8("horizontalLayout_26"));
+        label_43 = new QLabel(page_5);
+        label_43->setObjectName(QString::fromUtf8("label_43"));
+
+        horizontalLayout_26->addWidget(label_43);
+
+        depthPhoton = new QSpinBox(page_5);
+        depthPhoton->setObjectName(QString::fromUtf8("depthPhoton"));
+        depthPhoton->setValue(4);
+
+        horizontalLayout_26->addWidget(depthPhoton);
+
+
+        verticalLayout_14->addLayout(horizontalLayout_26);
+
+
+        gridLayout_15->addLayout(verticalLayout_14, 0, 0, 1, 1);
+
+        groupBox_7 = new QGroupBox(page_5);
         groupBox_7->setObjectName(QString::fromUtf8("groupBox_7"));
-        groupBox_7->setGeometry(QRect(0, 150, 221, 211));
         groupBox_7->setFont(font);
         groupBox_7->setStyleSheet(QString::fromUtf8("QGroupBox::title { \n"
 "   \n"
@@ -1423,113 +1576,75 @@ public:
 "   border: 1px solid rgb(182, 181, 179);\n"
 "  border-radius: 5px;\n"
 "}"));
-        gridLayout_14 = new QGridLayout(groupBox_7);
-        gridLayout_14->setSpacing(0);
-        gridLayout_14->setContentsMargins(11, 11, 11, 11);
-        gridLayout_14->setObjectName(QString::fromUtf8("gridLayout_14"));
+        gridLayout_16 = new QGridLayout(groupBox_7);
+        gridLayout_16->setSpacing(6);
+        gridLayout_16->setContentsMargins(11, 11, 11, 11);
+        gridLayout_16->setObjectName(QString::fromUtf8("gridLayout_16"));
+        gridLayout_16->setVerticalSpacing(2);
         enablePhotonMap = new QCheckBox(groupBox_7);
         enablePhotonMap->setObjectName(QString::fromUtf8("enablePhotonMap"));
 
-        gridLayout_14->addWidget(enablePhotonMap, 6, 0, 1, 1);
-
-        horizontalLayout_23 = new QHBoxLayout();
-        horizontalLayout_23->setSpacing(6);
-        horizontalLayout_23->setObjectName(QString::fromUtf8("horizontalLayout_23"));
-        label_40 = new QLabel(groupBox_7);
-        label_40->setObjectName(QString::fromUtf8("label_40"));
-
-        horizontalLayout_23->addWidget(label_40);
-
-        radiusGlobal = new QDoubleSpinBox(groupBox_7);
-        radiusGlobal->setObjectName(QString::fromUtf8("radiusGlobal"));
-        radiusGlobal->setDecimals(3);
-        radiusGlobal->setMaximum(30);
-        radiusGlobal->setValue(0.75);
-
-        horizontalLayout_23->addWidget(radiusGlobal);
-
-
-        gridLayout_14->addLayout(horizontalLayout_23, 2, 0, 1, 1);
-
-        horizontalLayout_24 = new QHBoxLayout();
-        horizontalLayout_24->setSpacing(6);
-        horizontalLayout_24->setObjectName(QString::fromUtf8("horizontalLayout_24"));
-        label_41 = new QLabel(groupBox_7);
-        label_41->setObjectName(QString::fromUtf8("label_41"));
-
-        horizontalLayout_24->addWidget(label_41);
-
-        radiusCaustic = new QDoubleSpinBox(groupBox_7);
-        radiusCaustic->setObjectName(QString::fromUtf8("radiusCaustic"));
-        radiusCaustic->setDecimals(3);
-        radiusCaustic->setMaximum(30);
-        radiusCaustic->setValue(0.15);
-
-        horizontalLayout_24->addWidget(radiusCaustic);
-
-
-        gridLayout_14->addLayout(horizontalLayout_24, 4, 0, 1, 1);
-
-        horizontalLayout_22 = new QHBoxLayout();
-        horizontalLayout_22->setSpacing(6);
-        horizontalLayout_22->setObjectName(QString::fromUtf8("horizontalLayout_22"));
-        label_39 = new QLabel(groupBox_7);
-        label_39->setObjectName(QString::fromUtf8("label_39"));
-
-        horizontalLayout_22->addWidget(label_39);
-
-        sizePhotons = new QSpinBox(groupBox_7);
-        sizePhotons->setObjectName(QString::fromUtf8("sizePhotons"));
-        sizePhotons->setMaximum(1000000);
-
-        horizontalLayout_22->addWidget(sizePhotons);
-
-
-        gridLayout_14->addLayout(horizontalLayout_22, 0, 0, 1, 1);
-
-        horizontalLayout_25 = new QHBoxLayout();
-        horizontalLayout_25->setSpacing(6);
-        horizontalLayout_25->setObjectName(QString::fromUtf8("horizontalLayout_25"));
-        label_42 = new QLabel(groupBox_7);
-        label_42->setObjectName(QString::fromUtf8("label_42"));
-
-        horizontalLayout_25->addWidget(label_42);
-
-        sizePhotonsCaustic = new QSpinBox(groupBox_7);
-        sizePhotonsCaustic->setObjectName(QString::fromUtf8("sizePhotonsCaustic"));
-        sizePhotonsCaustic->setMaximum(1000000);
-
-        horizontalLayout_25->addWidget(sizePhotonsCaustic);
-
-
-        gridLayout_14->addLayout(horizontalLayout_25, 3, 0, 1, 1);
+        gridLayout_16->addWidget(enablePhotonMap, 0, 0, 1, 1);
 
         visiblePhotonMap = new QCheckBox(groupBox_7);
         visiblePhotonMap->setObjectName(QString::fromUtf8("visiblePhotonMap"));
 
-        gridLayout_14->addWidget(visiblePhotonMap, 7, 0, 1, 1);
+        gridLayout_16->addWidget(visiblePhotonMap, 1, 0, 1, 1);
 
-        horizontalLayout_26 = new QHBoxLayout();
-        horizontalLayout_26->setSpacing(6);
-        horizontalLayout_26->setObjectName(QString::fromUtf8("horizontalLayout_26"));
-        label_43 = new QLabel(groupBox_7);
-        label_43->setObjectName(QString::fromUtf8("label_43"));
+        visiblePhotonMapCaustics = new QCheckBox(groupBox_7);
+        visiblePhotonMapCaustics->setObjectName(QString::fromUtf8("visiblePhotonMapCaustics"));
 
-        horizontalLayout_26->addWidget(label_43);
-
-        depthPhoton = new QSpinBox(groupBox_7);
-        depthPhoton->setObjectName(QString::fromUtf8("depthPhoton"));
-        depthPhoton->setValue(4);
-
-        horizontalLayout_26->addWidget(depthPhoton);
+        gridLayout_16->addWidget(visiblePhotonMapCaustics, 2, 0, 1, 1);
 
 
-        gridLayout_14->addLayout(horizontalLayout_26, 5, 0, 1, 1);
+        gridLayout_15->addWidget(groupBox_7, 1, 0, 1, 1);
 
-        toolBox->addItem(page_2, QString::fromUtf8("Scene"));
+        groupBox_8 = new QGroupBox(page_5);
+        groupBox_8->setObjectName(QString::fromUtf8("groupBox_8"));
+        groupBox_8->setFont(font);
+        groupBox_8->setStyleSheet(QString::fromUtf8("QGroupBox::title { \n"
+"   \n"
+"     subcontrol-position: top left; /* position at the top left*/ \n"
+"  padding: 2px 13px;\n"
+"   margin-top: -5px;\n"
+"    \n"
+" }\n"
+"\n"
+"QGroupBox{\n"
+"   border: 1px solid rgb(182, 181, 179);\n"
+"  border-radius: 5px;\n"
+"}"));
+        gridLayout_14 = new QGridLayout(groupBox_8);
+        gridLayout_14->setSpacing(2);
+        gridLayout_14->setContentsMargins(11, 11, 11, 11);
+        gridLayout_14->setObjectName(QString::fromUtf8("gridLayout_14"));
+        useFilter = new QCheckBox(groupBox_8);
+        useFilter->setObjectName(QString::fromUtf8("useFilter"));
+        QFont font1;
+        font1.setBold(false);
+        font1.setWeight(50);
+        useFilter->setFont(font1);
+
+        gridLayout_14->addWidget(useFilter, 0, 0, 1, 1);
+
+        renderCaustics = new QCheckBox(groupBox_8);
+        renderCaustics->setObjectName(QString::fromUtf8("renderCaustics"));
+        renderCaustics->setFont(font1);
+
+        gridLayout_14->addWidget(renderCaustics, 2, 0, 1, 1);
+
+        renderGlobal = new QCheckBox(groupBox_8);
+        renderGlobal->setObjectName(QString::fromUtf8("renderGlobal"));
+
+        gridLayout_14->addWidget(renderGlobal, 1, 0, 1, 1);
+
+
+        gridLayout_15->addWidget(groupBox_8, 2, 0, 1, 1);
+
+        toolBox->addItem(page_5, QString::fromUtf8("Photon Mapping"));
         page_4 = new QWidget();
         page_4->setObjectName(QString::fromUtf8("page_4"));
-        page_4->setGeometry(QRect(0, 0, 230, 546));
+        page_4->setGeometry(QRect(0, 0, 230, 515));
         layoutWidget = new QWidget(page_4);
         layoutWidget->setObjectName(QString::fromUtf8("layoutWidget"));
         layoutWidget->setGeometry(QRect(0, 10, 221, 129));
@@ -1644,9 +1759,9 @@ public:
         dEyez = new QDoubleSpinBox(groupBox);
         dEyez->setObjectName(QString::fromUtf8("dEyez"));
         dEyez->setGeometry(QRect(230, 10, 78, 21));
-        QFont font1;
-        font1.setPointSize(11);
-        dEyez->setFont(font1);
+        QFont font2;
+        font2.setPointSize(11);
+        dEyez->setFont(font2);
         dEyez->setMinimum(-9000);
         dEyez->setMaximum(9000);
         dAtx = new QDoubleSpinBox(groupBox);
@@ -1728,14 +1843,14 @@ public:
         groupBox_3 = new QGroupBox(scrollAreaWidgetContents_2);
         groupBox_3->setObjectName(QString::fromUtf8("groupBox_3"));
         groupBox_3->setGeometry(QRect(540, 10, 141, 80));
-        QFont font2;
-        font2.setPointSize(9);
-        font2.setBold(true);
-        font2.setUnderline(false);
-        font2.setWeight(75);
-        font2.setStrikeOut(false);
-        font2.setKerning(true);
-        groupBox_3->setFont(font2);
+        QFont font3;
+        font3.setPointSize(9);
+        font3.setBold(true);
+        font3.setUnderline(false);
+        font3.setWeight(75);
+        font3.setStrikeOut(false);
+        font3.setKerning(true);
+        groupBox_3->setFont(font3);
         groupBox_3->setStyleSheet(QString::fromUtf8("QGroupBox::title { \n"
 "   \n"
 "     subcontrol-position: top left; /* position at the top left*/ \n"
@@ -1824,7 +1939,7 @@ public:
         retranslateUi(MainWindow);
 
         tabWidget->setCurrentIndex(0);
-        toolBox->setCurrentIndex(2);
+        toolBox->setCurrentIndex(3);
         toolBox->layout()->setSpacing(6);
 
 
@@ -1994,15 +2109,23 @@ public:
         groupBox_5->setTitle(QApplication::translate("MainWindow", "Effect Depth of Field", 0, QApplication::UnicodeUTF8));
         label_37->setText(QApplication::translate("MainWindow", "Radius", 0, QApplication::UnicodeUTF8));
         label_38->setText(QApplication::translate("MainWindow", "Focal Length", 0, QApplication::UnicodeUTF8));
-        groupBox_7->setTitle(QApplication::translate("MainWindow", "Photon Mapping", 0, QApplication::UnicodeUTF8));
-        enablePhotonMap->setText(QApplication::translate("MainWindow", "Enable", 0, QApplication::UnicodeUTF8));
-        label_40->setText(QApplication::translate("MainWindow", "Radius Global:", 0, QApplication::UnicodeUTF8));
-        label_41->setText(QApplication::translate("MainWindow", "Radius Caustic", 0, QApplication::UnicodeUTF8));
-        label_39->setText(QApplication::translate("MainWindow", "Photons Global", 0, QApplication::UnicodeUTF8));
-        label_42->setText(QApplication::translate("MainWindow", "Photons Caustic", 0, QApplication::UnicodeUTF8));
-        visiblePhotonMap->setText(QApplication::translate("MainWindow", "Visible", 0, QApplication::UnicodeUTF8));
-        label_43->setText(QApplication::translate("MainWindow", "Depth", 0, QApplication::UnicodeUTF8));
         toolBox->setItemText(toolBox->indexOf(page_2), QApplication::translate("MainWindow", "Scene", 0, QApplication::UnicodeUTF8));
+        label_39->setText(QApplication::translate("MainWindow", "Photons Global", 0, QApplication::UnicodeUTF8));
+        label_40->setText(QApplication::translate("MainWindow", "Radius Global", 0, QApplication::UnicodeUTF8));
+        label_46->setText(QApplication::translate("MainWindow", "Nears Global", 0, QApplication::UnicodeUTF8));
+        label_42->setText(QApplication::translate("MainWindow", "Photons Caustic", 0, QApplication::UnicodeUTF8));
+        label_41->setText(QApplication::translate("MainWindow", "Radius Caustic", 0, QApplication::UnicodeUTF8));
+        label_45->setText(QApplication::translate("MainWindow", "Nears Caustic", 0, QApplication::UnicodeUTF8));
+        label_43->setText(QApplication::translate("MainWindow", "Depth", 0, QApplication::UnicodeUTF8));
+        groupBox_7->setTitle(QApplication::translate("MainWindow", "Options", 0, QApplication::UnicodeUTF8));
+        enablePhotonMap->setText(QApplication::translate("MainWindow", "Enable", 0, QApplication::UnicodeUTF8));
+        visiblePhotonMap->setText(QApplication::translate("MainWindow", "Show Photons Globais", 0, QApplication::UnicodeUTF8));
+        visiblePhotonMapCaustics->setText(QApplication::translate("MainWindow", "Show Photons Caustics", 0, QApplication::UnicodeUTF8));
+        groupBox_8->setTitle(QApplication::translate("MainWindow", "Radiance", 0, QApplication::UnicodeUTF8));
+        useFilter->setText(QApplication::translate("MainWindow", "Enable Filter", 0, QApplication::UnicodeUTF8));
+        renderCaustics->setText(QApplication::translate("MainWindow", "Render Caustics", 0, QApplication::UnicodeUTF8));
+        renderGlobal->setText(QApplication::translate("MainWindow", "Render Global", 0, QApplication::UnicodeUTF8));
+        toolBox->setItemText(toolBox->indexOf(page_5), QApplication::translate("MainWindow", "Photon Mapping", 0, QApplication::UnicodeUTF8));
         label_18->setText(QApplication::translate("MainWindow", "Samples", 0, QApplication::UnicodeUTF8));
         label_19->setText(QApplication::translate("MainWindow", "Out Proportion", 0, QApplication::UnicodeUTF8));
         proportion->setSuffix(QApplication::translate("MainWindow", "%", 0, QApplication::UnicodeUTF8));

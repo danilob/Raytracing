@@ -1654,7 +1654,7 @@ QGroupBox{
                <enum>QFrame::Sunken</enum>
               </property>
               <property name="currentIndex">
-               <number>2</number>
+               <number>3</number>
               </property>
               <property name="tabSpacing">
                <number>6</number>
@@ -1665,7 +1665,7 @@ QGroupBox{
                  <x>0</x>
                  <y>0</y>
                  <width>230</width>
-                 <height>546</height>
+                 <height>515</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -1683,7 +1683,7 @@ QGroupBox{
                  <x>0</x>
                  <y>0</y>
                  <width>230</width>
-                 <height>546</height>
+                 <height>515</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -1701,7 +1701,7 @@ QGroupBox{
                  <x>0</x>
                  <y>0</y>
                  <width>230</width>
-                 <height>546</height>
+                 <height>515</height>
                 </rect>
                </property>
                <attribute name="label">
@@ -1711,7 +1711,7 @@ QGroupBox{
                 <property name="geometry">
                  <rect>
                   <x>0</x>
-                  <y>10</y>
+                  <y>0</y>
                   <width>219</width>
                   <height>22</height>
                  </rect>
@@ -1724,7 +1724,7 @@ QGroupBox{
                 <property name="geometry">
                  <rect>
                   <x>0</x>
-                  <y>50</y>
+                  <y>20</y>
                   <width>221</width>
                   <height>84</height>
                  </rect>
@@ -1784,24 +1784,182 @@ QGroupBox{
                  </item>
                 </layout>
                </widget>
-               <widget class="QGroupBox" name="groupBox_7">
-                <property name="geometry">
-                 <rect>
-                  <x>0</x>
-                  <y>150</y>
-                  <width>221</width>
-                  <height>211</height>
-                 </rect>
-                </property>
-                <property name="font">
-                 <font>
-                  <pointsize>9</pointsize>
-                  <weight>75</weight>
-                  <bold>true</bold>
-                 </font>
-                </property>
-                <property name="styleSheet">
-                 <string notr="true">QGroupBox::title { 
+              </widget>
+              <widget class="QWidget" name="page_5">
+               <property name="geometry">
+                <rect>
+                 <x>0</x>
+                 <y>0</y>
+                 <width>230</width>
+                 <height>515</height>
+                </rect>
+               </property>
+               <attribute name="label">
+                <string>Photon Mapping</string>
+               </attribute>
+               <layout class="QGridLayout" name="gridLayout_15">
+                <item row="0" column="0">
+                 <layout class="QVBoxLayout" name="verticalLayout_14">
+                  <property name="spacing">
+                   <number>2</number>
+                  </property>
+                  <item>
+                   <layout class="QFormLayout" name="formLayout_3">
+                    <item row="0" column="0">
+                     <widget class="QLabel" name="label_39">
+                      <property name="text">
+                       <string>Photons Global</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item row="0" column="1">
+                     <widget class="QSpinBox" name="sizePhotons">
+                      <property name="maximum">
+                       <number>1000000</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_23">
+                    <item>
+                     <widget class="QLabel" name="label_40">
+                      <property name="text">
+                       <string>Radius Global</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QDoubleSpinBox" name="radiusGlobal">
+                      <property name="decimals">
+                       <number>3</number>
+                      </property>
+                      <property name="maximum">
+                       <double>30.000000000000000</double>
+                      </property>
+                      <property name="value">
+                       <double>0.750000000000000</double>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_28">
+                    <item>
+                     <widget class="QLabel" name="label_46">
+                      <property name="text">
+                       <string>Nears Global</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QSpinBox" name="nearsGlobal">
+                      <property name="maximum">
+                       <number>2000</number>
+                      </property>
+                      <property name="value">
+                       <number>100</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_25">
+                    <item>
+                     <widget class="QLabel" name="label_42">
+                      <property name="text">
+                       <string>Photons Caustic</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QSpinBox" name="sizePhotonsCaustic">
+                      <property name="maximum">
+                       <number>1000000</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_24">
+                    <item>
+                     <widget class="QLabel" name="label_41">
+                      <property name="text">
+                       <string>Radius Caustic</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QDoubleSpinBox" name="radiusCaustic">
+                      <property name="decimals">
+                       <number>3</number>
+                      </property>
+                      <property name="maximum">
+                       <double>30.000000000000000</double>
+                      </property>
+                      <property name="value">
+                       <double>0.150000000000000</double>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_27">
+                    <item>
+                     <widget class="QLabel" name="label_45">
+                      <property name="text">
+                       <string>Nears Caustic</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QSpinBox" name="nearsCaustics">
+                      <property name="maximum">
+                       <number>2000</number>
+                      </property>
+                      <property name="value">
+                       <number>60</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                  <item>
+                   <layout class="QHBoxLayout" name="horizontalLayout_26">
+                    <item>
+                     <widget class="QLabel" name="label_43">
+                      <property name="text">
+                       <string>Depth</string>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <widget class="QSpinBox" name="depthPhoton">
+                      <property name="value">
+                       <number>4</number>
+                      </property>
+                     </widget>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QGroupBox" name="groupBox_7">
+                  <property name="font">
+                   <font>
+                    <pointsize>9</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QGroupBox::title { 
    
      subcontrol-position: top left; /* position at the top left*/ 
   padding: 2px 13px;
@@ -1813,132 +1971,105 @@ QGroupBox{
    border: 1px solid rgb(182, 181, 179);
   border-radius: 5px;
 }</string>
-                </property>
-                <property name="title">
-                 <string>Photon Mapping</string>
-                </property>
-                <layout class="QGridLayout" name="gridLayout_14">
-                 <property name="spacing">
-                  <number>0</number>
-                 </property>
-                 <item row="6" column="0">
-                  <widget class="QCheckBox" name="enablePhotonMap">
-                   <property name="text">
-                    <string>Enable</string>
+                  </property>
+                  <property name="title">
+                   <string>Options</string>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_16">
+                   <property name="verticalSpacing">
+                    <number>2</number>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="2" column="0">
-                  <layout class="QHBoxLayout" name="horizontalLayout_23">
-                   <item>
-                    <widget class="QLabel" name="label_40">
+                   <item row="0" column="0">
+                    <widget class="QCheckBox" name="enablePhotonMap">
                      <property name="text">
-                      <string>Radius Global:</string>
+                      <string>Enable</string>
                      </property>
                     </widget>
                    </item>
-                   <item>
-                    <widget class="QDoubleSpinBox" name="radiusGlobal">
-                     <property name="decimals">
-                      <number>3</number>
+                   <item row="1" column="0">
+                    <widget class="QCheckBox" name="visiblePhotonMap">
+                     <property name="text">
+                      <string>Show Photons Globais</string>
                      </property>
-                     <property name="maximum">
-                      <double>30.000000000000000</double>
-                     </property>
-                     <property name="value">
-                      <double>0.750000000000000</double>
+                    </widget>
+                   </item>
+                   <item row="2" column="0">
+                    <widget class="QCheckBox" name="visiblePhotonMapCaustics">
+                     <property name="text">
+                      <string>Show Photons Caustics</string>
                      </property>
                     </widget>
                    </item>
                   </layout>
-                 </item>
-                 <item row="4" column="0">
-                  <layout class="QHBoxLayout" name="horizontalLayout_24">
-                   <item>
-                    <widget class="QLabel" name="label_41">
-                     <property name="text">
-                      <string>Radius Caustic</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QDoubleSpinBox" name="radiusCaustic">
-                     <property name="decimals">
-                      <number>3</number>
-                     </property>
-                     <property name="maximum">
-                      <double>30.000000000000000</double>
-                     </property>
-                     <property name="value">
-                      <double>0.150000000000000</double>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="0" column="0">
-                  <layout class="QHBoxLayout" name="horizontalLayout_22">
-                   <item>
-                    <widget class="QLabel" name="label_39">
-                     <property name="text">
-                      <string>Photons Global</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="sizePhotons">
-                     <property name="maximum">
-                      <number>1000000</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="3" column="0">
-                  <layout class="QHBoxLayout" name="horizontalLayout_25">
-                   <item>
-                    <widget class="QLabel" name="label_42">
-                     <property name="text">
-                      <string>Photons Caustic</string>
-                     </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QSpinBox" name="sizePhotonsCaustic">
-                     <property name="maximum">
-                      <number>1000000</number>
-                     </property>
-                    </widget>
-                   </item>
-                  </layout>
-                 </item>
-                 <item row="7" column="0">
-                  <widget class="QCheckBox" name="visiblePhotonMap">
-                   <property name="text">
-                    <string>Visible</string>
+                 </widget>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QGroupBox" name="groupBox_8">
+                  <property name="font">
+                   <font>
+                    <pointsize>9</pointsize>
+                    <weight>75</weight>
+                    <bold>true</bold>
+                   </font>
+                  </property>
+                  <property name="styleSheet">
+                   <string notr="true">QGroupBox::title { 
+   
+     subcontrol-position: top left; /* position at the top left*/ 
+  padding: 2px 13px;
+   margin-top: -5px;
+    
+ }
+
+QGroupBox{
+   border: 1px solid rgb(182, 181, 179);
+  border-radius: 5px;
+}</string>
+                  </property>
+                  <property name="title">
+                   <string>Radiance</string>
+                  </property>
+                  <layout class="QGridLayout" name="gridLayout_14">
+                   <property name="spacing">
+                    <number>2</number>
                    </property>
-                  </widget>
-                 </item>
-                 <item row="5" column="0">
-                  <layout class="QHBoxLayout" name="horizontalLayout_26">
-                   <item>
-                    <widget class="QLabel" name="label_43">
+                   <item row="0" column="0">
+                    <widget class="QCheckBox" name="useFilter">
+                     <property name="font">
+                      <font>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
                      <property name="text">
-                      <string>Depth</string>
+                      <string>Enable Filter</string>
                      </property>
                     </widget>
                    </item>
-                   <item>
-                    <widget class="QSpinBox" name="depthPhoton">
-                     <property name="value">
-                      <number>4</number>
+                   <item row="2" column="0">
+                    <widget class="QCheckBox" name="renderCaustics">
+                     <property name="font">
+                      <font>
+                       <weight>50</weight>
+                       <bold>false</bold>
+                      </font>
+                     </property>
+                     <property name="text">
+                      <string>Render Caustics</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item row="1" column="0">
+                    <widget class="QCheckBox" name="renderGlobal">
+                     <property name="text">
+                      <string>Render Global</string>
                      </property>
                     </widget>
                    </item>
                   </layout>
-                 </item>
-                </layout>
-               </widget>
+                 </widget>
+                </item>
+               </layout>
               </widget>
               <widget class="QWidget" name="page_4">
                <property name="geometry">
@@ -1946,7 +2077,7 @@ QGroupBox{
                  <x>0</x>
                  <y>0</y>
                  <width>230</width>
-                 <height>546</height>
+                 <height>515</height>
                 </rect>
                </property>
                <attribute name="label">

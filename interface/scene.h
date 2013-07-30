@@ -50,14 +50,20 @@ public:
     void setDOF(float radius,float focal);
     float getRadiusDOF();
     float getFocalDOF();
-    void drawPhotons(bool flag=true);
+    void drawPhotons(bool flag=true); //desenha os photons globais
+    void drawPhotonsCaustic(bool flag=true); //desenha os photons de caustica
     void generatePhotons();
     void setSizePhotons(int value);
     void setSizePhotonsCaustic(int value);
+    void renderGlobalRadiance(bool b);
+    void renderCausticRadiance(bool b);
+    void setPhotonsNearsCaustics(int val);
+    void setPhotonsNearsGlobal(int val);
     void setEnablePhotonMap(bool b);
     void setRadiusGlobal(float val);
     void setRadiusCaustic(float val);
     void setDepthPhotons(int val);
+    void setFilterPhoton(bool b);
     ~Scene();
 
 public:
